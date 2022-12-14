@@ -856,3 +856,59 @@ catch(...)
 {
     return exception_to_hipblas_status();
 }
+
+// Level-1 : swap (supported datatypes : float, double, complex float, complex double)
+// Generic swap which can handle batched/stride/non-batched
+hipblasStatus_t hipblasSswap(hipblasHandle_t handle, int n, float* x, int incx, float* y, int incy)
+try
+{
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    onemklSswap(sycl_queue, n, x, incx, y, incy);
+    syclblas_queue_wait(sycl_queue);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDswap(hipblasHandle_t handle, int n, double* x, int incx, double* y, int incy)
+try
+{
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    onemklDswap(sycl_queue, n, x, incx, y, incy);
+    syclblas_queue_wait(sycl_queue);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCswap(hipblasHandle_t handle, int n, hipblasComplex* x, int incx,
+                             hipblasComplex* y, int incy)
+try
+{
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    onemklCswap(sycl_queue, n, (float _Complex*)x, incx, (float _Complex*)y, incy);
+    syclblas_queue_wait(sycl_queue);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZswap(hipblasHandle_t handle, int n, hipblasDoubleComplex* x, int incx,
+                             hipblasDoubleComplex* y, int incy)
+try
+{
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    onemklZswap(sycl_queue, n, (double _Complex*)x, incx, (double _Complex*)y, incy);
+    syclblas_queue_wait(sycl_queue);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
