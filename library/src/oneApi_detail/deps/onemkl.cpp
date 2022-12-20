@@ -783,6 +783,47 @@ extern "C" void onemklZswap(syclQueue_t device_queue, int64_t n, double _Complex
     __FORCE_MKL_FLUSH__(status);
 }
 
+extern "C" void onemklSrot(syclQueue_t device_queue, int n, float* x, int incx, float* y, int incy,
+                const float c, const float s){
+    auto status = oneapi::mkl::blas::column_major::rot(device_queue->val, n, x, incx, y, incy, c, s);
+    __FORCE_MKL_FLUSH__(status);
+}
+extern "C" void onemklDrot(syclQueue_t device_queue, int n, double* x, int incx, double* y, int incy,
+                const double c, const double s){
+    auto status = oneapi::mkl::blas::column_major::rot(device_queue->val, n, x, incx, y, incy, c, s);
+    __FORCE_MKL_FLUSH__(status);
+}
+extern "C" void onemklCrot(syclQueue_t device_queue, int n, float _Complex* x, int incx, float _Complex* y, int incy,
+                const float c, const float _Complex s){
+    auto status = oneapi::mkl::blas::column_major::rot(device_queue->val, n,
+                    reinterpret_cast<std::complex<float> *>(x), incx,
+                    reinterpret_cast<std::complex<float> *>(y), incy,
+                    c, static_cast<std::complex<float> >(s));
+    __FORCE_MKL_FLUSH__(status);
+}
+extern "C" void onemklCsrot(syclQueue_t device_queue, int n, float _Complex* x, int incx, float _Complex* y, int incy,
+                const float c, const float s){
+    auto status = oneapi::mkl::blas::column_major::rot(device_queue->val, n,
+                    reinterpret_cast<std::complex<float> *>(x), incx,
+                    reinterpret_cast<std::complex<float> *>(y), incy, c, s);
+    __FORCE_MKL_FLUSH__(status);
+}
+extern "C" void onemklZrot(syclQueue_t device_queue, int n, double _Complex* x, int incx, double _Complex* y, int incy,
+                const double c, const double _Complex s){
+    auto status = oneapi::mkl::blas::column_major::rot(device_queue->val, n,
+                    reinterpret_cast<std::complex<double> *>(x), incx,
+                    reinterpret_cast<std::complex<double> *>(y), incy,
+                    c, static_cast<std::complex<double> >(s));
+    __FORCE_MKL_FLUSH__(status);
+}
+extern "C" void onemklZdrot(syclQueue_t device_queue, int n, double _Complex* x, int incx, double _Complex* y, int incy,
+                const double c, const double s){
+    auto status = oneapi::mkl::blas::column_major::rot(device_queue->val, n,
+                    reinterpret_cast<std::complex<double> *>(x), incx,
+                    reinterpret_cast<std::complex<double> *>(y), incy, c, s);
+    __FORCE_MKL_FLUSH__(status);
+}
+
 // other
 
 // oneMKL keeps a cache of SYCL queues and tries to destroy them when unloading the library.

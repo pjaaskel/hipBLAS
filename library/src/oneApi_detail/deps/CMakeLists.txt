@@ -14,3 +14,6 @@ target_include_directories(sycl_wrapper
                             PRIVATE $<BUILD_INTERFACE:${HIP_INCLUDE_DIRS}>
                             PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/.. "$<TARGET_PROPERTY:MKL::MKL,INTERFACE_INCLUDE_DIRECTORIES>")
 target_compile_options(sycl_wrapper PRIVATE "$<TARGET_PROPERTY:MKL::MKL,INTERFACE_COMPILE_OPTIONS>")
+
+# Install sycl_wrapper lib
+install(TARGETS sycl_wrapper DESTINATION ${CMAKE_INSTALL_LIBDIR})

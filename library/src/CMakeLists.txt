@@ -261,3 +261,12 @@ endif( )
 #  message( STATUS "Backward Compatible Sym Link Created for include directories" )
 #endif()
 
+# copy header files
+  file( GLOB header_files ${PROJECT_BINARY_DIR}/include/hipblas/*.h)
+  foreach( file_i ${header_files})
+    message(STATUS " Sarbojit :::: ${file_i}")
+    file(COPY ${file_i} DESTINATION "${CMAKE_INSTALL_PREFIX}/include/hipblas/")
+  endforeach( file_i)
+
+#install hipblas
+install(TARGETS hipblas DESTINATION ${CMAKE_INSTALL_LIBDIR})
