@@ -301,6 +301,17 @@ void onemklZrot(syclQueue_t device_queue, int n, double _Complex* x, int incx, d
                 const double c, const double _Complex s);
 void onemklZdrot(syclQueue_t device_queue, int n, double _Complex* x, int incx, double _Complex* y, int incy,
                 const double c, const double s);
+
+void onemklSrotg(syclQueue_t device_queue, float* a, float* b, float* c, float* s);
+void onemklDrotg(syclQueue_t device_queue, double* a, double* b, double* c, double* s);
+void onemklCrotg(syclQueue_t device_queue, float _Complex* a, float _Complex* b, float* c, float _Complex* s);
+void onemklZrotg(syclQueue_t device_queue, double _Complex* a, double _Complex* b, double* c, double _Complex* s);
+
+void onemklSrotm(syclQueue_t device_queue, int64_t n, float *x, int64_t incx,
+                float *y, int64_t incy, float* param);
+void onemklDrotm(syclQueue_t device_queue, int64_t n, double *x, int64_t incx,
+                double *y, int64_t incy, double* param);
+
 void onemklDestroy();
 #ifdef __cplusplus
 }

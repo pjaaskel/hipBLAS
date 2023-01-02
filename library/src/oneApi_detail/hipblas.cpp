@@ -1296,3 +1296,136 @@ catch(...)
 {
     return exception_to_hipblas_status();
 }
+
+// Level-1 : rotg (supported datatypes : float, double, complex float, complex double)
+// Generic rotg which can handle batched/stride/non-batched
+hipblasStatus_t hipblasSrotg(hipblasHandle_t handle, float* a, float* b, float* c, float* s)
+try
+{
+    bool is_a_dev_ptr = isDevicePointer(a);
+    bool is_b_dev_ptr = isDevicePointer(b);
+    bool is_c_dev_ptr = isDevicePointer(c);
+    bool is_s_dev_ptr = isDevicePointer(s);
+    // FixMe: oneAPI supports only device pointers
+    if (!is_a_dev_ptr || !is_b_dev_ptr || !is_c_dev_ptr || !is_s_dev_ptr) {
+        return HIPBLAS_STATUS_NOT_SUPPORTED;
+    }
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    onemklSrotg(sycl_queue, a, b, c, s);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDrotg(hipblasHandle_t handle, double* a, double* b, double* c, double* s)
+try
+{
+    bool is_a_dev_ptr = isDevicePointer(a);
+    bool is_b_dev_ptr = isDevicePointer(b);
+    bool is_c_dev_ptr = isDevicePointer(c);
+    bool is_s_dev_ptr = isDevicePointer(s);
+    // FixMe: oneAPI supports only device pointers
+    if (!is_a_dev_ptr || !is_b_dev_ptr || !is_c_dev_ptr || !is_s_dev_ptr) {
+        return HIPBLAS_STATUS_NOT_SUPPORTED;
+    }
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    onemklDrotg(sycl_queue, a, b, c, s);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCrotg(hipblasHandle_t handle, hipblasComplex* a, hipblasComplex* b, float* c, hipblasComplex* s)
+try
+{
+    bool is_a_dev_ptr = isDevicePointer(a);
+    bool is_b_dev_ptr = isDevicePointer(b);
+    bool is_c_dev_ptr = isDevicePointer(c);
+    bool is_s_dev_ptr = isDevicePointer(s);
+    // FixMe: oneAPI supports only device pointers
+    if (!is_a_dev_ptr || !is_b_dev_ptr || !is_c_dev_ptr || !is_s_dev_ptr) {
+        return HIPBLAS_STATUS_NOT_SUPPORTED;
+    }
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    onemklCrotg(sycl_queue, (float _Complex*)a, (float _Complex*)b, c, (float _Complex*)s);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZrotg(hipblasHandle_t handle, hipblasDoubleComplex* a,
+                             hipblasDoubleComplex* b, double* c, hipblasDoubleComplex* s)
+try
+{
+    bool is_a_dev_ptr = isDevicePointer(a);
+    bool is_b_dev_ptr = isDevicePointer(b);
+    bool is_c_dev_ptr = isDevicePointer(c);
+    bool is_s_dev_ptr = isDevicePointer(s);
+    // FixMe: oneAPI supports only device pointers
+    if (!is_a_dev_ptr || !is_b_dev_ptr || !is_c_dev_ptr || !is_s_dev_ptr) {
+        return HIPBLAS_STATUS_NOT_SUPPORTED;
+    }
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    onemklZrotg(sycl_queue, (double _Complex*)a, (double _Complex*)b, c, (double _Complex*)s);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasSrotmg(hipblasHandle_t handle, int n, float* x, int incx, float* y, int incy, const float* param)
+try
+{
+    hipError_t hipStatus;
+    bool is_param_dev_ptr = isDevicePointer(param);
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    float* dev_param = (float*) param;
+    if (!is_param_dev_ptr) {
+        hipStatus = hipMalloc(&dev_param, sizeof(float)*5);
+        hipStatus = hipMemcpy(dev_param, param, sizeof(float)*5, hipMemcpyHostToDevice);
+    }
+
+    onemklSrotm(sycl_queue, n, x, incx, y, incy, dev_param);
+
+    if (!is_param_dev_ptr) {
+        syclblas_queue_wait(sycl_queue);
+        hipFree(dev_param);
+    }
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDrotmg(hipblasHandle_t handle, int n, double* x, int incx, double* y, int incy, const double* param)
+try
+{
+    hipError_t hipStatus;
+    bool is_param_dev_ptr = isDevicePointer(param);
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    double* dev_param = (double*)param;
+    if (!is_param_dev_ptr) {
+        hipStatus = hipMalloc(&dev_param, sizeof(double)*5);
+        hipStatus = hipMemcpy(dev_param, param, sizeof(double)*5, hipMemcpyHostToDevice);
+    }
+
+    onemklDrotm(sycl_queue, n, x, incx, y, incy, dev_param);
+
+    if (!is_param_dev_ptr) {
+        syclblas_queue_wait(sycl_queue);
+        hipFree(dev_param);
+    }
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}

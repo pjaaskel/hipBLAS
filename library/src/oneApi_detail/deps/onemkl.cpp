@@ -824,6 +824,40 @@ extern "C" void onemklZdrot(syclQueue_t device_queue, int n, double _Complex* x,
     __FORCE_MKL_FLUSH__(status);
 }
 
+extern "C" void onemklSrotg(syclQueue_t device_queue, float* a, float* b, float* c, float* s){
+    auto status = oneapi::mkl::blas::column_major::rotg(device_queue->val, a, b, c, s);
+    __FORCE_MKL_FLUSH__(status);
+}
+extern "C" void onemklDrotg(syclQueue_t device_queue, double* a, double* b, double* c, double* s){
+    auto status = oneapi::mkl::blas::column_major::rotg(device_queue->val, a, b, c, s);
+    __FORCE_MKL_FLUSH__(status);
+}
+extern "C" void onemklCrotg(syclQueue_t device_queue, float _Complex* a, float _Complex* b, float* c, float _Complex* s){
+    auto status = oneapi::mkl::blas::column_major::rotg(device_queue->val,
+                                                        reinterpret_cast<std::complex<float> *>(a),
+                                                        reinterpret_cast<std::complex<float> *>(b), c,
+                                                        reinterpret_cast<std::complex<float> *>(s));
+    __FORCE_MKL_FLUSH__(status);
+}
+extern "C" void onemklZrotg(syclQueue_t device_queue, double _Complex* a, double _Complex* b, double* c, double _Complex* s){
+    auto status = oneapi::mkl::blas::column_major::rotg(device_queue->val,
+                                                        reinterpret_cast<std::complex<double> *>(a),
+                                                        reinterpret_cast<std::complex<double> *>(b), c,
+                                                        reinterpret_cast<std::complex<double> *>(s));
+    __FORCE_MKL_FLUSH__(status);
+}
+
+extern "C" void onemklSrotm(syclQueue_t device_queue, int64_t n, float *x, int64_t incx,
+                float *y, int64_t incy, float* param) {
+    auto status = oneapi::mkl::blas::column_major::rotm(device_queue->val, n, x, incx, y, incy, param);
+    __FORCE_MKL_FLUSH__(status);
+}
+extern "C" void onemklDrotm(syclQueue_t device_queue, int64_t n, double *x, int64_t incx,
+                double *y, int64_t incy, double* param){
+    auto status = oneapi::mkl::blas::column_major::rotm(device_queue->val, n, x, incx, y, incy, param);
+    __FORCE_MKL_FLUSH__(status);
+}
+
 // other
 
 // oneMKL keeps a cache of SYCL queues and tries to destroy them when unloading the library.
