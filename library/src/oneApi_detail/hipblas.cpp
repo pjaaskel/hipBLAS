@@ -9235,6 +9235,1508 @@ catch(...)
 {
     return exception_to_hipblas_status();
 }
+
+// Level-3 : syrk(supported datatypes : float , double , float complex and double complex )
+hipblasStatus_t hipblasSsyrk(hipblasHandle_t    handle,
+                             hipblasFillMode_t  uplo,
+                             hipblasOperation_t transA,
+                             int                n,
+                             int                k,
+                             const float*       alpha,
+                             const float*       A,
+                             int                lda,
+                             const float*       beta,
+                             float*             C,
+                             int                ldc)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+    auto is_beta_dev_ptr = isDevicePointer(beta);
+
+    float h_alpha, h_beta;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float*)alpha);
+    }
+    if (is_beta_dev_ptr) {
+        hipMemcpy(&h_beta, beta, sizeof(float), hipMemcpyDefault);
+    } else {
+        h_beta = *((float*)beta);
+    }
+    onemklSsyrk(sycl_queue, convert(uplo), convert(transA), n, k, h_alpha, A, lda, h_beta, C, ldc);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDsyrk(hipblasHandle_t    handle,
+                             hipblasFillMode_t  uplo,
+                             hipblasOperation_t transA,
+                             int                n,
+                             int                k,
+                             const double*      alpha,
+                             const double*      A,
+                             int                lda,
+                             const double*      beta,
+                             double*            C,
+                             int                ldc)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+    auto is_beta_dev_ptr = isDevicePointer(beta);
+
+    double h_alpha, h_beta;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double*)alpha);
+    }
+    if (is_beta_dev_ptr) {
+        hipMemcpy(&h_beta, beta, sizeof(double), hipMemcpyDefault);
+    } else {
+        h_beta = *((double*)beta);
+    }
+    onemklDsyrk(sycl_queue, convert(uplo), convert(transA), n, k, h_alpha, A, lda, h_beta, C, ldc);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCsyrk(hipblasHandle_t       handle,
+                             hipblasFillMode_t     uplo,
+                             hipblasOperation_t    transA,
+                             int                   n,
+                             int                   k,
+                             const hipblasComplex* alpha,
+                             const hipblasComplex* A,
+                             int                   lda,
+                             const hipblasComplex* beta,
+                             hipblasComplex*       C,
+                             int                   ldc)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+    auto is_beta_dev_ptr = isDevicePointer(beta);
+
+    float _Complex h_alpha, h_beta;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float _Complex*)alpha);
+    }
+    if (is_beta_dev_ptr) {
+        hipMemcpy(&h_beta, beta, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_beta = *((float _Complex*)beta);
+    }
+    onemklCsyrk(sycl_queue, convert(uplo), convert(transA), n, k, h_alpha, (const float _Complex*)A, lda,
+                h_beta, (float _Complex*)C, ldc);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZsyrk(hipblasHandle_t             handle,
+                             hipblasFillMode_t           uplo,
+                             hipblasOperation_t          transA,
+                             int                         n,
+                             int                         k,
+                             const hipblasDoubleComplex* alpha,
+                             const hipblasDoubleComplex* A,
+                             int                         lda,
+                             const hipblasDoubleComplex* beta,
+                             hipblasDoubleComplex*       C,
+                             int                         ldc)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+    auto is_beta_dev_ptr = isDevicePointer(beta);
+
+    double _Complex h_alpha, h_beta;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double _Complex*)alpha);
+    }
+    if (is_beta_dev_ptr) {
+        hipMemcpy(&h_beta, beta, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_beta = *((double _Complex*)beta);
+    }
+    onemklZsyrk(sycl_queue, convert(uplo), convert(transA), n, k, h_alpha, (const double _Complex*)A, lda,
+                h_beta, (double _Complex*)C, ldc);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// syrk_batched
+hipblasStatus_t hipblasSsyrkBatched(hipblasHandle_t    handle,
+                                    hipblasFillMode_t  uplo,
+                                    hipblasOperation_t transA,
+                                    int                n,
+                                    int                k,
+                                    const float*       alpha,
+                                    const float* const A[],
+                                    int                lda,
+                                    const float*       beta,
+                                    float* const       C[],
+                                    int                ldc,
+                                    int                batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDsyrkBatched(hipblasHandle_t     handle,
+                                    hipblasFillMode_t   uplo,
+                                    hipblasOperation_t  transA,
+                                    int                 n,
+                                    int                 k,
+                                    const double*       alpha,
+                                    const double* const A[],
+                                    int                 lda,
+                                    const double*       beta,
+                                    double* const       C[],
+                                    int                 ldc,
+                                    int                 batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCsyrkBatched(hipblasHandle_t             handle,
+                                    hipblasFillMode_t           uplo,
+                                    hipblasOperation_t          transA,
+                                    int                         n,
+                                    int                         k,
+                                    const hipblasComplex*       alpha,
+                                    const hipblasComplex* const A[],
+                                    int                         lda,
+                                    const hipblasComplex*       beta,
+                                    hipblasComplex* const       C[],
+                                    int                         ldc,
+                                    int                         batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZsyrkBatched(hipblasHandle_t                   handle,
+                                    hipblasFillMode_t                 uplo,
+                                    hipblasOperation_t                transA,
+                                    int                               n,
+                                    int                               k,
+                                    const hipblasDoubleComplex*       alpha,
+                                    const hipblasDoubleComplex* const A[],
+                                    int                               lda,
+                                    const hipblasDoubleComplex*       beta,
+                                    hipblasDoubleComplex* const       C[],
+                                    int                               ldc,
+                                    int                               batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// syrk_strided_batched
+hipblasStatus_t hipblasSsyrkStridedBatched(hipblasHandle_t    handle,
+                                           hipblasFillMode_t  uplo,
+                                           hipblasOperation_t transA,
+                                           int                n,
+                                           int                k,
+                                           const float*       alpha,
+                                           const float*       A,
+                                           int                lda,
+                                           hipblasStride      strideA,
+                                           const float*       beta,
+                                           float*             C,
+                                           int                ldc,
+                                           hipblasStride      strideC,
+                                           int                batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDsyrkStridedBatched(hipblasHandle_t    handle,
+                                           hipblasFillMode_t  uplo,
+                                           hipblasOperation_t transA,
+                                           int                n,
+                                           int                k,
+                                           const double*      alpha,
+                                           const double*      A,
+                                           int                lda,
+                                           hipblasStride      strideA,
+                                           const double*      beta,
+                                           double*            C,
+                                           int                ldc,
+                                           hipblasStride      strideC,
+                                           int                batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCsyrkStridedBatched(hipblasHandle_t       handle,
+                                           hipblasFillMode_t     uplo,
+                                           hipblasOperation_t    transA,
+                                           int                   n,
+                                           int                   k,
+                                           const hipblasComplex* alpha,
+                                           const hipblasComplex* A,
+                                           int                   lda,
+                                           hipblasStride         strideA,
+                                           const hipblasComplex* beta,
+                                           hipblasComplex*       C,
+                                           int                   ldc,
+                                           hipblasStride         strideC,
+                                           int                   batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZsyrkStridedBatched(hipblasHandle_t             handle,
+                                           hipblasFillMode_t           uplo,
+                                           hipblasOperation_t          transA,
+                                           int                         n,
+                                           int                         k,
+                                           const hipblasDoubleComplex* alpha,
+                                           const hipblasDoubleComplex* A,
+                                           int                         lda,
+                                           hipblasStride               strideA,
+                                           const hipblasDoubleComplex* beta,
+                                           hipblasDoubleComplex*       C,
+                                           int                         ldc,
+                                           hipblasStride               strideC,
+                                           int                         batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// Level-3 : syr2k(supported datatypes : float , double , float complex and double complex )
+hipblasStatus_t hipblasSsyr2k(hipblasHandle_t    handle,
+                              hipblasFillMode_t  uplo,
+                              hipblasOperation_t transA,
+                              int                n,
+                              int                k,
+                              const float*       alpha,
+                              const float*       A,
+                              int                lda,
+                              const float*       B,
+                              int                ldb,
+                              const float*       beta,
+                              float*             C,
+                              int                ldc)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+    auto is_beta_dev_ptr = isDevicePointer(beta);
+
+    float h_alpha, h_beta;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float*)alpha);
+    }
+    if (is_beta_dev_ptr) {
+        hipMemcpy(&h_beta, beta, sizeof(float), hipMemcpyDefault);
+    } else {
+        h_beta = *((float*)beta);
+    }
+    onemklSsyr2k(sycl_queue, convert(uplo), convert(transA), n, k, h_alpha, A, lda, B, ldb, h_beta, C, ldc);
+	return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDsyr2k(hipblasHandle_t    handle,
+                              hipblasFillMode_t  uplo,
+                              hipblasOperation_t transA,
+                              int                n,
+                              int                k,
+                              const double*      alpha,
+                              const double*      A,
+                              int                lda,
+                              const double*      B,
+                              int                ldb,
+                              const double*      beta,
+                              double*            C,
+                              int                ldc)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+    auto is_beta_dev_ptr = isDevicePointer(beta);
+
+    double h_alpha, h_beta;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double*)alpha);
+    }
+    if (is_beta_dev_ptr) {
+        hipMemcpy(&h_beta, beta, sizeof(double), hipMemcpyDefault);
+    } else {
+        h_beta = *((double*)beta);
+    }
+    onemklDsyr2k(sycl_queue, convert(uplo), convert(transA), n, k, h_alpha, A, lda, B, ldb, h_beta, C, ldc);
+	return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCsyr2k(hipblasHandle_t       handle,
+                              hipblasFillMode_t     uplo,
+                              hipblasOperation_t    transA,
+                              int                   n,
+                              int                   k,
+                              const hipblasComplex* alpha,
+                              const hipblasComplex* A,
+                              int                   lda,
+                              const hipblasComplex* B,
+                              int                   ldb,
+                              const hipblasComplex* beta,
+                              hipblasComplex*       C,
+                              int                   ldc)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+    auto is_beta_dev_ptr = isDevicePointer(beta);
+
+    float _Complex h_alpha, h_beta;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float _Complex*)alpha);
+    }
+    if (is_beta_dev_ptr) {
+        hipMemcpy(&h_beta, beta, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_beta = *((float _Complex*)beta);
+    }
+    onemklCsyr2k(sycl_queue, convert(uplo), convert(transA), n, k, h_alpha,
+                 (const float _Complex*)A, lda, (const float _Complex*)B, ldb, h_beta, (float _Complex*)C, ldc);
+	return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZsyr2k(hipblasHandle_t             handle,
+                              hipblasFillMode_t           uplo,
+                              hipblasOperation_t          transA,
+                              int                         n,
+                              int                         k,
+                              const hipblasDoubleComplex* alpha,
+                              const hipblasDoubleComplex* A,
+                              int                         lda,
+                              const hipblasDoubleComplex* B,
+                              int                         ldb,
+                              const hipblasDoubleComplex* beta,
+                              hipblasDoubleComplex*       C,
+                              int                         ldc)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+    auto is_beta_dev_ptr = isDevicePointer(beta);
+
+    double _Complex h_alpha, h_beta;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double _Complex*)alpha);
+    }
+    if (is_beta_dev_ptr) {
+        hipMemcpy(&h_beta, beta, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_beta = *((double _Complex*)beta);
+    }
+    onemklZsyr2k(sycl_queue, convert(uplo), convert(transA), n, k, h_alpha,
+                 (const double _Complex*)A, lda, (const double _Complex*)B, ldb, h_beta, (double _Complex*)C, ldc);
+	return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// syr2k_batched
+hipblasStatus_t hipblasSsyr2kBatched(hipblasHandle_t    handle,
+                                     hipblasFillMode_t  uplo,
+                                     hipblasOperation_t transA,
+                                     int                n,
+                                     int                k,
+                                     const float*       alpha,
+                                     const float* const A[],
+                                     int                lda,
+                                     const float* const B[],
+                                     int                ldb,
+                                     const float*       beta,
+                                     float* const       C[],
+                                     int                ldc,
+                                     int                batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDsyr2kBatched(hipblasHandle_t     handle,
+                                     hipblasFillMode_t   uplo,
+                                     hipblasOperation_t  transA,
+                                     int                 n,
+                                     int                 k,
+                                     const double*       alpha,
+                                     const double* const A[],
+                                     int                 lda,
+                                     const double* const B[],
+                                     int                 ldb,
+                                     const double*       beta,
+                                     double* const       C[],
+                                     int                 ldc,
+                                     int                 batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCsyr2kBatched(hipblasHandle_t             handle,
+                                     hipblasFillMode_t           uplo,
+                                     hipblasOperation_t          transA,
+                                     int                         n,
+                                     int                         k,
+                                     const hipblasComplex*       alpha,
+                                     const hipblasComplex* const A[],
+                                     int                         lda,
+                                     const hipblasComplex* const B[],
+                                     int                         ldb,
+                                     const hipblasComplex*       beta,
+                                     hipblasComplex* const       C[],
+                                     int                         ldc,
+                                     int                         batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZsyr2kBatched(hipblasHandle_t                   handle,
+                                     hipblasFillMode_t                 uplo,
+                                     hipblasOperation_t                transA,
+                                     int                               n,
+                                     int                               k,
+                                     const hipblasDoubleComplex*       alpha,
+                                     const hipblasDoubleComplex* const A[],
+                                     int                               lda,
+                                     const hipblasDoubleComplex* const B[],
+                                     int                               ldb,
+                                     const hipblasDoubleComplex*       beta,
+                                     hipblasDoubleComplex* const       C[],
+                                     int                               ldc,
+                                     int                               batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// syr2k_strided_batched
+hipblasStatus_t hipblasSsyr2kStridedBatched(hipblasHandle_t    handle,
+                                            hipblasFillMode_t  uplo,
+                                            hipblasOperation_t transA,
+                                            int                n,
+                                            int                k,
+                                            const float*       alpha,
+                                            const float*       A,
+                                            int                lda,
+                                            hipblasStride      strideA,
+                                            const float*       B,
+                                            int                ldb,
+                                            hipblasStride      strideB,
+                                            const float*       beta,
+                                            float*             C,
+                                            int                ldc,
+                                            hipblasStride      strideC,
+                                            int                batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDsyr2kStridedBatched(hipblasHandle_t    handle,
+                                            hipblasFillMode_t  uplo,
+                                            hipblasOperation_t transA,
+                                            int                n,
+                                            int                k,
+                                            const double*      alpha,
+                                            const double*      A,
+                                            int                lda,
+                                            hipblasStride      strideA,
+                                            const double*      B,
+                                            int                ldb,
+                                            hipblasStride      strideB,
+                                            const double*      beta,
+                                            double*            C,
+                                            int                ldc,
+                                            hipblasStride      strideC,
+                                            int                batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCsyr2kStridedBatched(hipblasHandle_t       handle,
+                                            hipblasFillMode_t     uplo,
+                                            hipblasOperation_t    transA,
+                                            int                   n,
+                                            int                   k,
+                                            const hipblasComplex* alpha,
+                                            const hipblasComplex* A,
+                                            int                   lda,
+                                            hipblasStride         strideA,
+                                            const hipblasComplex* B,
+                                            int                   ldb,
+                                            hipblasStride         strideB,
+                                            const hipblasComplex* beta,
+                                            hipblasComplex*       C,
+                                            int                   ldc,
+                                            hipblasStride         strideC,
+                                            int                   batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZsyr2kStridedBatched(hipblasHandle_t             handle,
+                                            hipblasFillMode_t           uplo,
+                                            hipblasOperation_t          transA,
+                                            int                         n,
+                                            int                         k,
+                                            const hipblasDoubleComplex* alpha,
+                                            const hipblasDoubleComplex* A,
+                                            int                         lda,
+                                            hipblasStride               strideA,
+                                            const hipblasDoubleComplex* B,
+                                            int                         ldb,
+                                            hipblasStride               strideB,
+                                            const hipblasDoubleComplex* beta,
+                                            hipblasDoubleComplex*       C,
+                                            int                         ldc,
+                                            hipblasStride               strideC,
+                                            int                         batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// Level-3 : hemm(supported datatypes : float complex and double complex )
+hipblasStatus_t hipblasChemm(hipblasHandle_t       handle,
+                             hipblasSideMode_t     side,
+                             hipblasFillMode_t     uplo,
+                             int                   n,
+                             int                   k,
+                             const hipblasComplex* alpha,
+                             const hipblasComplex* A,
+                             int                   lda,
+                             const hipblasComplex* B,
+                             int                   ldb,
+                             const hipblasComplex* beta,
+                             hipblasComplex*       C,
+                             int                   ldc)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+    auto is_beta_dev_ptr = isDevicePointer(beta);
+
+    float _Complex h_alpha, h_beta;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float _Complex*)alpha);
+    }
+    if (is_beta_dev_ptr) {
+        hipMemcpy(&h_beta, beta, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_beta = *((float _Complex*)beta);
+    }
+    onemklChemm(sycl_queue, convert(side), convert(uplo), n, k, h_alpha, (const float _Complex*)A, lda, 
+                (const float _Complex*)B, ldb, h_beta, (float _Complex*)C, ldc);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZhemm(hipblasHandle_t             handle,
+                             hipblasSideMode_t           side,
+                             hipblasFillMode_t           uplo,
+                             int                         n,
+                             int                         k,
+                             const hipblasDoubleComplex* alpha,
+                             const hipblasDoubleComplex* A,
+                             int                         lda,
+                             const hipblasDoubleComplex* B,
+                             int                         ldb,
+                             const hipblasDoubleComplex* beta,
+                             hipblasDoubleComplex*       C,
+                             int                         ldc)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+    auto is_beta_dev_ptr = isDevicePointer(beta);
+
+    double _Complex h_alpha, h_beta;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double _Complex*)alpha);
+    }
+    if (is_beta_dev_ptr) {
+        hipMemcpy(&h_beta, beta, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_beta = *((double _Complex*)beta);
+    }
+    onemklZhemm(sycl_queue, convert(side), convert(uplo), n, k, h_alpha, (const double _Complex*)A, lda, 
+                (const double _Complex*)B, ldb, h_beta, (double _Complex*)C, ldc);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// hemm_batched
+hipblasStatus_t hipblasChemmBatched(hipblasHandle_t             handle,
+                                    hipblasSideMode_t           side,
+                                    hipblasFillMode_t           uplo,
+                                    int                         n,
+                                    int                         k,
+                                    const hipblasComplex*       alpha,
+                                    const hipblasComplex* const A[],
+                                    int                         lda,
+                                    const hipblasComplex* const B[],
+                                    int                         ldb,
+                                    const hipblasComplex*       beta,
+                                    hipblasComplex* const       C[],
+                                    int                         ldc,
+                                    int                         batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZhemmBatched(hipblasHandle_t                   handle,
+                                    hipblasSideMode_t                 side,
+                                    hipblasFillMode_t                 uplo,
+                                    int                               n,
+                                    int                               k,
+                                    const hipblasDoubleComplex*       alpha,
+                                    const hipblasDoubleComplex* const A[],
+                                    int                               lda,
+                                    const hipblasDoubleComplex* const B[],
+                                    int                               ldb,
+                                    const hipblasDoubleComplex*       beta,
+                                    hipblasDoubleComplex* const       C[],
+                                    int                               ldc,
+                                    int                               batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// hemm_strided_batched
+hipblasStatus_t hipblasChemmStridedBatched(hipblasHandle_t       handle,
+                                           hipblasSideMode_t     side,
+                                           hipblasFillMode_t     uplo,
+                                           int                   n,
+                                           int                   k,
+                                           const hipblasComplex* alpha,
+                                           const hipblasComplex* A,
+                                           int                   lda,
+                                           hipblasStride         strideA,
+                                           const hipblasComplex* B,
+                                           int                   ldb,
+                                           hipblasStride         strideB,
+                                           const hipblasComplex* beta,
+                                           hipblasComplex*       C,
+                                           int                   ldc,
+                                           hipblasStride         strideC,
+                                           int                   batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZhemmStridedBatched(hipblasHandle_t             handle,
+                                           hipblasSideMode_t           side,
+                                           hipblasFillMode_t           uplo,
+                                           int                         n,
+                                           int                         k,
+                                           const hipblasDoubleComplex* alpha,
+                                           const hipblasDoubleComplex* A,
+                                           int                         lda,
+                                           hipblasStride               strideA,
+                                           const hipblasDoubleComplex* B,
+                                           int                         ldb,
+                                           hipblasStride               strideB,
+                                           const hipblasDoubleComplex* beta,
+                                           hipblasDoubleComplex*       C,
+                                           int                         ldc,
+                                           hipblasStride               strideC,
+                                           int                         batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// Level-3 : trmm(supported datatypes : float , double , float complex and double complex )
+hipblasStatus_t hipblasStrmm(hipblasHandle_t    handle,
+                             hipblasSideMode_t  side,
+                             hipblasFillMode_t  uplo,
+                             hipblasOperation_t transA,
+                             hipblasDiagType_t  diag,
+                             int                m,
+                             int                n,
+                             const float*       alpha,
+                             const float*       A,
+                             int                lda,
+                             float*             B,
+                             int                ldb)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+
+    float h_alpha;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float*)alpha);
+    }
+    onemklStrmm(sycl_queue, convert(side), convert(uplo), convert(transA), convert(diag), m, n, h_alpha, A, lda, B, ldb);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDtrmm(hipblasHandle_t    handle,
+                             hipblasSideMode_t  side,
+                             hipblasFillMode_t  uplo,
+                             hipblasOperation_t transA,
+                             hipblasDiagType_t  diag,
+                             int                m,
+                             int                n,
+                             const double*      alpha,
+                             const double*      A,
+                             int                lda,
+                             double*            B,
+                             int                ldb)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+
+    double h_alpha;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double*)alpha);
+    }
+    onemklDtrmm(sycl_queue, convert(side), convert(uplo), convert(transA), convert(diag), m, n, h_alpha, A, lda, B, ldb);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCtrmm(hipblasHandle_t       handle,
+                             hipblasSideMode_t     side,
+                             hipblasFillMode_t     uplo,
+                             hipblasOperation_t    transA,
+                             hipblasDiagType_t     diag,
+                             int                   m,
+                             int                   n,
+                             const hipblasComplex* alpha,
+                             const hipblasComplex* A,
+                             int                   lda,
+                             hipblasComplex*       B,
+                             int                   ldb)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+
+    float _Complex h_alpha;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float _Complex*)alpha);
+    }
+    onemklCtrmm(sycl_queue, convert(side), convert(uplo), convert(transA), convert(diag), m, n, h_alpha,
+                (const float _Complex*)A, lda, (float _Complex*)B, ldb);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZtrmm(hipblasHandle_t             handle,
+                             hipblasSideMode_t           side,
+                             hipblasFillMode_t           uplo,
+                             hipblasOperation_t          transA,
+                             hipblasDiagType_t           diag,
+                             int                         m,
+                             int                         n,
+                             const hipblasDoubleComplex* alpha,
+                             const hipblasDoubleComplex* A,
+                             int                         lda,
+                             hipblasDoubleComplex*       B,
+                             int                         ldb)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+
+    double _Complex h_alpha;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double _Complex*)alpha);
+    }
+    onemklZtrmm(sycl_queue, convert(side), convert(uplo), convert(transA), convert(diag), m, n, h_alpha,
+                (const double _Complex*)A, lda, (double _Complex*)B, ldb);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// trmm_batched
+hipblasStatus_t hipblasStrmmBatched(hipblasHandle_t    handle,
+                                    hipblasSideMode_t  side,
+                                    hipblasFillMode_t  uplo,
+                                    hipblasOperation_t transA,
+                                    hipblasDiagType_t  diag,
+                                    int                m,
+                                    int                n,
+                                    const float*       alpha,
+                                    const float* const A[],
+                                    int                lda,
+                                    float* const       B[],
+                                    int                ldb,
+                                    int                batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDtrmmBatched(hipblasHandle_t     handle,
+                                    hipblasSideMode_t   side,
+                                    hipblasFillMode_t   uplo,
+                                    hipblasOperation_t  transA,
+                                    hipblasDiagType_t   diag,
+                                    int                 m,
+                                    int                 n,
+                                    const double*       alpha,
+                                    const double* const A[],
+                                    int                 lda,
+                                    double* const       B[],
+                                    int                 ldb,
+                                    int                 batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCtrmmBatched(hipblasHandle_t             handle,
+                                    hipblasSideMode_t           side,
+                                    hipblasFillMode_t           uplo,
+                                    hipblasOperation_t          transA,
+                                    hipblasDiagType_t           diag,
+                                    int                         m,
+                                    int                         n,
+                                    const hipblasComplex*       alpha,
+                                    const hipblasComplex* const A[],
+                                    int                         lda,
+                                    hipblasComplex* const       B[],
+                                    int                         ldb,
+                                    int                         batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZtrmmBatched(hipblasHandle_t                   handle,
+                                    hipblasSideMode_t                 side,
+                                    hipblasFillMode_t                 uplo,
+                                    hipblasOperation_t                transA,
+                                    hipblasDiagType_t                 diag,
+                                    int                               m,
+                                    int                               n,
+                                    const hipblasDoubleComplex*       alpha,
+                                    const hipblasDoubleComplex* const A[],
+                                    int                               lda,
+                                    hipblasDoubleComplex* const       B[],
+                                    int                               ldb,
+                                    int                               batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// trmm_strided_batched
+hipblasStatus_t hipblasStrmmStridedBatched(hipblasHandle_t    handle,
+                                           hipblasSideMode_t  side,
+                                           hipblasFillMode_t  uplo,
+                                           hipblasOperation_t transA,
+                                           hipblasDiagType_t  diag,
+                                           int                m,
+                                           int                n,
+                                           const float*       alpha,
+                                           const float*       A,
+                                           int                lda,
+                                           hipblasStride      strideA,
+                                           float*             B,
+                                           int                ldb,
+                                           hipblasStride      strideB,
+                                           int                batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDtrmmStridedBatched(hipblasHandle_t    handle,
+                                           hipblasSideMode_t  side,
+                                           hipblasFillMode_t  uplo,
+                                           hipblasOperation_t transA,
+                                           hipblasDiagType_t  diag,
+                                           int                m,
+                                           int                n,
+                                           const double*      alpha,
+                                           const double*      A,
+                                           int                lda,
+                                           hipblasStride      strideA,
+                                           double*            B,
+                                           int                ldb,
+                                           hipblasStride      strideB,
+                                           int                batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCtrmmStridedBatched(hipblasHandle_t       handle,
+                                           hipblasSideMode_t     side,
+                                           hipblasFillMode_t     uplo,
+                                           hipblasOperation_t    transA,
+                                           hipblasDiagType_t     diag,
+                                           int                   m,
+                                           int                   n,
+                                           const hipblasComplex* alpha,
+                                           const hipblasComplex* A,
+                                           int                   lda,
+                                           hipblasStride         strideA,
+                                           hipblasComplex*       B,
+                                           int                   ldb,
+                                           hipblasStride         strideB,
+                                           int                   batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZtrmmStridedBatched(hipblasHandle_t             handle,
+                                           hipblasSideMode_t           side,
+                                           hipblasFillMode_t           uplo,
+                                           hipblasOperation_t          transA,
+                                           hipblasDiagType_t           diag,
+                                           int                         m,
+                                           int                         n,
+                                           const hipblasDoubleComplex* alpha,
+                                           const hipblasDoubleComplex* A,
+                                           int                         lda,
+                                           hipblasStride               strideA,
+                                           hipblasDoubleComplex*       B,
+                                           int                         ldb,
+                                           hipblasStride               strideB,
+                                           int                         batchCount)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// Level-3 : trsm(supported datatypes : float , double , float complex and double complex )
+hipblasStatus_t hipblasStrsm(hipblasHandle_t    handle,
+                             hipblasSideMode_t  side,
+                             hipblasFillMode_t  uplo,
+                             hipblasOperation_t transA,
+                             hipblasDiagType_t  diag,
+                             int                m,
+                             int                n,
+                             const float*       alpha,
+                             float*             A,
+                             int                lda,
+                             float*             B,
+                             int                ldb)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+
+    float h_alpha;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float*)alpha);
+    }
+    onemklStrsm(sycl_queue, convert(side), convert(uplo), convert(transA), convert(diag), m, n, h_alpha, A, lda, B, ldb);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDtrsm(hipblasHandle_t    handle,
+                             hipblasSideMode_t  side,
+                             hipblasFillMode_t  uplo,
+                             hipblasOperation_t transA,
+                             hipblasDiagType_t  diag,
+                             int                m,
+                             int                n,
+                             const double*      alpha,
+                             double*            A,
+                             int                lda,
+                             double*            B,
+                             int                ldb)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+
+    double h_alpha;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double*)alpha);
+    }
+    onemklDtrsm(sycl_queue, convert(side), convert(uplo), convert(transA), convert(diag), m, n, h_alpha, A, lda, B, ldb);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCtrsm(hipblasHandle_t       handle,
+                             hipblasSideMode_t     side,
+                             hipblasFillMode_t     uplo,
+                             hipblasOperation_t    transA,
+                             hipblasDiagType_t     diag,
+                             int                   m,
+                             int                   n,
+                             const hipblasComplex* alpha,
+                             hipblasComplex*       A,
+                             int                   lda,
+                             hipblasComplex*       B,
+                             int                   ldb)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+
+    float _Complex h_alpha;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float _Complex*)alpha);
+    }
+    onemklCtrsm(sycl_queue, convert(side), convert(uplo), convert(transA), convert(diag), m, n,
+                h_alpha, (const float _Complex*)A, lda, (float _Complex*)B, ldb);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZtrsm(hipblasHandle_t             handle,
+                             hipblasSideMode_t           side,
+                             hipblasFillMode_t           uplo,
+                             hipblasOperation_t          transA,
+                             hipblasDiagType_t           diag,
+                             int                         m,
+                             int                         n,
+                             const hipblasDoubleComplex* alpha,
+                             hipblasDoubleComplex*       A,
+                             int                         lda,
+                             hipblasDoubleComplex*       B,
+                             int                         ldb)
+try
+{
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_alpha_dev_ptr = isDevicePointer(alpha);
+
+    double _Complex h_alpha;
+    if (is_alpha_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double _Complex*)alpha);
+    }
+    onemklZtrsm(sycl_queue, convert(side), convert(uplo), convert(transA), convert(diag), m, n,
+                h_alpha, (const double _Complex*)A, lda, (double _Complex*)B, ldb);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// trsm_batched
+hipblasStatus_t hipblasStrsmBatched(hipblasHandle_t    handle,
+                                    hipblasSideMode_t  side,
+                                    hipblasFillMode_t  uplo,
+                                    hipblasOperation_t transA,
+                                    hipblasDiagType_t  diag,
+                                    int                m,
+                                    int                n,
+                                    const float*       alpha,
+                                    float* const       A[],
+                                    int                lda,
+                                    float*             B[],
+                                    int                ldb,
+                                    int                batch_count)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDtrsmBatched(hipblasHandle_t    handle,
+                                    hipblasSideMode_t  side,
+                                    hipblasFillMode_t  uplo,
+                                    hipblasOperation_t transA,
+                                    hipblasDiagType_t  diag,
+                                    int                m,
+                                    int                n,
+                                    const double*      alpha,
+                                    double* const      A[],
+                                    int                lda,
+                                    double*            B[],
+                                    int                ldb,
+                                    int                batch_count)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCtrsmBatched(hipblasHandle_t       handle,
+                                    hipblasSideMode_t     side,
+                                    hipblasFillMode_t     uplo,
+                                    hipblasOperation_t    transA,
+                                    hipblasDiagType_t     diag,
+                                    int                   m,
+                                    int                   n,
+                                    const hipblasComplex* alpha,
+                                    hipblasComplex* const A[],
+                                    int                   lda,
+                                    hipblasComplex*       B[],
+                                    int                   ldb,
+                                    int                   batch_count)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZtrsmBatched(hipblasHandle_t             handle,
+                                    hipblasSideMode_t           side,
+                                    hipblasFillMode_t           uplo,
+                                    hipblasOperation_t          transA,
+                                    hipblasDiagType_t           diag,
+                                    int                         m,
+                                    int                         n,
+                                    const hipblasDoubleComplex* alpha,
+                                    hipblasDoubleComplex* const A[],
+                                    int                         lda,
+                                    hipblasDoubleComplex*       B[],
+                                    int                         ldb,
+                                    int                         batch_count)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// trsm_strided_batched
+hipblasStatus_t hipblasStrsmStridedBatched(hipblasHandle_t    handle,
+                                           hipblasSideMode_t  side,
+                                           hipblasFillMode_t  uplo,
+                                           hipblasOperation_t transA,
+                                           hipblasDiagType_t  diag,
+                                           int                m,
+                                           int                n,
+                                           const float*       alpha,
+                                           float*             A,
+                                           int                lda,
+                                           hipblasStride      strideA,
+                                           float*             B,
+                                           int                ldb,
+                                           hipblasStride      strideB,
+                                           int                batch_count)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDtrsmStridedBatched(hipblasHandle_t    handle,
+                                           hipblasSideMode_t  side,
+                                           hipblasFillMode_t  uplo,
+                                           hipblasOperation_t transA,
+                                           hipblasDiagType_t  diag,
+                                           int                m,
+                                           int                n,
+                                           const double*      alpha,
+                                           double*            A,
+                                           int                lda,
+                                           hipblasStride      strideA,
+                                           double*            B,
+                                           int                ldb,
+                                           hipblasStride      strideB,
+                                           int                batch_count)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasCtrsmStridedBatched(hipblasHandle_t       handle,
+                                           hipblasSideMode_t     side,
+                                           hipblasFillMode_t     uplo,
+                                           hipblasOperation_t    transA,
+                                           hipblasDiagType_t     diag,
+                                           int                   m,
+                                           int                   n,
+                                           const hipblasComplex* alpha,
+                                           hipblasComplex*       A,
+                                           int                   lda,
+                                           hipblasStride         strideA,
+                                           hipblasComplex*       B,
+                                           int                   ldb,
+                                           hipblasStride         strideB,
+                                           int                   batch_count)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasZtrsmStridedBatched(hipblasHandle_t             handle,
+                                           hipblasSideMode_t           side,
+                                           hipblasFillMode_t           uplo,
+                                           hipblasOperation_t          transA,
+                                           hipblasDiagType_t           diag,
+                                           int                         m,
+                                           int                         n,
+                                           const hipblasDoubleComplex* alpha,
+                                           hipblasDoubleComplex*       A,
+                                           int                         lda,
+                                           hipblasStride               strideA,
+                                           hipblasDoubleComplex*       B,
+                                           int                         ldb,
+                                           hipblasStride               strideB,
+                                           int                         batch_count)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
 // Level-3 : gemm(supported datatypes : half, float , double , float complex and double complex )
 hipblasStatus_t hipblasHgemm(hipblasHandle_t    handle,
                              hipblasOperation_t transa,
