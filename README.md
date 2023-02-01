@@ -1,5 +1,31 @@
 # **hipBLAS**
 
+## Building On JLSE
+
+```
+module purge
+module use /home/pvelesko/local/modulefiles
+module load HIP/clang15/chip-spv-testing
+module load cmake
+
+module load intel/oneapi/release/2023.0.0
+module load mkl/latest
+module load compiler/latest
+
+module load intel_compute_runtime
+
+mkdir build; cd build
+cmake ../
+make -j
+```
+
+## Building with oneapi
+
+```
+```
+
+
+
 **hipBLAS** is a Basic Linear Algebra Subprograms (**BLAS**) marshalling library, with multiple supported backends.  It sits between the application and a 'worker' BLAS library, marshalling inputs into the backend library and marshalling results back to the application.  **hipBLAS** exports an interface that does not require the client to change, regardless of the chosen backend.  Currently, **hipBLAS** supports **rocBLAS** and **cuBLAS** as backends.
 
 ## Documentation
