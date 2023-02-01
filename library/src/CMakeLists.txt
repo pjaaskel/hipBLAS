@@ -35,34 +35,37 @@ endfunction( )
 
 
 if (USE_ONEAPI)
-find_program(DPCPP_EXECUTABLE NAMES dpcpp
-	HINTS $ENV{CMPLR_ROOT}/linux/bin $ENV{ONEAPI_ROOT}/compiler/latest/linux/bin
-	PATHS /opt/intel/oneapi/compiler/latest/linux/bin)
+  find_program(ICPX_EXECUTABLE NAMES icpx
+    HINTS $ENV{CMPLR_ROOT}/linux/bin $ENV{ONEAPI_ROOT}/compiler/latest/linux/bin
+    PATHS /opt/intel/oneapi/compiler/latest/linux/bin REQUIRED)
 
-if(DPCPP_EXECUTABLE)
-	get_filename_component(DPCPP_CORE_BINDIR ${DPCPP_EXECUTABLE} DIRECTORY)
-	get_filename_component(DPCPP_CORE_LIBDIR "${DPCPP_CORE_BINDIR}/../lib" ABSOLUTE)
-  get_filename_component(DPCPP_INCLUDE_DIR "${DPCPP_CORE_BINDIR}/../include" ABSOLUTE)
-endif()
+  if(ICPX_EXECUTABLE)
+    get_filename_component(ICPX_CORE_BINDIR ${ICPX_EXECUTABLE} DIRECTORY)
+    get_filename_component(ICPX_CORE_LIBDIR "${ICPX_CORE_BINDIR}/../lib" ABSOLUTE)
+    get_filename_component(ICPX_INCLUDE_DIR "${ICPX_CORE_BINDIR}/../include" ABSOLUTE)
+  endif()
 
-message(STATUS "DPCPP_CORE_BINDIR: ${DPCPP_CORE_BINDIR}")
-message(STATUS "DPCPP_CORE_LIBDIR: ${DPCPP_CORE_LIBDIR}")
-message(STATUS "DPCPP_INCLUDE_DIR: ${DPCPP_INCLUDE_DIR}")
+  message(STATUS "ICPX_CORE_BINDIR: ${ICPX_CORE_BINDIR}")
+  message(STATUS "ICPX_CORE_LIBDIR: ${ICPX_CORE_LIBDIR}")
+  message(STATUS "ICPX_INCLUDE_DIR: ${ICPX_INCLUDE_DIR}")
 
-# the ENABLE_OMP_OFFLOAD is only required to unhide MKL::sycl in intel's MKLConfig.cmake file
-# set(ENABLE_OMP_OFFLOAD ON)
-set(MKL_THREADING sequential)
+  set(CMAKE_CXX_COMPILER ${ICPX_EXECUTABLE})
+  add_compile_options(-fsycl)
 
-find_package(MKL CONFIG
-	HINTS $ENV{MKLROOT}/lib/cmake/mkl  $ENV{ONEAPI_ROOT}/mkl/latest/lib/cmake/mkl
-	PATHS /opt/intel/oneapi/mkl/latest/lib/cmake/mkl)
+  # the ENABLE_OMP_OFFLOAD is only required to unhide MKL::sycl in intel's MKLConfig.cmake file
+  # set(ENABLE_OMP_OFFLOAD ON)
+  set(MKL_THREADING sequential)
 
-message(STATUS "DPCPP : ${DPCPP_EXECUTABLE} MKL: ${MKL_FOUND} ")
+  find_package(MKL CONFIG
+    HINTS $ENV{MKLROOT}/lib/cmake/mkl  $ENV{ONEAPI_ROOT}/mkl/latest/lib/cmake/mkl
+    PATHS /opt/intel/oneapi/mkl/latest/lib/cmake/mkl)
 
-if(DPCPP_EXECUTABLE AND MKL_FOUND)
-  message(STATUS "Found both MLK and DPCPP")
-  #include(mkl_and_icpx)
-endif()
+  message(STATUS "icpx : ${ICPX_EXECUTABLE} MKL: ${MKL_ROOT} ")
+
+  if(ICPX_EXECUTABLE AND MKL_FOUND)
+    message(STATUS "Found both MLK and icpx")
+    #include(mkl_and_icpx)
+  endif()
 endif()
 
 
@@ -155,15 +158,17 @@ endif( )
 
 if (USE_ONEAPI)
   target_compile_definitions( hipblas PRIVATE __HIP_PLATFORM_SPIRV__ )
+  set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
   target_link_libraries(hipblas
-  sycl_wrapper
-#  mkl_sycl
-#  mkl_intel_ilp64
-#  mkl_sequential
-#  mkl_core
-#  sycl
-#  OpenCL
-)
+    sycl_wrapper
+  #  mkl_sycl
+  #  mkl_intel_ilp64
+  #  mkl_sequential
+  #  mkl_core
+  #  sycl
+  #  OpenCL
+  )
+  target_link_options(hipblas PRIVATE -Wl,-rpath,${CMAKE_INSTALL_PREFIX}/lib:${ICPX_CORE_LIBDIR})
 endif()
 
 # Internal header includes

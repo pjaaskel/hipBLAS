@@ -2,7 +2,7 @@
 
 #include "deps/onemkl.h"
 #include <hipblas.h>
-#include <level_zero/ze_api.h>
+#include <ze_api.h>
 #include <stddef.h>
 
 #ifdef __cplusplus

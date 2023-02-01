@@ -19,6 +19,29 @@
 # CTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # ########################################################################
 
+# Temporary 
+set(USE_ONEAPI ON)
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
+execute_process(COMMAND git submodule update --init)
+# End Temporary 
+
+if(USE_ONEAPI AND NOT DEFINED HIP_DIR)
+  message(STATUS HIP_DIR = $ENV{HIP_DIR})
+  if("$ENV{HIP_DIR}" STREQUAL "")
+    message(FATAL_ERROR "HIP_DIR must be defined when using oneAPI")
+  else()
+    set(HIP_DIR $ENV{HIP_DIR})
+  endif()
+endif()
+
+# For some reason this is not working?
+# if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+#   message(STATUS "CMAKE_INSTALL_PREFIX not set, setting to default: ${CMAKE_SOURCE_DIR}/install")
+#   set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "Install path prefix")
+# endif()
+set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Install path prefix")
+message(STATUS "CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
+
 # The ROCm platform requires Ubuntu 16.04 or Fedora 24, which has cmake 3.5
 cmake_minimum_required( VERSION 3.5 )
 
