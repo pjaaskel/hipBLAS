@@ -23,7 +23,6 @@
 set(USE_ONEAPI ON)
 set(CMAKE_BUILD_TYPE RelWithDebInfo)
 execute_process(COMMAND git submodule update --init)
-set(BUILD_CLIENTS_SAMPLES ON)
 # End Temporary 
 
 if(USE_ONEAPI AND NOT DEFINED HIP_DIR)
