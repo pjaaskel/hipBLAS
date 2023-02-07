@@ -4,7 +4,6 @@
 #include <hipblas.h>
 #include <ze_api.h>
 #include <stddef.h>
-#include <sycl/sycl.hpp>
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,8 +17,8 @@ hipblasStatus_t syclblas_set_stream(syclblasHandle_t handle,
                                   int                  nHandles,
                                    hipStream_t          stream);
 hipblasStatus_t syclblas_get_hipstream(syclblasHandle_t handle, hipStream_t* pStream);
-sycl::queue syclblas_get_sycl_queue(syclblasHandle_t handle);
-void syclblas_queue_wait(sycl::queue);
+syclQueue_t syclblas_get_sycl_queue(syclblasHandle_t handle);
+void syclblas_queue_wait(syclQueue_t queue);
 
 #ifdef __cplusplus
 }

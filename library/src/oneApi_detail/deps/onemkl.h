@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include <sycl/sycl.hpp>
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -11,9 +11,9 @@ extern "C" {
 typedef struct syclDevice_st *syclDevice_t;
 typedef struct syclPlatform_st *syclPlatform_t;
 typedef struct syclContext_st *syclContext_t;
+typedef struct syclQueue_st *syclQueue_t;
 typedef struct syclEvent_st *syclEvent_t;
-  //  typedef struct syclQueue_t sycl::queue;
-  //typedef struct syclQueue_st *sycl::queue;
+
 
 typedef enum {
     ONEMKL_TRANSPOSE_NONTRANS,
@@ -37,458 +37,458 @@ typedef enum {
     ONEMKL_DIAG_UNIT
  } onemklDiag;
 
-void onemklSasum(sycl::queue device_queue, int64_t n,
+void onemklSasum(syclQueue_t device_queue, int64_t n,
                 const float *x, int64_t incx, float *result);
-void onemklDasum(sycl::queue device_queue, int64_t n,
+void onemklDasum(syclQueue_t device_queue, int64_t n,
                 const double *x, int64_t incx, double *result);
-void onemklCasum(sycl::queue device_queue, int64_t n,
+void onemklCasum(syclQueue_t device_queue, int64_t n,
                 const float _Complex *x, int64_t incx, float *result);
-void onemklZasum(sycl::queue device_queue, int64_t n,
+void onemklZasum(syclQueue_t device_queue, int64_t n,
                 const double _Complex *x, int64_t incx, double *result);
 
-void onemklSaxpy(sycl::queue device_queue, int64_t n, float alpha, const float *x,
+void onemklSaxpy(syclQueue_t device_queue, int64_t n, float alpha, const float *x,
                 int64_t incx, float *y, int64_t incy);
-void onemklDaxpy(sycl::queue device_queue, int64_t n, double alpha, const double *x,
+void onemklDaxpy(syclQueue_t device_queue, int64_t n, double alpha, const double *x,
                 int64_t incx, double *y, int64_t incy);
-void onemklCaxpy(sycl::queue device_queue, int64_t n, float _Complex alpha,
+void onemklCaxpy(syclQueue_t device_queue, int64_t n, float _Complex alpha,
                 const float _Complex *x, int64_t incx, float _Complex *y, int64_t incy);
-void onemklZaxpy(sycl::queue device_queue, int64_t n, double _Complex alpha,
+void onemklZaxpy(syclQueue_t device_queue, int64_t n, double _Complex alpha,
                 const double _Complex *x, int64_t incx, double _Complex *y, int64_t incy);
 
 // Level-1: scal oneMKL
-void onemklDscal(sycl::queue device_queue, int64_t n, double alpha,
+void onemklDscal(syclQueue_t device_queue, int64_t n, double alpha,
                 double *x, int64_t incx);
-void onemklSscal(sycl::queue device_queue, int64_t n, float alpha,
+void onemklSscal(syclQueue_t device_queue, int64_t n, float alpha,
                 float *x, int64_t incx);
-void onemklCscal(sycl::queue device_queue, int64_t n, float _Complex alpha,
+void onemklCscal(syclQueue_t device_queue, int64_t n, float _Complex alpha,
                 float _Complex *x, int64_t incx);
-void onemklCsscal(sycl::queue device_queue, int64_t n, float alpha,
+void onemklCsscal(syclQueue_t device_queue, int64_t n, float alpha,
                 float _Complex *x, int64_t incx);
-void onemklZscal(sycl::queue device_queue, int64_t n, double _Complex alpha,
+void onemklZscal(syclQueue_t device_queue, int64_t n, double _Complex alpha,
                 double _Complex *x, int64_t incx);
-void onemklZdscal(sycl::queue device_queue, int64_t n, double alpha,
+void onemklZdscal(syclQueue_t device_queue, int64_t n, double alpha,
                 double _Complex *x, int64_t incx);
 
 // Supported Level-1: Nrm2
-void onemklDnrm2(sycl::queue device_queue, int64_t n, const double *x,
+void onemklDnrm2(syclQueue_t device_queue, int64_t n, const double *x,
                  int64_t incx, double *result);
-void onemklSnrm2(sycl::queue device_queue, int64_t n, const float *x,
+void onemklSnrm2(syclQueue_t device_queue, int64_t n, const float *x,
                  int64_t incx, float *result);
-void onemklCnrm2(sycl::queue device_queue, int64_t n, const float _Complex *x,
+void onemklCnrm2(syclQueue_t device_queue, int64_t n, const float _Complex *x,
                  int64_t incx, float *result);
-void onemklZnrm2(sycl::queue device_queue, int64_t n, const double _Complex *x,
+void onemklZnrm2(syclQueue_t device_queue, int64_t n, const double _Complex *x,
                  int64_t incx, double *result);
 
-void onemklSdot(sycl::queue device_queue, int64_t n, const float *x,
+void onemklSdot(syclQueue_t device_queue, int64_t n, const float *x,
                 int64_t incx, const float *y, int64_t incy, float *result);
-void onemklDdot(sycl::queue device_queue, int64_t n, const double *x,
+void onemklDdot(syclQueue_t device_queue, int64_t n, const double *x,
                 int64_t incx, const double *y, int64_t incy, double *result);
-void onemklCdotc(sycl::queue device_queue, int64_t n, const float _Complex *x,
+void onemklCdotc(syclQueue_t device_queue, int64_t n, const float _Complex *x,
                 int64_t incx, const float _Complex *y, int64_t incy,
                 float _Complex *result);
-void onemklZdotc(sycl::queue device_queue, int64_t n, const double _Complex *x,
+void onemklZdotc(syclQueue_t device_queue, int64_t n, const double _Complex *x,
                 int64_t incx, const double _Complex *y, int64_t incy,
                 double _Complex *result);
-void onemklCdotu(sycl::queue device_queue, int64_t n, const float _Complex *x,
+void onemklCdotu(syclQueue_t device_queue, int64_t n, const float _Complex *x,
                 int64_t incx, const float _Complex *y, int64_t incy,
                 float _Complex *result);
-void onemklZdotu(sycl::queue device_queue, int64_t n, const double _Complex *x,
+void onemklZdotu(syclQueue_t device_queue, int64_t n, const double _Complex *x,
                 int64_t incx, const double _Complex *y, int64_t incy,
                 double _Complex *result);
 
-void onemklDcopy(sycl::queue device_queue, int64_t n, const double *x,
+void onemklDcopy(syclQueue_t device_queue, int64_t n, const double *x,
                  int64_t incx, double *y, int64_t incy);
-void onemklScopy(sycl::queue device_queue, int64_t n, const float *x,
+void onemklScopy(syclQueue_t device_queue, int64_t n, const float *x,
                  int64_t incx, float *y, int64_t incy);
-void onemklZcopy(sycl::queue device_queue, int64_t n, const double _Complex *x,
+void onemklZcopy(syclQueue_t device_queue, int64_t n, const double _Complex *x,
                  int64_t incx, double _Complex *y, int64_t incy);
-void onemklCcopy(sycl::queue device_queue, int64_t n, const float _Complex *x,
+void onemklCcopy(syclQueue_t device_queue, int64_t n, const float _Complex *x,
                  int64_t incx, float _Complex *y, int64_t incy);
 
-void onemklDamax(sycl::queue device_queue, int64_t n, const double *x, int64_t incx,
+void onemklDamax(syclQueue_t device_queue, int64_t n, const double *x, int64_t incx,
                  int64_t *result);
-void onemklSamax(sycl::queue device_queue, int64_t n, const float  *x, int64_t incx,
+void onemklSamax(syclQueue_t device_queue, int64_t n, const float  *x, int64_t incx,
                  int64_t *result);
-void onemklZamax(sycl::queue device_queue, int64_t n, const double _Complex *x, int64_t incx,
+void onemklZamax(syclQueue_t device_queue, int64_t n, const double _Complex *x, int64_t incx,
                  int64_t *result);
-void onemklCamax(sycl::queue device_queue, int64_t n, const float _Complex *x, int64_t incx,
-                 int64_t *result);
-
-void onemklDamin(sycl::queue device_queue, int64_t n, const double *x, int64_t incx,
-                 int64_t *result);
-void onemklSamin(sycl::queue device_queue, int64_t n, const float  *x, int64_t incx,
-                 int64_t *result);
-void onemklZamin(sycl::queue device_queue, int64_t n, const double _Complex *x, int64_t incx,
-                 int64_t *result);
-void onemklCamin(sycl::queue device_queue, int64_t n, const float _Complex *x, int64_t incx,
+void onemklCamax(syclQueue_t device_queue, int64_t n, const float _Complex *x, int64_t incx,
                  int64_t *result);
 
-void onemklSswap(sycl::queue device_queue, int64_t n, float *x, int64_t incx,
+void onemklDamin(syclQueue_t device_queue, int64_t n, const double *x, int64_t incx,
+                 int64_t *result);
+void onemklSamin(syclQueue_t device_queue, int64_t n, const float  *x, int64_t incx,
+                 int64_t *result);
+void onemklZamin(syclQueue_t device_queue, int64_t n, const double _Complex *x, int64_t incx,
+                 int64_t *result);
+void onemklCamin(syclQueue_t device_queue, int64_t n, const float _Complex *x, int64_t incx,
+                 int64_t *result);
+
+void onemklSswap(syclQueue_t device_queue, int64_t n, float *x, int64_t incx,
                 float *y, int64_t incy);
-void onemklDswap(sycl::queue device_queue, int64_t n, double *x, int64_t incx,
+void onemklDswap(syclQueue_t device_queue, int64_t n, double *x, int64_t incx,
                 double *y, int64_t incy);
-void onemklCswap(sycl::queue device_queue, int64_t n, float _Complex *x, int64_t incx,
+void onemklCswap(syclQueue_t device_queue, int64_t n, float _Complex *x, int64_t incx,
                 float _Complex *y, int64_t incy);
-void onemklZswap(sycl::queue device_queue, int64_t n, double _Complex *x, int64_t incx,
+void onemklZswap(syclQueue_t device_queue, int64_t n, double _Complex *x, int64_t incx,
                 double _Complex *y, int64_t incy);
 
-void onemklSrot(sycl::queue device_queue, int n, float* x, int incx, float* y, int incy,
+void onemklSrot(syclQueue_t device_queue, int n, float* x, int incx, float* y, int incy,
                 const float c, const float s);
-void onemklDrot(sycl::queue device_queue, int n, double* x, int incx, double* y, int incy,
+void onemklDrot(syclQueue_t device_queue, int n, double* x, int incx, double* y, int incy,
                 const double c, const double s);
-void onemklCrot(sycl::queue device_queue, int n, float _Complex* x, int incx, float _Complex* y, int incy,
+void onemklCrot(syclQueue_t device_queue, int n, float _Complex* x, int incx, float _Complex* y, int incy,
                 const float c, const float _Complex s);
-void onemklCsrot(sycl::queue device_queue, int n, float _Complex* x, int incx, float _Complex* y, int incy,
+void onemklCsrot(syclQueue_t device_queue, int n, float _Complex* x, int incx, float _Complex* y, int incy,
                 const float c, const float s);
-void onemklZrot(sycl::queue device_queue, int n, double _Complex* x, int incx, double _Complex* y, int incy,
+void onemklZrot(syclQueue_t device_queue, int n, double _Complex* x, int incx, double _Complex* y, int incy,
                 const double c, const double _Complex s);
-void onemklZdrot(sycl::queue device_queue, int n, double _Complex* x, int incx, double _Complex* y, int incy,
+void onemklZdrot(syclQueue_t device_queue, int n, double _Complex* x, int incx, double _Complex* y, int incy,
                 const double c, const double s);
 
-void onemklSrotg(sycl::queue device_queue, float* a, float* b, float* c, float* s);
-void onemklDrotg(sycl::queue device_queue, double* a, double* b, double* c, double* s);
-void onemklCrotg(sycl::queue device_queue, float _Complex* a, float _Complex* b, float* c, float _Complex* s);
-void onemklZrotg(sycl::queue device_queue, double _Complex* a, double _Complex* b, double* c, double _Complex* s);
+void onemklSrotg(syclQueue_t device_queue, float* a, float* b, float* c, float* s);
+void onemklDrotg(syclQueue_t device_queue, double* a, double* b, double* c, double* s);
+void onemklCrotg(syclQueue_t device_queue, float _Complex* a, float _Complex* b, float* c, float _Complex* s);
+void onemklZrotg(syclQueue_t device_queue, double _Complex* a, double _Complex* b, double* c, double _Complex* s);
 
-void onemklSrotm(sycl::queue device_queue, int64_t n, float *x, int64_t incx,
+void onemklSrotm(syclQueue_t device_queue, int64_t n, float *x, int64_t incx,
                 float *y, int64_t incy, float* param);
-void onemklDrotm(sycl::queue device_queue, int64_t n, double *x, int64_t incx,
+void onemklDrotm(syclQueue_t device_queue, int64_t n, double *x, int64_t incx,
                 double *y, int64_t incy, double* param);
 
 // Level-2
-void onemklSgbmv(sycl::queue device_queue, onemklTranspose trans, int64_t m,
+void onemklSgbmv(syclQueue_t device_queue, onemklTranspose trans, int64_t m,
                 int64_t n, int64_t kl, int64_t ku, float alpha, const float *a,
                 int64_t lda, const float *x, int64_t incx, float beta, float *y,
                 int64_t incy);
-void onemklDgbmv(sycl::queue device_queue, onemklTranspose trans, int64_t m,
+void onemklDgbmv(syclQueue_t device_queue, onemklTranspose trans, int64_t m,
                 int64_t n, int64_t kl, int64_t ku, double alpha, const double *a,
                 int64_t lda, const double *x, int64_t incx, double beta, double *y,
                 int64_t incy);
-void onemklCgbmv(sycl::queue device_queue, onemklTranspose trans, int64_t m,
+void onemklCgbmv(syclQueue_t device_queue, onemklTranspose trans, int64_t m,
                 int64_t n, int64_t kl, int64_t ku, float _Complex alpha, const float
                 _Complex *a, int64_t lda, const float _Complex *x, int64_t incx,
                 float _Complex beta, float _Complex *y, int64_t incy);
-void onemklZgbmv(sycl::queue device_queue, onemklTranspose trans, int64_t m,
+void onemklZgbmv(syclQueue_t device_queue, onemklTranspose trans, int64_t m,
                 int64_t n, int64_t kl, int64_t ku, double _Complex alpha,
                 const double _Complex *a, int64_t lda, const double _Complex *x,
                 int64_t incx, double _Complex beta, double _Complex *y, int64_t incy);
 
-void onemklSgemv(sycl::queue device_queue, onemklTranspose trans, int64_t m,
+void onemklSgemv(syclQueue_t device_queue, onemklTranspose trans, int64_t m,
                  int64_t n, float alpha, const float *a, int64_t lda,
                  const float *x, int64_t incx, float beta, float *y, int64_t incy);
-void onemklDgemv(sycl::queue device_queue, onemklTranspose trans, int64_t m,
+void onemklDgemv(syclQueue_t device_queue, onemklTranspose trans, int64_t m,
                  int64_t n, double alpha, const double *a, int64_t lda,
                  const double *x, int64_t incx, double beta, double *y, int64_t incy);
-void onemklCgemv(sycl::queue device_queue, onemklTranspose trans, int64_t m,
+void onemklCgemv(syclQueue_t device_queue, onemklTranspose trans, int64_t m,
                  int64_t n, float _Complex alpha, const float _Complex *a, int64_t lda,
                  const float _Complex *x, int64_t incx, float _Complex beta,
                  float _Complex *y, int64_t incy);
-void onemklZgemv(sycl::queue device_queue, onemklTranspose trans, int64_t m,
+void onemklZgemv(syclQueue_t device_queue, onemklTranspose trans, int64_t m,
                  int64_t n, double _Complex alpha, const double _Complex *a, int64_t lda,
                  const double _Complex *x, int64_t incx, double _Complex beta,
                  double _Complex *y, int64_t incy);
 
-void onemklSger(sycl::queue device_queue, int64_t m, int64_t n, float alpha,
+void onemklSger(syclQueue_t device_queue, int64_t m, int64_t n, float alpha,
                 const float *x, int64_t incx, const float *y, int64_t incy,
                 float *a, int64_t lda);
-void onemklDger(sycl::queue device_queue, int64_t m, int64_t n, double alpha,
+void onemklDger(syclQueue_t device_queue, int64_t m, int64_t n, double alpha,
                 const double *x, int64_t incx, const double *y, int64_t incy,
                 double *a, int64_t lda);
-void onemklCgerc(sycl::queue device_queue, int64_t m, int64_t n, float _Complex alpha,
+void onemklCgerc(syclQueue_t device_queue, int64_t m, int64_t n, float _Complex alpha,
                 const float _Complex *x, int64_t incx, const float _Complex *y, int64_t incy,
                 float _Complex *a, int64_t lda);
-void onemklCgeru(sycl::queue device_queue, int64_t m, int64_t n, float _Complex alpha,
+void onemklCgeru(syclQueue_t device_queue, int64_t m, int64_t n, float _Complex alpha,
                 const float _Complex *x, int64_t incx, const float _Complex *y, int64_t incy,
                 float _Complex *a, int64_t lda);
-void onemklZgerc(sycl::queue device_queue, int64_t m, int64_t n, double _Complex alpha,
+void onemklZgerc(syclQueue_t device_queue, int64_t m, int64_t n, double _Complex alpha,
                 const double _Complex *x, int64_t incx, const double _Complex *y, int64_t incy,
                 double _Complex *a, int64_t lda);
-void onemklZgeru(sycl::queue device_queue, int64_t m, int64_t n, double _Complex alpha,
+void onemklZgeru(syclQueue_t device_queue, int64_t m, int64_t n, double _Complex alpha,
                 const double _Complex *x, int64_t incx, const double _Complex *y, int64_t incy,
                 double _Complex *a, int64_t lda);
 
-void onemklChbmv(sycl::queue device_queue, onemklUplo uplo, int64_t n,
+void onemklChbmv(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
                 int64_t k, float _Complex alpha, const float _Complex *a,
                 int64_t lda, const float _Complex *x, int64_t incx, float _Complex beta,
                 float _Complex *y, int64_t incy);
-void onemklZhbmv(sycl::queue device_queue, onemklUplo uplo, int64_t n,
+void onemklZhbmv(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
                 int64_t k, double _Complex alpha, const double _Complex *a,
                 int64_t lda, const double _Complex *x, int64_t incx, double _Complex beta,
                 double _Complex *y, int64_t incy);
 
-void onemklChemv(sycl::queue device_queue, onemklUplo uplo, int64_t n,
+void onemklChemv(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
                 float _Complex alpha, const float _Complex *a, int64_t lda,
                 const float _Complex *x, int64_t incx, float _Complex beta,
                 float _Complex *y, int64_t incy);
-void onemklZhemv(sycl::queue device_queue, onemklUplo uplo, int64_t n,
+void onemklZhemv(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
                 double _Complex alpha, const double _Complex *a, int64_t lda,
                 const double _Complex *x, int64_t incx, double _Complex beta,
                 double _Complex *y, int64_t incy);
 
-void onemklCher(sycl::queue device_queue, onemklUplo uplo, int64_t n, float alpha,
+void onemklCher(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float alpha,
                 const float _Complex *x, int64_t incx, float _Complex *a,
                 int64_t lda);
-void onemklZher(sycl::queue device_queue, onemklUplo uplo, int64_t n, double alpha,
+void onemklZher(syclQueue_t device_queue, onemklUplo uplo, int64_t n, double alpha,
                 const double _Complex *x, int64_t incx, double _Complex *a,
                 int64_t lda);
 
-void onemklCher2(sycl::queue device_queue, onemklUplo uplo, int64_t n, float _Complex alpha,
+void onemklCher2(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float _Complex alpha,
                 const float _Complex *x, int64_t incx, const float _Complex *y, int64_t incy,
                 float _Complex *a, int64_t lda);
-void onemklZher2(sycl::queue device_queue, onemklUplo uplo, int64_t n, double _Complex alpha,
+void onemklZher2(syclQueue_t device_queue, onemklUplo uplo, int64_t n, double _Complex alpha,
                 const double _Complex *x, int64_t incx, const double _Complex *y, int64_t incy,
                 double _Complex *a, int64_t lda);
 
-void onemklChpmv(sycl::queue device_queue, onemklUplo uplo, int64_t n, float _Complex alpha,
+void onemklChpmv(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float _Complex alpha,
                 const float _Complex *a, const float _Complex *x, int64_t incx,
                 float _Complex beta, float _Complex *y, int64_t incy);
-void onemklZhpmv(sycl::queue device_queue, onemklUplo uplo, int64_t n, double _Complex alpha,
+void onemklZhpmv(syclQueue_t device_queue, onemklUplo uplo, int64_t n, double _Complex alpha,
                 const double _Complex *a, const double _Complex *x, int64_t incx,
                 double _Complex beta, double _Complex *y, int64_t incy);
 
-void onemklChpr(sycl::queue device_queue, onemklUplo uplo, int64_t n, float alpha,
+void onemklChpr(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float alpha,
                 const float _Complex *x, int64_t incx, float _Complex *a);
-void onemklZhpr(sycl::queue device_queue, onemklUplo uplo, int64_t n, double alpha,
+void onemklZhpr(syclQueue_t device_queue, onemklUplo uplo, int64_t n, double alpha,
                 const double _Complex *x, int64_t incx, double _Complex *a);
 
-void onemklChpr2(sycl::queue device_queue, onemklUplo uplo, int64_t n, float _Complex alpha,
+void onemklChpr2(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float _Complex alpha,
                 const float _Complex *x, int64_t incx, const float _Complex *y, int64_t incy, float _Complex *a);
-void onemklZhpr2(sycl::queue device_queue, onemklUplo uplo, int64_t n, double _Complex alpha,
+void onemklZhpr2(syclQueue_t device_queue, onemklUplo uplo, int64_t n, double _Complex alpha,
                 const double _Complex *x, int64_t incx, const double _Complex *y, int64_t incy, double _Complex *a);
 
-void onemklSsbmv(sycl::queue device_queue, onemklUplo uplo, int64_t n, int64_t k,
+void onemklSsbmv(syclQueue_t device_queue, onemklUplo uplo, int64_t n, int64_t k,
                  float alpha, const float *a, int64_t lda, const float *x,
                  int64_t incx, float beta, float *y, int64_t incy);
-void onemklDsbmv(sycl::queue device_queue, onemklUplo uplo, int64_t n, int64_t k,
+void onemklDsbmv(syclQueue_t device_queue, onemklUplo uplo, int64_t n, int64_t k,
                  double alpha, const double *a, int64_t lda, const double *x,
                  int64_t incx, double beta, double *y, int64_t incy);
 
-void onemklSspmv(sycl::queue device_queue, onemklUplo uplo, int64_t n,
+void onemklSspmv(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
                  float alpha, const float *a, const float *x,
                  int64_t incx, float beta, float *y, int64_t incy);
-void onemklDspmv(sycl::queue device_queue, onemklUplo uplo, int64_t n,
+void onemklDspmv(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
                  double alpha, const double *a, const double *x,
                  int64_t incx, double beta, double *y, int64_t incy);
 
-void onemklSspr(sycl::queue device_queue, onemklUplo uplo, int64_t n,
+void onemklSspr(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
                  float alpha, const float *x, int64_t incx, float *a);
-void onemklDspr(sycl::queue device_queue, onemklUplo uplo, int64_t n,
+void onemklDspr(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
                  double alpha, const double *x, int64_t incx, double *a);
 
-void onemklSspr2(sycl::queue device_queue, onemklUplo uplo, int64_t n,
+void onemklSspr2(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
                  float alpha, const float *x, int64_t incx,
                  const float *y, int64_t incy, float *a);
-void onemklDspr2(sycl::queue device_queue, onemklUplo uplo, int64_t n,
+void onemklDspr2(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
                  double alpha, const double *x, int64_t incx,
                  const double *y, int64_t incy, double *a);
 
-void onemklSsymv(sycl::queue device_queue, onemklUplo uplo, int64_t n, float alpha,
+void onemklSsymv(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float alpha,
                  const float *a, int64_t lda, const float *x, int64_t incx, float beta,
                  float *y, int64_t incy);
-void onemklDsymv(sycl::queue device_queue, onemklUplo uplo, int64_t n,
+void onemklDsymv(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
                  double alpha, const double *a, int64_t lda, const double *x,
                  int64_t incx, double beta, double *y, int64_t incy);
 
-void onemklSsyr(sycl::queue device_queue, onemklUplo uplo, int64_t n, float alpha,
+void onemklSsyr(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float alpha,
                            const float *x, int64_t incx, float *a, int64_t lda);
-void onemklDsyr(sycl::queue device_queue, onemklUplo uplo, int64_t n, double alpha,
+void onemklDsyr(syclQueue_t device_queue, onemklUplo uplo, int64_t n, double alpha,
                            const double *x, int64_t incx, double *a, int64_t lda);
 
-void onemklSsyr2(sycl::queue device_queue, onemklUplo uplo, int64_t n, float alpha,
+void onemklSsyr2(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float alpha,
                            const float *x, int64_t incx, const float *y, int64_t incy, float *a, int64_t lda);
-void onemklDsyr2(sycl::queue device_queue, onemklUplo uplo, int64_t n, double alpha,
+void onemklDsyr2(syclQueue_t device_queue, onemklUplo uplo, int64_t n, double alpha,
                            const double *x, int64_t incx, const double *y, int64_t incy, double *a, int64_t lda);
 
-void onemklStbmv(sycl::queue device_queue, onemklUplo uplo,
+void onemklStbmv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,
                 int64_t k, const float *a, int64_t lda, float *x, int64_t incx);
 
-void onemklDtbmv(sycl::queue device_queue, onemklUplo uplo,
+void onemklDtbmv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,
                 int64_t k, const double *a, int64_t lda, double *x, int64_t incx);
 
-void onemklCtbmv(sycl::queue device_queue, onemklUplo uplo,
+void onemklCtbmv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,
                 int64_t k, const float _Complex *a, int64_t lda, float _Complex *x,
                 int64_t incx);
 
-void onemklZtbmv(sycl::queue device_queue, onemklUplo uplo,
+void onemklZtbmv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,
                 int64_t k, const double _Complex *a, int64_t lda, double _Complex *x,
                 int64_t incx);
 
-void onemklStbsv(sycl::queue device_queue, onemklUplo uplo,
+void onemklStbsv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,
                 int64_t k, const float *a, int64_t lda, float *x, int64_t incx);
 
-void onemklDtbsv(sycl::queue device_queue, onemklUplo uplo,
+void onemklDtbsv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,
                 int64_t k, const double *a, int64_t lda, double *x, int64_t incx);
 
-void onemklCtbsv(sycl::queue device_queue, onemklUplo uplo,
+void onemklCtbsv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,
                 int64_t k, const float _Complex *a, int64_t lda, float _Complex *x,
                 int64_t incx);
 
-void onemklZtbsv(sycl::queue device_queue, onemklUplo uplo,
+void onemklZtbsv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,
                 int64_t k, const double _Complex *a, int64_t lda, double _Complex *x,
                 int64_t incx);
 
-void onemklStpmv(sycl::queue device_queue, onemklUplo uplo,
+void onemklStpmv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,
                 const float *a, float *x, int64_t incx);
 
-void onemklDtpmv(sycl::queue device_queue, onemklUplo uplo,
+void onemklDtpmv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,
                 const double *a, double *x, int64_t incx);
 
-void onemklCtpmv(sycl::queue device_queue, onemklUplo uplo,
+void onemklCtpmv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,
                 const float _Complex *a, float _Complex *x, int64_t incx);
 
-void onemklZtpmv(sycl::queue device_queue, onemklUplo uplo,
+void onemklZtpmv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,
                 const double _Complex *a, double _Complex *x, int64_t incx);
 
-void onemklStpsv(sycl::queue device_queue, onemklUplo uplo,
+void onemklStpsv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t m,
                 const float *a, float *x, int64_t incx);
 
-void onemklDtpsv(sycl::queue device_queue, onemklUplo uplo,
+void onemklDtpsv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t m,
                 const double *a, double *x, int64_t incx);
 
-void onemklCtpsv(sycl::queue device_queue, onemklUplo uplo,
+void onemklCtpsv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t m,
                 const float _Complex *a, float _Complex *x, int64_t incx);
 
-void onemklZtpsv(sycl::queue device_queue, onemklUplo uplo,
+void onemklZtpsv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t m,
                 const double _Complex *a, double _Complex *x, int64_t incx);
 
-void onemklStrmv(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans,
+void onemklStrmv(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans,
                 onemklDiag diag, int64_t n, const float *a, int64_t lda, float *x,
                 int64_t incx);
 
-void onemklDtrmv(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans,
+void onemklDtrmv(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans,
                 onemklDiag diag, int64_t n, const double *a, int64_t lda, double *x,
                 int64_t incx);
 
-void onemklCtrmv(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans,
+void onemklCtrmv(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans,
                 onemklDiag diag, int64_t n, const float _Complex *a, int64_t lda, float _Complex *x,
                 int64_t incx);
 
-void onemklZtrmv(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans,
+void onemklZtrmv(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans,
                 onemklDiag diag, int64_t n, const double _Complex *a, int64_t lda, double _Complex *x,
                 int64_t incx);
 
 // trsv
-void onemklStrsv(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans,
+void onemklStrsv(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans,
                 onemklDiag diag, int64_t n, const float *a, int64_t lda, float *x,
                 int64_t incx);
 
-void onemklDtrsv(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans,
+void onemklDtrsv(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans,
                 onemklDiag diag, int64_t n, const double *a, int64_t lda, double *x,
                 int64_t incx);
 
-void onemklCtrsv(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans,
+void onemklCtrsv(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans,
                 onemklDiag diag, int64_t n, const float _Complex *a, int64_t lda, float _Complex *x,
                 int64_t incx);
 
-void onemklZtrsv(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans,
+void onemklZtrsv(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans,
                 onemklDiag diag, int64_t n, const double _Complex *a, int64_t lda, double _Complex *x,
                 int64_t incx);
 
-void onemklCherk(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
+void onemklCherk(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 float alpha, const float _Complex* a, int64_t lda, float beta, float _Complex* c, int64_t ldc);
-void onemklZherk(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
+void onemklZherk(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 double alpha, const double _Complex* a, int64_t lda, double beta, double _Complex* c, int64_t ldc);
 
-void onemklCher2k(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
+void onemklCher2k(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 float _Complex alpha, const float _Complex* a, int64_t lda, const float _Complex* b, int64_t ldb,
                 float beta, float _Complex* c, int64_t ldc);
-void onemklZher2k(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
+void onemklZher2k(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 double _Complex alpha, const double _Complex* a, int64_t lda,  const double _Complex* b, int64_t ldb,
                 double beta, double _Complex* c, int64_t ldc);
 
-void onemklSsymm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, int64_t m, int64_t n,
+void onemklSsymm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, int64_t m, int64_t n,
                 float alpha, const float* a, int64_t lda, const float* b, int64_t ldb,
                 float beta, float* c, int64_t ldc);
-void onemklDsymm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, int64_t m, int64_t n,
+void onemklDsymm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, int64_t m, int64_t n,
                 double alpha, const double* a, int64_t lda, const double* b, int64_t ldb,
                 double beta, double* c, int64_t ldc);
-void onemklCsymm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, int64_t m, int64_t n,
+void onemklCsymm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, int64_t m, int64_t n,
                 float _Complex alpha, const float _Complex* a, int64_t lda, const float _Complex* b, int64_t ldb,
                 float _Complex beta, float _Complex* c, int64_t ldc);
-void onemklZsymm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, int64_t m, int64_t n,
+void onemklZsymm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, int64_t m, int64_t n,
                 double _Complex alpha, const double _Complex* a, int64_t lda, const double _Complex* b, int64_t ldb,
                 double _Complex beta, double _Complex* c, int64_t ldc);
 
-void onemklSsyrk(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
+void onemklSsyrk(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 float alpha, const float* a, int64_t lda, float beta, float* c, int64_t ldc);
-void onemklDsyrk(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
+void onemklDsyrk(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 double alpha, const double* a, int64_t lda, double beta, double* c, int64_t ldc);
-void onemklCsyrk(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
+void onemklCsyrk(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 float _Complex alpha, const float _Complex* a, int64_t lda, float _Complex beta, float _Complex* c, int64_t ldc);
-void onemklZsyrk(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
+void onemklZsyrk(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 double _Complex alpha, const double _Complex* a, int64_t lda, double _Complex beta, double _Complex* c, int64_t ldc);
 
-void onemklSsyr2k(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
+void onemklSsyr2k(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 float alpha, const float* a, int64_t lda, const float* b, int64_t ldb, float beta, float* c, int64_t ldc);
-void onemklDsyr2k(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
+void onemklDsyr2k(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 double alpha, const double* a, int64_t lda, const double* b, int64_t ldb,double beta, double* c, int64_t ldc);
-void onemklCsyr2k(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
+void onemklCsyr2k(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 float _Complex alpha, const float _Complex* a, int64_t lda, const float _Complex* b, int64_t ldb,
                 float _Complex beta, float _Complex* c, int64_t ldc);
-void onemklZsyr2k(sycl::queue device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
+void onemklZsyr2k(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 double _Complex alpha, const double _Complex* a, int64_t lda, const double _Complex* b, int64_t ldb,
                 double _Complex beta, double _Complex* c, int64_t ldc);
 
-void onemklChemm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, int64_t m, int64_t n,
+void onemklChemm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, int64_t m, int64_t n,
                 float _Complex alpha, const float _Complex* a, int64_t lda, const float _Complex* b, int64_t ldb,
                 float _Complex beta, float _Complex* c, int64_t ldc);
-void onemklZhemm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, int64_t m, int64_t n,
+void onemklZhemm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, int64_t m, int64_t n,
                 double _Complex alpha, const double _Complex* a, int64_t lda, const double _Complex* b, int64_t ldb,
                 double _Complex beta, double _Complex* c, int64_t ldc);
 
-void onemklStrmm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
+void onemklStrmm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
                 int64_t n, float alpha, const float *a, int64_t lda, float *b, int64_t incb);
-void onemklDtrmm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
+void onemklDtrmm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
                 int64_t n, double alpha, const double *a, int64_t lda, double *b, int64_t incb);
-void onemklCtrmm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
+void onemklCtrmm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
                 int64_t n, float _Complex alpha, const float _Complex*a, int64_t lda, float _Complex*b, int64_t incb);
-void onemklZtrmm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
+void onemklZtrmm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
                 int64_t n, double _Complex alpha, const double _Complex *a, int64_t lda, double _Complex *b, int64_t incb);
 
-void onemklStrsm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
+void onemklStrsm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
                 int64_t n, float alpha, const float *a, int64_t lda, float *b, int64_t incb);
-void onemklDtrsm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
+void onemklDtrsm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
                 int64_t n, double alpha, const double *a, int64_t lda, double *b, int64_t incb);
-void onemklCtrsm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
+void onemklCtrsm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
                 int64_t n, float _Complex alpha, const float _Complex*a, int64_t lda, float _Complex*b, int64_t incb);
-void onemklZtrsm(sycl::queue device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
+void onemklZtrsm(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
                 int64_t n, double _Complex alpha, const double _Complex *a, int64_t lda, double _Complex *b, int64_t incb);
 
 // XXX: how to expose half in C?
-// int onemklHgemm(sycl::queue device_queue, onemklTranspose transA,
+// int onemklHgemm(syclQueue_t device_queue, onemklTranspose transA,
 //                onemklTranspose transB, int64_t m, int64_t n, int64_t k,
 //                half alpha, const half *A, int64_t lda, const half *B,
 //                int64_t ldb, half beta, half *C, int64_t ldc);
-int onemklSgemm(sycl::queue device_queue, onemklTranspose transA,
+int onemklSgemm(syclQueue_t device_queue, onemklTranspose transA,
                 onemklTranspose transB, int64_t m, int64_t n, int64_t k,
                 float alpha, const float *A, int64_t lda, const float *B,
                 int64_t ldb, float beta, float *C, int64_t ldc);
-int onemklDgemm(sycl::queue device_queue, onemklTranspose transA,
+int onemklDgemm(syclQueue_t device_queue, onemklTranspose transA,
                 onemklTranspose transB, int64_t m, int64_t n, int64_t k,
                 double alpha, const double *A, int64_t lda, const double *B,
                 int64_t ldb, double beta, double *C, int64_t ldc);
-int onemklCgemm(sycl::queue device_queue, onemklTranspose transA,
+int onemklCgemm(syclQueue_t device_queue, onemklTranspose transA,
                 onemklTranspose transB, int64_t m, int64_t n, int64_t k,
                 float _Complex alpha, const float _Complex *A, int64_t lda,
                 const float _Complex *B, int64_t ldb, float _Complex beta,
                 float _Complex *C, int64_t ldc);
-int onemklZgemm(sycl::queue device_queue, onemklTranspose transA,
+int onemklZgemm(syclQueue_t device_queue, onemklTranspose transA,
                 onemklTranspose transB, int64_t m, int64_t n, int64_t k,
                 double _Complex alpha, const double _Complex *A, int64_t lda,
                 const double _Complex *B, int64_t ldb, double _Complex beta,
