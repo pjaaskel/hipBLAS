@@ -140,14 +140,14 @@ hipblasStatus_t syclblas_set_stream(syclblasHandle_t     handle,
         auto hQueue   = (ze_command_queue_handle_t)lzHandles[3];
 
         // Build SYCL platform/device/queue from the LZ handles.
-        handle->platform = sycl::ext::oneapi::level_zero::make_platform((pi_native_handle)hDriver);
-        handle->device = sycl::ext::oneapi::level_zero::make_device(handle->platform, (pi_native_handle)hDevice);
+        handle->platform->val = sycl::ext::oneapi::level_zero::make_platform((pi_native_handle)hDriver);
+        handle->device->val = sycl::ext::oneapi::level_zero::make_device(handle->platform->val, (pi_native_handle)hDevice);
 
         // FIX ME: only 1 device is returned from CHIP-SPV's lzHandles
         std::vector<sycl::device> sycl_devices(1);
-        sycl_devices[0] = handle->device;
-        handle->context = sycl::ext::oneapi::level_zero::make_context(sycl_devices, (pi_native_handle)hContext, 1/*keep_ownership*/);
-        handle->queue = sycl::ext::oneapi::level_zero::make_queue(handle->context, handle->device, (pi_native_handle)hQueue, 1/*keep_ownership*/);
+        sycl_devices[0] = handle->device->val;
+        handle->context->val = sycl::ext::oneapi::level_zero::make_context(sycl_devices, (pi_native_handle)hContext, 1/*keep_ownership*/);
+        handle->queue->val = sycl::ext::oneapi::level_zero::make_queue(handle->context->val, handle->device->val, (pi_native_handle)hQueue, 1/*keep_ownership*/);
 
         auto asyncExceptionHandler = [](sycl::exception_list exceptions) {
             // Report all asynchronous exceptions that occurred.
