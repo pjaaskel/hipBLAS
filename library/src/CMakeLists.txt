@@ -158,15 +158,17 @@ endif( )
 
 if (USE_ONEAPI)
   target_compile_definitions( hipblas PRIVATE __HIP_PLATFORM_SPIRV__ )
+  set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
   target_link_libraries(hipblas
-  sycl_wrapper
-#  mkl_sycl
-#  mkl_intel_ilp64
-#  mkl_sequential
-#  mkl_core
-#  sycl
-#  OpenCL
-)
+    sycl_wrapper
+  #  mkl_sycl
+  #  mkl_intel_ilp64
+  #  mkl_sequential
+  #  mkl_core
+  #  sycl
+  #  OpenCL
+  )
+  target_link_options(hipblas PRIVATE -Wl,-rpath,${CMAKE_INSTALL_PREFIX}/lib:${ICPX_CORE_LIBDIR})
 endif()
 
 # Internal header includes
