@@ -80,11 +80,11 @@ int syclContextDestroy(syclContext_t obj) {
     return 0;
 }
 
-int syclQueueCreate(syclQueue_t *obj, syclContext_t context,
+int syclQueueCreate(syclQueue_t *obj, syclContext_t context, syclDevice_t device,
                                ze_command_queue_handle_t queue,
                                int keep_ownership) {
     // XXX: ownership argument only used on master
-    auto sycl_queue = sycl::ext::oneapi::level_zero::make_queue(context->val, (pi_native_handle) queue, keep_ownership);
+    auto sycl_queue = sycl::ext::oneapi::level_zero::make_queue(context->val, device->val, (pi_native_handle) queue, keep_ownership);
     *obj = new syclQueue_st({sycl_queue});
     return 0;
 }
@@ -140,14 +140,13 @@ hipblasStatus_t syclblas_set_stream(syclblasHandle_t     handle,
         auto hQueue   = (ze_command_queue_handle_t)lzHandles[3];
 
         // Build SYCL platform/device/queue from the LZ handles.
-        handle->platform->val = sycl::ext::oneapi::level_zero::make_platform((pi_native_handle)hDriver);
-        handle->device->val = sycl::ext::oneapi::level_zero::make_device(handle->platform->val, (pi_native_handle)hDevice);
+        syclPlatformCreate(&handle->platform, hDriver);
+        syclDeviceCreate(&handle->device, handle->platform, hDevice);
 
         // FIX ME: only 1 device is returned from CHIP-SPV's lzHandles
-        std::vector<sycl::device> sycl_devices(1);
-        sycl_devices[0] = handle->device->val;
-        handle->context->val = sycl::ext::oneapi::level_zero::make_context(sycl_devices, (pi_native_handle)hContext, 1/*keep_ownership*/);
-        handle->queue->val = sycl::ext::oneapi::level_zero::make_queue(handle->context->val, handle->device->val, (pi_native_handle)hQueue, 1/*keep_ownership*/);
+        syclContextCreate(
+            &handle->context, &handle->device, 1 /*ndevices*/, hContext, 1 /*keep_ownership*/);
+        syclQueueCreate(&handle->queue, handle->context, handle->device, hQueue, 1 /* keep ownership */);
 
         auto asyncExceptionHandler = [](sycl::exception_list exceptions) {
             // Report all asynchronous exceptions that occurred.
