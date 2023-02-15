@@ -96,6 +96,96 @@ catch(...)
     return exception_to_hipblas_status();
 }
 
+hipblasStatus_t hipblasSetVector(int n, int elemSize, const void* x, int incx, void* y, int incy)
+try
+{
+    // As of now we don't have any way to handle it better
+    auto status = hipMemcpy(y, x, elemSize, hipMemcpyDefault);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasGetVector(int n, int elemSize, const void* x, int incx, void* y, int incy)
+try
+{
+    // As of now we don't have any way to handle it better
+    auto status = hipMemcpy(y, x, elemSize, hipMemcpyDefault);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t
+    hipblasSetMatrix(int rows, int cols, int elemSize, const void* A, int lda, void* B, int ldb)
+try
+{
+    return HIPBLAS_STATUS_NOT_INITIALIZED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t
+    hipblasGetMatrix(int rows, int cols, int elemSize, const void* A, int lda, void* B, int ldb)
+try
+{
+    return HIPBLAS_STATUS_NOT_INITIALIZED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasSetVectorAsync(
+    int n, int elemSize, const void* x, int incx, void* y, int incy, hipStream_t stream)
+try
+{
+return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasGetVectorAsync(
+    int n, int elemSize, const void* x, int incx, void* y, int incy, hipStream_t stream)
+try
+{
+return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasSetMatrixAsync(
+    int rows, int cols, int elemSize, const void* A, int lda, void* B, int ldb, hipStream_t stream)
+try
+{
+return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasGetMatrixAsync(
+    int rows, int cols, int elemSize, const void* A, int lda, void* B, int ldb, hipStream_t stream)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
 hipblasStatus_t hipblasGetInt8Datatype(hipblasHandle_t handle, hipblasInt8Datatype_t * int8Type)
 try
 {
@@ -168,6 +258,25 @@ onemklSideMode convert(hipblasSideMode_t val) {
 }
 // ----------------------------- hipBlas APIs ------------------------------------
 
+hipblasStatus_t hipblasSetPointerMode(hipblasHandle_t handle, hipblasPointerMode_t mode)
+try
+{
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasGetPointerMode(hipblasHandle_t handle, hipblasPointerMode_t* mode)
+try
+{
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
 // Level-1 : amax (supported datatypes : float, double, complex float, complex double)
 // Generic amax which can handle batched/stride/non-batched
 hipblasStatus_t hipblasIsamax(hipblasHandle_t handle, int n, const float* x, int incx, int* result)
@@ -11184,3 +11293,544 @@ catch(...)
 {
     return exception_to_hipblas_status();
 }
+
+//gemm-ex
+hipblasStatus_t hipblasGemmEx(hipblasHandle_t    handle,
+                              hipblasOperation_t transa,
+                              hipblasOperation_t transb,
+                              int                m,
+                              int                n,
+                              int                k,
+                              const void*        alpha,
+                              const void*        A,
+                              hipblasDatatype_t  a_type,
+                              int                lda,
+                              const void*        B,
+                              hipblasDatatype_t  b_type,
+                              int                ldb,
+                              const void*        beta,
+                              void*              C,
+                              hipblasDatatype_t  c_type,
+                              int                ldc,
+                              hipblasDatatype_t  compute_type,
+                              hipblasGemmAlgo_t  algo)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasGemmBatchedEx(hipblasHandle_t    handle,
+                                     hipblasOperation_t transa,
+                                     hipblasOperation_t transb,
+                                     int                m,
+                                     int                n,
+                                     int                k,
+                                     const void*        alpha,
+                                     const void*        A[],
+                                     hipblasDatatype_t  a_type,
+                                     int                lda,
+                                     const void*        B[],
+                                     hipblasDatatype_t  b_type,
+                                     int                ldb,
+                                     const void*        beta,
+                                     void*              C[],
+                                     hipblasDatatype_t  c_type,
+                                     int                ldc,
+                                     int                batch_count,
+                                     hipblasDatatype_t  compute_type,
+                                     hipblasGemmAlgo_t  algo)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasGemmStridedBatchedEx(hipblasHandle_t    handle,
+                                            hipblasOperation_t transa,
+                                            hipblasOperation_t transb,
+                                            int                m,
+                                            int                n,
+                                            int                k,
+                                            const void*        alpha,
+                                            const void*        A,
+                                            hipblasDatatype_t  a_type,
+                                            int                lda,
+                                            hipblasStride      stride_A,
+                                            const void*        B,
+                                            hipblasDatatype_t  b_type,
+                                            int                ldb,
+                                            hipblasStride      stride_B,
+                                            const void*        beta,
+                                            void*              C,
+                                            hipblasDatatype_t  c_type,
+                                            int                ldc,
+                                            hipblasStride      stride_C,
+                                            int                batch_count,
+                                            hipblasDatatype_t  compute_type,
+                                            hipblasGemmAlgo_t  algo)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// trsm_ex
+hipblasStatus_t hipblasTrsmEx(hipblasHandle_t    handle,
+                              hipblasSideMode_t  side,
+                              hipblasFillMode_t  uplo,
+                              hipblasOperation_t transA,
+                              hipblasDiagType_t  diag,
+                              int                m,
+                              int                n,
+                              const void*        alpha,
+                              void*              A,
+                              int                lda,
+                              void*              B,
+                              int                ldb,
+                              const void*        invA,
+                              int                invA_size,
+                              hipblasDatatype_t  compute_type)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasTrsmBatchedEx(hipblasHandle_t    handle,
+                                     hipblasSideMode_t  side,
+                                     hipblasFillMode_t  uplo,
+                                     hipblasOperation_t transA,
+                                     hipblasDiagType_t  diag,
+                                     int                m,
+                                     int                n,
+                                     const void*        alpha,
+                                     void*              A,
+                                     int                lda,
+                                     void*              B,
+                                     int                ldb,
+                                     int                batch_count,
+                                     const void*        invA,
+                                     int                invA_size,
+                                     hipblasDatatype_t  compute_type)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasTrsmStridedBatchedEx(hipblasHandle_t    handle,
+                                            hipblasSideMode_t  side,
+                                            hipblasFillMode_t  uplo,
+                                            hipblasOperation_t transA,
+                                            hipblasDiagType_t  diag,
+                                            int                m,
+                                            int                n,
+                                            const void*        alpha,
+                                            void*              A,
+                                            int                lda,
+                                            hipblasStride      stride_A,
+                                            void*              B,
+                                            int                ldb,
+                                            hipblasStride      stride_B,
+                                            int                batch_count,
+                                            const void*        invA,
+                                            int                invA_size,
+                                            hipblasStride      stride_invA,
+                                            hipblasDatatype_t  compute_type)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// AXPY_ex
+hipblasStatus_t hipblasAxpyEx(hipblasHandle_t   handle,
+                              int               n,
+                              const void*       alpha,
+                              hipblasDatatype_t alphaType,
+                              const void*       x,
+                              hipblasDatatype_t xType,
+                              int               incx,
+                              void*             y,
+                              hipblasDatatype_t yType,
+                              int               incy,
+                              hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasAxpyBatchedEx(hipblasHandle_t   handle,
+                                     int               n,
+                                     const void*       alpha,
+                                     hipblasDatatype_t alphaType,
+                                     const void*       x,
+                                     hipblasDatatype_t xType,
+                                     int               incx,
+                                     void*             y,
+                                     hipblasDatatype_t yType,
+                                     int               incy,
+                                     int               batch_count,
+                                     hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasAxpyStridedBatchedEx(hipblasHandle_t   handle,
+                                            int               n,
+                                            const void*       alpha,
+                                            hipblasDatatype_t alphaType,
+                                            const void*       x,
+                                            hipblasDatatype_t xType,
+                                            int               incx,
+                                            hipblasStride     stridex,
+                                            void*             y,
+                                            hipblasDatatype_t yType,
+                                            int               incy,
+                                            hipblasStride     stridey,
+                                            int               batch_count,
+                                            hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+//dot-ex and dotc-ex
+hipblasStatus_t hipblasDotEx(hipblasHandle_t   handle,
+                             int               n,
+                             const void*       x,
+                             hipblasDatatype_t xType,
+                             int               incx,
+                             const void*       y,
+                             hipblasDatatype_t yType,
+                             int               incy,
+                             void*             result,
+                             hipblasDatatype_t resultType,
+                             hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDotcEx(hipblasHandle_t   handle,
+                              int               n,
+                              const void*       x,
+                              hipblasDatatype_t xType,
+                              int               incx,
+                              const void*       y,
+                              hipblasDatatype_t yType,
+                              int               incy,
+                              void*             result,
+                              hipblasDatatype_t resultType,
+                              hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDotBatchedEx(hipblasHandle_t   handle,
+                                    int               n,
+                                    const void*       x,
+                                    hipblasDatatype_t xType,
+                                    int               incx,
+                                    const void*       y,
+                                    hipblasDatatype_t yType,
+                                    int               incy,
+                                    int               batch_count,
+                                    void*             result,
+                                    hipblasDatatype_t resultType,
+                                    hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDotcBatchedEx(hipblasHandle_t   handle,
+                                     int               n,
+                                     const void*       x,
+                                     hipblasDatatype_t xType,
+                                     int               incx,
+                                     const void*       y,
+                                     hipblasDatatype_t yType,
+                                     int               incy,
+                                     int               batch_count,
+                                     void*             result,
+                                     hipblasDatatype_t resultType,
+                                     hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDotStridedBatchedEx(hipblasHandle_t   handle,
+                                           int               n,
+                                           const void*       x,
+                                           hipblasDatatype_t xType,
+                                           int               incx,
+                                           hipblasStride     stridex,
+                                           const void*       y,
+                                           hipblasDatatype_t yType,
+                                           int               incy,
+                                           hipblasStride     stridey,
+                                           int               batch_count,
+                                           void*             result,
+                                           hipblasDatatype_t resultType,
+                                           hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasDotcStridedBatchedEx(hipblasHandle_t   handle,
+                                            int               n,
+                                            const void*       x,
+                                            hipblasDatatype_t xType,
+                                            int               incx,
+                                            hipblasStride     stridex,
+                                            const void*       y,
+                                            hipblasDatatype_t yType,
+                                            int               incy,
+                                            hipblasStride     stridey,
+                                            int               batch_count,
+                                            void*             result,
+                                            hipblasDatatype_t resultType,
+                                            hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// nrm2_ex
+hipblasStatus_t hipblasNrm2Ex(hipblasHandle_t   handle,
+                              int               n,
+                              const void*       x,
+                              hipblasDatatype_t xType,
+                              int               incx,
+                              void*             result,
+                              hipblasDatatype_t resultType,
+                              hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasNrm2BatchedEx(hipblasHandle_t   handle,
+                                     int               n,
+                                     const void*       x,
+                                     hipblasDatatype_t xType,
+                                     int               incx,
+                                     int               batch_count,
+                                     void*             result,
+                                     hipblasDatatype_t resultType,
+                                     hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasNrm2StridedBatchedEx(hipblasHandle_t   handle,
+                                            int               n,
+                                            const void*       x,
+                                            hipblasDatatype_t xType,
+                                            int               incx,
+                                            hipblasStride     stridex,
+                                            int               batch_count,
+                                            void*             result,
+                                            hipblasDatatype_t resultType,
+                                            hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// rot_ex
+hipblasStatus_t hipblasRotEx(hipblasHandle_t   handle,
+                             int               n,
+                             void*             x,
+                             hipblasDatatype_t xType,
+                             int               incx,
+                             void*             y,
+                             hipblasDatatype_t yType,
+                             int               incy,
+                             const void*       c,
+                             const void*       s,
+                             hipblasDatatype_t csType,
+                             hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasRotBatchedEx(hipblasHandle_t   handle,
+                                    int               n,
+                                    void*             x,
+                                    hipblasDatatype_t xType,
+                                    int               incx,
+                                    void*             y,
+                                    hipblasDatatype_t yType,
+                                    int               incy,
+                                    const void*       c,
+                                    const void*       s,
+                                    hipblasDatatype_t csType,
+                                    int               batch_count,
+                                    hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasRotStridedBatchedEx(hipblasHandle_t   handle,
+                                           int               n,
+                                           void*             x,
+                                           hipblasDatatype_t xType,
+                                           int               incx,
+                                           hipblasStride     stridex,
+                                           void*             y,
+                                           hipblasDatatype_t yType,
+                                           int               incy,
+                                           hipblasStride     stridey,
+                                           const void*       c,
+                                           const void*       s,
+                                           hipblasDatatype_t csType,
+                                           int               batch_count,
+                                           hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+// scal_ex
+hipblasStatus_t hipblasScalEx(hipblasHandle_t   handle,
+                              int               n,
+                              const void*       alpha,
+                              hipblasDatatype_t alphaType,
+                              void*             x,
+                              hipblasDatatype_t xType,
+                              int               incx,
+                              hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasScalBatchedEx(hipblasHandle_t   handle,
+                                     int               n,
+                                     const void*       alpha,
+                                     hipblasDatatype_t alphaType,
+                                     void*             x,
+                                     hipblasDatatype_t xType,
+                                     int               incx,
+                                     int               batch_count,
+                                     hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+hipblasStatus_t hipblasScalStridedBatchedEx(hipblasHandle_t   handle,
+                                            int               n,
+                                            const void*       alpha,
+                                            hipblasDatatype_t alphaType,
+                                            void*             x,
+                                            hipblasDatatype_t xType,
+                                            int               incx,
+                                            hipblasStride     stridex,
+                                            int               batch_count,
+                                            hipblasDatatype_t executionType)
+try
+{
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
