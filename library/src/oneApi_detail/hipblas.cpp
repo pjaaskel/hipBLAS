@@ -99,9 +99,22 @@ catch(...)
 hipblasStatus_t hipblasSetVector(int n, int elemSize, const void* x, int incx, void* y, int incy)
 try
 {
-    // As of now we don't have any way to handle it better
-    auto status = hipMemcpy(y, x, elemSize, hipMemcpyDefault);
-    return HIPBLAS_STATUS_SUCCESS;
+    if (n == 0) {
+        // nothing to copy hence return early
+        return HIPBLAS_STATUS_SUCCESS;
+    }
+    // error handling
+    if (n < 0 || incx <= 0 || incy <= 0 || elemSize <= 0 || !x || !y) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    if (incx == 1 && incy == 1) {
+        // contiguous memory
+        auto status = hipMemcpy(y, x, elemSize * n, hipMemcpyHostToDevice);
+        return HIPBLAS_STATUS_SUCCESS;
+    } else {
+        // As of now we don't have any way to handle non-contiguous memory hence returning as not supported
+        return HIPBLAS_STATUS_NOT_SUPPORTED;
+    }
 }
 catch(...)
 {
@@ -111,9 +124,22 @@ catch(...)
 hipblasStatus_t hipblasGetVector(int n, int elemSize, const void* x, int incx, void* y, int incy)
 try
 {
-    // As of now we don't have any way to handle it better
-    auto status = hipMemcpy(y, x, elemSize, hipMemcpyDefault);
-    return HIPBLAS_STATUS_SUCCESS;
+    if (n == 0) {
+        // nothing to copy hence return early
+        return HIPBLAS_STATUS_SUCCESS;
+    }
+    // error handling
+    if (n < 0 || incx <= 0 || incy <= 0 || elemSize <= 0 || !x || !y) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    if (incx == 1 && incy == 1) {
+        // contiguous memory
+        auto status = hipMemcpy(y, x, elemSize * n, hipMemcpyDeviceToHost);
+        return HIPBLAS_STATUS_SUCCESS;
+    } else {
+        // As of now we don't have any way to handle non-contiguous memory hence returning as not supported
+        return HIPBLAS_STATUS_NOT_SUPPORTED;
+    }
 }
 catch(...)
 {
@@ -124,7 +150,24 @@ hipblasStatus_t
     hipblasSetMatrix(int rows, int cols, int elemSize, const void* A, int lda, void* B, int ldb)
 try
 {
-    return HIPBLAS_STATUS_NOT_INITIALIZED;
+    if (rows == 0 || cols == 0) {
+        return HIPBLAS_STATUS_SUCCESS;
+    }
+    if (rows<0 || cols<0 || elemSize <= 0 || lda <= 0 || ldb <= 0 ||
+        rows > lda || rows > ldb || A == nullptr || B == nullptr) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // contiguous h2d copy
+    if(lda == rows && ldb == rows) {
+        // static cast to avoid overflow
+        auto no_of_bytes = static_cast<size_t>(elemSize) * static_cast<size_t>(rows)
+                           * static_cast<size_t>(cols);
+        auto status = hipMemcpy(B, A, no_of_bytes, hipMemcpyHostToDevice);
+        return HIPBLAS_STATUS_SUCCESS;
+    } else {
+        // non-contiguous memory, don't have better handling yet
+        return HIPBLAS_STATUS_NOT_INITIALIZED;
+    }
 }
 catch(...)
 {
@@ -135,7 +178,24 @@ hipblasStatus_t
     hipblasGetMatrix(int rows, int cols, int elemSize, const void* A, int lda, void* B, int ldb)
 try
 {
-    return HIPBLAS_STATUS_NOT_INITIALIZED;
+    if (rows == 0 || cols == 0) {
+        return HIPBLAS_STATUS_SUCCESS;
+    }
+    if (rows<0 || cols<0 || elemSize <= 0 || lda <= 0 || ldb <= 0 ||
+        rows > lda || rows > ldb || A == nullptr || B == nullptr) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // contiguous d2h copy
+    if(lda == rows && ldb == rows) {
+        // static cast to avoid overflow
+        auto no_of_bytes = static_cast<size_t>(elemSize) * static_cast<size_t>(rows)
+                           * static_cast<size_t>(cols);
+        auto status = hipMemcpy(B, A, no_of_bytes, hipMemcpyDeviceToHost);
+        return HIPBLAS_STATUS_SUCCESS;
+    } else {
+        // non-contiguous memory, don't have better handling yet
+        return HIPBLAS_STATUS_NOT_INITIALIZED;
+    }
 }
 catch(...)
 {
@@ -146,7 +206,22 @@ hipblasStatus_t hipblasSetVectorAsync(
     int n, int elemSize, const void* x, int incx, void* y, int incy, hipStream_t stream)
 try
 {
-return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (n == 0) {
+        // nothing to copy hence return early
+        return HIPBLAS_STATUS_SUCCESS;
+    }
+    // error handling
+    if (n < 0 || incx <= 0 || incy <= 0 || elemSize <= 0 || !x || !y) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    if (incx == 1 && incy == 1) {
+        // contiguous memory
+        auto status = hipMemcpyAsync(y, x, elemSize * n, hipMemcpyHostToDevice, stream);
+        return HIPBLAS_STATUS_SUCCESS;
+    } else {
+        // As of now we don't have any way to handle non-contiguous memory hence returning as not supported
+        return HIPBLAS_STATUS_NOT_SUPPORTED;
+    }
 }
 catch(...)
 {
@@ -157,7 +232,22 @@ hipblasStatus_t hipblasGetVectorAsync(
     int n, int elemSize, const void* x, int incx, void* y, int incy, hipStream_t stream)
 try
 {
-return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (n == 0) {
+        // nothing to copy hence return early
+        return HIPBLAS_STATUS_SUCCESS;
+    }
+    // error handling
+    if (n < 0 || incx <= 0 || incy <= 0 || elemSize <= 0 || !x || !y) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    if (incx == 1 && incy == 1) {
+        // contiguous memory
+        auto status = hipMemcpyAsync(y, x, elemSize * n, hipMemcpyDeviceToHost, stream);
+        return HIPBLAS_STATUS_SUCCESS;
+    } else {
+        // As of now we don't have any way to handle non-contiguous memory hence returning as not supported
+        return HIPBLAS_STATUS_NOT_SUPPORTED;
+    }
 }
 catch(...)
 {
@@ -168,7 +258,24 @@ hipblasStatus_t hipblasSetMatrixAsync(
     int rows, int cols, int elemSize, const void* A, int lda, void* B, int ldb, hipStream_t stream)
 try
 {
-return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (rows == 0 || cols == 0) {
+        return HIPBLAS_STATUS_SUCCESS;
+    }
+    if (rows<0 || cols<0 || elemSize <= 0 || lda <= 0 || ldb <= 0 ||
+        rows > lda || rows > ldb || A == nullptr || B == nullptr) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // contiguous h2d copy
+    if(lda == rows && ldb == rows) {
+        // static cast to avoid overflow
+        auto no_of_bytes = static_cast<size_t>(elemSize) * static_cast<size_t>(rows)
+                           * static_cast<size_t>(cols);
+        auto status = hipMemcpyAsync(B, A, no_of_bytes, hipMemcpyHostToDevice, stream);
+        return HIPBLAS_STATUS_SUCCESS;
+    } else {
+        // non-contiguous memory, don't have better handling yet
+        return HIPBLAS_STATUS_NOT_INITIALIZED;
+    }
 }
 catch(...)
 {
@@ -179,7 +286,24 @@ hipblasStatus_t hipblasGetMatrixAsync(
     int rows, int cols, int elemSize, const void* A, int lda, void* B, int ldb, hipStream_t stream)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (rows == 0 || cols == 0) {
+        return HIPBLAS_STATUS_SUCCESS;
+    }
+    if (rows<0 || cols<0 || elemSize <= 0 || lda <= 0 || ldb <= 0 ||
+        rows > lda || rows > ldb || A == nullptr || B == nullptr) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // contiguous d2h copy
+    if(lda == rows && ldb == rows) {
+        // static cast to avoid overflow
+        auto no_of_bytes = static_cast<size_t>(elemSize) * static_cast<size_t>(rows)
+                           * static_cast<size_t>(cols);
+        auto status = hipMemcpyAsync(B, A, no_of_bytes, hipMemcpyDeviceToHost, stream);
+        return HIPBLAS_STATUS_SUCCESS;
+    } else {
+        // non-contiguous memory, don't have better handling yet
+        return HIPBLAS_STATUS_NOT_INITIALIZED;
+    }
 }
 catch(...)
 {
@@ -286,24 +410,21 @@ try
     // Warning: result is a int* where as amax takes int64_t*
     int64_t *dev_results = (int64_t*)result;
     hipError_t hip_status;
-    if (!is_result_dev_ptr)
+    if (!is_result_dev_ptr){
         hip_status = hipMalloc(&dev_results, sizeof(int64_t));
-
+    }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
     onemklSamax(sycl_queue, n, x, incx, dev_results);
-
     syclblas_queue_wait(sycl_queue); // wait until task is completed
 
     if (!is_result_dev_ptr) {
         int64_t results_host_memory = 0;
         hip_status = hipMemcpy(&results_host_memory, dev_results, sizeof(int64_t), hipMemcpyDefault);
-
         //Fix_Me : Chance of data corruption
         *result = (int)results_host_memory;
 
         hip_status = hipFree(&dev_results);
     }
-
     return HIPBLAS_STATUS_SUCCESS;
 }
 catch (...) {
@@ -8840,7 +8961,7 @@ catch(...)
     return exception_to_hipblas_status();
 }
 
-// Level-2 : her2k(supported datatypes : float complex and double complex )
+// Level-3 : her2k(supported datatypes : float complex and double complex )
 hipblasStatus_t hipblasCher2k(hipblasHandle_t       handle,
                               hipblasFillMode_t     uplo,
                               hipblasOperation_t    transA,
