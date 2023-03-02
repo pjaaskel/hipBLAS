@@ -86,6 +86,7 @@
 
 /*! \brief hipblasHanlde_t is a void pointer, to store the library context (either rocBLAS or cuBLAS)*/
 typedef void* hipblasHandle_t;
+typedef hipblasHandle_t hipsolverHandle_t;
 
 /*! \brief To specify the datatype to be unsigned short */
 
@@ -10687,6 +10688,52 @@ HIPBLAS_EXPORT hipblasStatus_t hipblasDgemm(hipblasHandle_t    handle,
                                             double*            CP,
                                             int                ldc);
 
+typedef enum
+{
+    HIPSOLVER_FILL_MODE_UPPER = 121,
+    HIPSOLVER_FILL_MODE_LOWER = 122,
+} hipsolverFillMode_t;
+
+typedef enum
+{
+    HIPSOLVER_SIDE_LEFT  = 141,
+    HIPSOLVER_SIDE_RIGHT = 142,
+} hipsolverSideMode_t;
+
+typedef enum
+{
+    HIPSOLVER_EIG_MODE_NOVECTOR = 201,
+    HIPSOLVER_EIG_MODE_VECTOR   = 202,
+} hipsolverEigMode_t;
+
+typedef enum
+{
+    HIPSOLVER_EIG_TYPE_1 = 211,
+    HIPSOLVER_EIG_TYPE_2 = 212,
+    HIPSOLVER_EIG_TYPE_3 = 213,
+} hipsolverEigType_t;
+
+HIPBLAS_EXPORT hipblasStatus_t hipsolverDsyevd_bufferSize(hipsolverHandle_t   handle,
+							  hipsolverEigMode_t  jobz,
+							  hipsolverFillMode_t uplo,
+							  int                 n,
+							  double*             A,
+							  int                 lda,
+							  double*             D,
+							  int*                lwork);
+
+HIPBLAS_EXPORT hipblasStatus_t hipsolverDsyevd(hipblasHandle_t   handle,
+                                                   hipsolverEigMode_t  jobz,
+                                                   hipsolverFillMode_t uplo,
+                                                   int                 n,
+                                                   double*             A,
+                                                   int                 lda,
+                                                   double*             D,
+                                                   double*             work,
+                                                   int                 lwork,
+                                                   int*                devInfo);
+
+  
 HIPBLAS_EXPORT hipblasStatus_t hipblasCgemm(hipblasHandle_t       handle,
                                             hipblasOperation_t    transA,
                                             hipblasOperation_t    transB,

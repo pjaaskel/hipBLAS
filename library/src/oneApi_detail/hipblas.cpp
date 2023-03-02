@@ -10,6 +10,14 @@
 
 #include "sycl_w.h"
 
+/*! \brief Set hipblas pointer mode */
+hipblasStatus_t hipblasSetPointerMode(hipblasHandle_t      handle,
+				      hipblasPointerMode_t mode)
+{
+  return HIPBLAS_STATUS_SUCCESS;
+}
+
+
 // local functions
 static hipblasStatus_t updateSyclHandlesToCrrStream(hipStream_t stream, syclblasHandle_t handle)
 {
@@ -149,6 +157,16 @@ onemklUplo convert(hipblasFillMode_t val) {
     }
 }
 
+onemklUplo convert(hipsolverFillMode_t val) {
+    switch(val) {
+        case HIPSOLVER_FILL_MODE_UPPER:
+            return ONEMKL_UPLO_UPPER;
+        case HIPSOLVER_FILL_MODE_LOWER:
+            return ONEMKL_UPLO_LOWER;
+    }
+}
+
+
 onemklDiag convert(hipblasDiagType_t val) {
     switch(val) {
         case HIPBLAS_DIAG_NON_UNIT:
@@ -164,6 +182,15 @@ onemklSideMode convert(hipblasSideMode_t val) {
             return ONEMKL_SIDE_LEFT;
         case HIPBLAS_SIDE_RIGHT:
             return ONEMKL_SIDE_RIGHT;
+    }
+}
+
+onemklJob convert(hipsolverEigMode_t val) {
+    switch(val) {
+        case HIPSOLVER_EIG_MODE_NOVECTOR:
+            return ONEMKL_JOB_NOVEC;
+        case HIPSOLVER_EIG_MODE_VECTOR:
+            return ONEMKL_JOB_VEC;
     }
 }
 // ----------------------------- hipBlas APIs ------------------------------------
@@ -3760,6 +3787,57 @@ catch(...)
 {
     return exception_to_hipblas_status();
 }
+
+
+hipblasStatus_t hipsolverDsyevd_bufferSize(hipblasHandle_t   handle,
+                                                              hipsolverEigMode_t  jobz,
+                                                              hipsolverFillMode_t uplo,
+                                                              int                 n,
+                                                              double*             A,
+                                                              int                 lda,
+                                                              double*             D,
+                                                              int*                lwork)
+try
+{
+  auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+  
+  *lwork = (int64_t) onemklDsyevd_scratchpad_size(sycl_queue, convert(jobz),
+						 convert(uplo),
+						 n, lda );
+
+  
+return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+
+HIPBLAS_EXPORT hipblasStatus_t hipsolverDsyevd(hipblasHandle_t   handle,
+					       hipsolverEigMode_t  jobz,
+					       hipsolverFillMode_t uplo,
+					       int                 n,
+					       double*             A,
+					       int                 lda,
+					       double*             D,
+					       double*             work,
+					       int                 lwork,
+					       int*                devInfo)
+try
+{
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+
+    onemklDsyevd(sycl_queue, convert(jobz), convert(uplo), n, A, lda, D,work,lwork );
+
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
+
 
 hipblasStatus_t hipblasDgemv(hipblasHandle_t handle, hipblasOperation_t trans, int m, int n,
                              const double* alpha, const double* AP, int lda, const double* x, int incx,

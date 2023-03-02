@@ -51,6 +51,15 @@ oneapi::mkl::diag convert(onemklDiag val) {
     }
 }
 
+oneapi::mkl::job convert(onemklJob val) {
+    switch(val) {
+        case ONEMKL_JOB_NOVEC:
+            return oneapi::mkl::job::novec;
+        case ONEMKL_JOB_VEC:
+            return oneapi::mkl::job::vec;
+    }
+}
+
 extern "C" void onemklSdot(sycl::queue device_queue, int64_t n,
                            const float *x, int64_t incx, const float *y,
                            int64_t incy, float *result) {
@@ -1083,6 +1092,37 @@ extern "C" int onemklDgemm(sycl::queue device_queue, onemklTranspose transA,
     __FORCE_MKL_FLUSH__(status);
     return 0;
 }
+
+extern "C" int64_t onemklDsyevd_scratchpad_size(sycl::queue device_queue,
+					       onemklJob jobz,
+					       onemklUplo upper_lower,
+					       int64_t n, int64_t lda )
+{
+
+  std::int64_t value = oneapi::mkl::lapack::syevd_scratchpad_size<double>(device_queue,
+								  convert(jobz),
+								  convert(upper_lower),
+								  n, lda);
+  //    __FORCE_MKL_FLUSH__(status);
+  return value;
+
+}
+
+extern "C" int64_t onemklDsyevd(sycl::queue device_queue,
+				onemklJob jobz, onemklUplo upper_lower,
+				int64_t n, double *a, int64_t lda,
+				double *w, double *scratchpad,
+				int64_t scratchpad_size)
+{
+  auto status = oneapi::mkl::lapack::syevd(device_queue, convert(jobz), convert(upper_lower), n,
+		      a, lda, w, scratchpad,
+		      scratchpad_size, {});
+
+    __FORCE_MKL_FLUSH__(status);
+    return 0;
+
+}
+
 
 extern "C" int onemklCgemm(sycl::queue device_queue, onemklTranspose transA,
                            onemklTranspose transB, int64_t m, int64_t n,

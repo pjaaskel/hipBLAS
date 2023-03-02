@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include <stddef.h>
@@ -36,6 +37,11 @@ typedef enum {
     ONEMKL_DIAG_NONUNIT,
     ONEMKL_DIAG_UNIT
  } onemklDiag;
+
+  typedef enum {
+    ONEMKL_JOB_NOVEC,
+    ONEMKL_JOB_VEC
+ } onemklJob;
 
 void onemklSasum(sycl::queue device_queue, int64_t n,
                 const float *x, int64_t incx, float *result);
@@ -494,6 +500,19 @@ int onemklZgemm(sycl::queue device_queue, onemklTranspose transA,
                 const double _Complex *B, int64_t ldb, double _Complex beta,
                 double _Complex *C, int64_t ldc);
 
+
+int64_t onemklDsyevd_scratchpad_size(sycl::queue device_queue,
+				    onemklJob jobz,
+				    onemklUplo upper_lower,
+				    int64_t n, int64_t lda );
+
+int64_t onemklDsyevd(sycl::queue device_queue,
+		     onemklJob jobz, onemklUplo upper_lower,
+		     int64_t n, double *a, int64_t lda,
+		     double *w, double *scratchpad,
+		     int64_t scratchpad_size);
+
+  
 void onemklDestroy();
 #ifdef __cplusplus
 }
