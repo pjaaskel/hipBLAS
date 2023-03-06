@@ -19,7 +19,8 @@ hipblasStatus_t syclblas_set_stream(syclblasHandle_t handle,
 hipblasStatus_t syclblas_get_hipstream(syclblasHandle_t handle, hipStream_t* pStream);
 syclQueue_t syclblas_get_sycl_queue(syclblasHandle_t handle);
 void syclblas_queue_wait(syclQueue_t queue);
-
+hipblasStatus_t syclGetPointerMode(syclblasHandle_t handle, int * mode);
+hipblasStatus_t syclSetPointerMode(syclblasHandle_t handle, int mode);
 #ifdef __cplusplus
 }
 #endif

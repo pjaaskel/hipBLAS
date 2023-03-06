@@ -10,6 +10,11 @@
 
 #include "sycl_w.h"
 
+enum pointerMode {
+    host_mode,
+    device_mode
+};
+
 struct syclblasHandle
 {
     syclPlatform_t platform;
@@ -17,6 +22,7 @@ struct syclblasHandle
     syclContext_t  context;
     syclQueue_t    queue;
     hipStream_t    hip_stream;
+    pointerMode    ptr_mode;
 
     syclblasHandle(void)
         : platform()
@@ -24,6 +30,7 @@ struct syclblasHandle
         , context()
         , queue()
         , hip_stream()
+        , ptr_mode(host_mode)
     {
     }
 
@@ -104,6 +111,22 @@ int syclEventCreate(syclEvent_t *obj, syclContext_t context,
 int syclEventDestroy(syclEvent_t obj) {
    delete obj;
    return 0;
+}
+
+hipblasStatus_t syclGetPointerMode(syclblasHandle_t handle, int * mode) {
+    if (handle == nullptr || mode == nullptr) {
+        return HIPBLAS_STATUS_HANDLE_IS_NULLPTR;
+    }
+    *mode = (int)handle->ptr_mode;
+    return HIPBLAS_STATUS_SUCCESS;
+}
+
+hipblasStatus_t syclSetPointerMode(syclblasHandle_t handle, int mode) {
+    if (handle == nullptr || mode != host_mode || mode != device_mode) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    handle->ptr_mode = (pointerMode)mode;
+    return HIPBLAS_STATUS_SUCCESS;
 }
 
 hipblasStatus_t syclblas_create(syclblasHandle_t* handle)
