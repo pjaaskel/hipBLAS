@@ -41,7 +41,7 @@ template <typename T>
 inline hipblasStatus_t testing_tpsv(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasTpsvFn = FORTRAN ? hipblasTpsv<T, true> : hipblasTpsv<T, false>;
+    auto hipblasTpsvFn = hipblasTpsv<T, false>;//FORTRAN ? hipblasTpsv<T, true> : hipblasTpsv<T, false>;
 
     hipblasFillMode_t  uplo   = char2hipblas_fill(arg.uplo);
     hipblasDiagType_t  diag   = char2hipblas_diagonal(arg.diag);

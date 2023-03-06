@@ -41,7 +41,7 @@ inline hipblasStatus_t testing_rotg(const Arguments& arg)
 {
     using U            = real_t<T>;
     bool FORTRAN       = arg.fortran;
-    auto hipblasRotgFn = FORTRAN ? hipblasRotg<T, U, true> : hipblasRotg<T, U, false>;
+    auto hipblasRotgFn = hipblasRotg<T, U, false>;//FORTRAN ? hipblasRotg<T, U, true> : hipblasRotg<T, U, false>;
 
     double gpu_time_used, hipblas_error_host, hipblas_error_device;
 

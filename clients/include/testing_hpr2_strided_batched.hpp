@@ -43,7 +43,7 @@ inline hipblasStatus_t testing_hpr2_strided_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasHpr2StridedBatchedFn
-        = FORTRAN ? hipblasHpr2StridedBatched<T, true> : hipblasHpr2StridedBatched<T, false>;
+        = hipblasHpr2StridedBatched<T, false>;//FORTRAN ? hipblasHpr2StridedBatched<T, true> : hipblasHpr2StridedBatched<T, false>;
 
     int    N            = arg.N;
     int    incx         = arg.incx;

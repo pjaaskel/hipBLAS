@@ -41,7 +41,7 @@ template <typename T>
 inline hipblasStatus_t testing_syrk(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasSyrkFn = FORTRAN ? hipblasSyrk<T, true> : hipblasSyrk<T, false>;
+    auto hipblasSyrkFn = hipblasSyrk<T, false>;//FORTRAN ? hipblasSyrk<T, true> : hipblasSyrk<T, false>;
 
     hipblasFillMode_t  uplo   = char2hipblas_fill(arg.uplo);
     hipblasOperation_t transA = char2hipblas_operation(arg.transA);

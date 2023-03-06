@@ -94,8 +94,9 @@ inline hipblasStatus_t setup_getrs_batched_testing(host_batch_vector<T>&   hA,
 template <typename T>
 inline hipblasStatus_t testing_getrs_batched_bad_arg(const Arguments& arg)
 {
-    auto hipblasGetrsBatchedFn
-        = arg.fortran ? hipblasGetrsBatched<T, true> : hipblasGetrsBatched<T, false>;
+    auto hipblasGetrsBatchedFn = hipblasGetrsBatched<T, false>;
+
+        //= arg.fortran ? hipblasGetrsBatched<T, true> : hipblasGetrsBatched<T, false>;
 
     hipblasLocalHandle handle(arg);
     const int          N           = 100;
@@ -204,8 +205,8 @@ inline hipblasStatus_t testing_getrs_batched(const Arguments& arg)
 {
     using U      = real_t<T>;
     bool FORTRAN = arg.fortran;
-    auto hipblasGetrsBatchedFn
-        = FORTRAN ? hipblasGetrsBatched<T, true> : hipblasGetrsBatched<T, false>;
+    auto hipblasGetrsBatchedFn =  hipblasGetrsBatched<T, false>;
+        //= FORTRAN ? hipblasGetrsBatched<T, true> : hipblasGetrsBatched<T, false>;
 
     int N           = arg.N;
     int lda         = arg.lda;

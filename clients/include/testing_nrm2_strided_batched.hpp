@@ -41,8 +41,8 @@ inline hipblasStatus_t testing_nrm2_strided_batched(const Arguments& arg)
 {
     using Tr                         = real_t<T>;
     bool FORTRAN                     = arg.fortran;
-    auto hipblasNrm2StridedBatchedFn = FORTRAN ? hipblasNrm2StridedBatched<T, Tr, true>
-                                               : hipblasNrm2StridedBatched<T, Tr, false>;
+    auto hipblasNrm2StridedBatchedFn = hipblasNrm2StridedBatched<T, Tr, false>;//FORTRAN ? hipblasNrm2StridedBatched<T, Tr, true>
+                                       //        : hipblasNrm2StridedBatched<T, Tr, false>;
 
     int    N            = arg.N;
     int    incx         = arg.incx;

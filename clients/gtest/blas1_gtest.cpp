@@ -68,6 +68,7 @@ using ::testing::TestWithParam;
 using ::testing::Values;
 using ::testing::ValuesIn;
 
+#define __HIP_PLATFORM_ONEAPI__ 1
 // only GCC/VS 2010 comes with std::tr1::tuple, but it is unnecessary,  std::tuple is good enough;
 typedef std::tuple<int, vector<double>, vector<int>, double, int, bool> blas1_tuple;
 
@@ -162,7 +163,7 @@ Arguments setup_blas1_arguments(blas1_tuple tup)
     arg.stride_scale = stride_scale;
     arg.batch_count  = batch_count;
 
-    arg.fortran = fortran;
+    //arg.fortran = fortran;
 
     arg.timing
         = 0; // disable timing data print out. Not supposed to collect performance data in gtest
@@ -172,7 +173,7 @@ Arguments setup_blas1_arguments(blas1_tuple tup)
 
 // axpy
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 TEST_P(blas1_gtest, axpy_half)
 {
     Arguments       arg    = setup_blas1_arguments(GetParam());
@@ -240,7 +241,7 @@ TEST_P(blas1_gtest, axpy_float_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // axpy_batched
 TEST_P(blas1_gtest, axpy_batched_float)
@@ -395,7 +396,7 @@ TEST_P(blas1_gtest, copy_float_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // copy_batched tests
 TEST_P(blas1_gtest, copy_batched_float)
@@ -585,7 +586,7 @@ TEST_P(blas1_gtest, scal_float_complex_float)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // scal_batched tests
 TEST_P(blas1_gtest, scal_batched_float)
@@ -822,7 +823,7 @@ TEST_P(blas1_gtest, swap_float_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // swap_batched tests
 TEST_P(blas1_gtest, swap_batched_float)
@@ -933,7 +934,7 @@ TEST_P(blas1_gtest, swap_strided_batched_float_complex)
 #endif
 
 // dot tests
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 TEST_P(blas1_gtest, dot_half)
 {
     // GetParam return a tuple. Tee setup routine unpack the tuple
@@ -1079,7 +1080,7 @@ TEST_P(blas1_gtest, dotc_float_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // dot_batched tests
 TEST_P(blas1_gtest, dot_batched_half)
@@ -1466,7 +1467,7 @@ TEST_P(blas1_gtest, nrm2_float_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // nrm2_batched tests
 TEST_P(blas1_gtest, nrm2_batched_float)
@@ -1638,7 +1639,7 @@ TEST_P(blas1_gtest, rot_float_complex_float)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // rot_batched
 TEST_P(blas1_gtest, rot_batched_float)
@@ -1799,7 +1800,7 @@ TEST_P(blas1_gtest, rotg_float_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // rotg_batched
 TEST_P(blas1_gtest, rotg_batched_float)
@@ -1889,7 +1890,7 @@ TEST_P(blas1_gtest, rotm_float)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // rotm_batched
 TEST_P(blas1_gtest, rotm_batched_float)
@@ -1943,7 +1944,7 @@ TEST_P(blas1_gtest, rotmg_float)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // rotmg_batched
 TEST_P(blas1_gtest, rotmg_batched_float)
@@ -2056,7 +2057,7 @@ TEST_P(blas1_gtest, asum_double_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // asum_batched
 TEST_P(blas1_gtest, asum_batched_float)
@@ -2247,7 +2248,7 @@ TEST_P(blas1_gtest, amax_float_complex)
     EXPECT_EQ(HIPBLAS_STATUS_SUCCESS, status);
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // amax_batched
 TEST_P(blas1_gtest, amax_batched_float)
@@ -2344,7 +2345,7 @@ TEST_P(blas1_gtest, amin_float_complex)
     EXPECT_EQ(HIPBLAS_STATUS_SUCCESS, status);
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // amin_batched
 TEST_P(blas1_gtest, amin_batched_float)

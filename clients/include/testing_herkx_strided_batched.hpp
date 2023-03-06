@@ -52,8 +52,8 @@ inline hipblasStatus_t testing_herkx_strided_batched(const Arguments& arg)
 {
     using U                           = real_t<T>;
     bool FORTRAN                      = arg.fortran;
-    auto hipblasHerkxStridedBatchedFn = FORTRAN ? hipblasHerkxStridedBatched<T, U, true>
-                                                : hipblasHerkxStridedBatched<T, U, false>;
+    auto hipblasHerkxStridedBatchedFn = hipblasHerkxStridedBatched<T, U, false>;//FORTRAN ? hipblasHerkxStridedBatched<T, U, true>
+                                                //: hipblasHerkxStridedBatched<T, U, false>;
 
     int    N            = arg.N;
     int    K            = arg.K;

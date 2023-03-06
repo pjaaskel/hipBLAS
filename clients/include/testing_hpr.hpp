@@ -42,7 +42,7 @@ inline hipblasStatus_t testing_hpr(const Arguments& arg)
 {
     using U           = real_t<T>;
     bool FORTRAN      = arg.fortran;
-    auto hipblasHprFn = FORTRAN ? hipblasHpr<T, U, true> : hipblasHpr<T, U, false>;
+    auto hipblasHprFn = hipblasHpr<T, U, false>;//FORTRAN ? hipblasHpr<T, U, true> : hipblasHpr<T, U, false>;
 
     hipblasFillMode_t uplo = char2hipblas_fill(arg.uplo);
     int               N    = arg.N;

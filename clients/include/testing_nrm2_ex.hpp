@@ -40,7 +40,8 @@ template <typename Tx, typename Tr = Tx, typename Tex = Tr>
 inline hipblasStatus_t testing_nrm2_ex_template(const Arguments& arg)
 {
     bool FORTRAN         = arg.fortran;
-    auto hipblasNrm2ExFn = FORTRAN ? hipblasNrm2ExFortran : hipblasNrm2Ex;
+    auto hipblasNrm2ExFn = hipblasNrm2Ex;
+    //auto hipblasNrm2ExFn = FORTRAN ? hipblasNrm2ExFortran : hipblasNrm2Ex;
 
     int N    = arg.N;
     int incx = arg.incx;

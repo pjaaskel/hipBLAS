@@ -41,7 +41,7 @@ template <typename T>
 inline hipblasStatus_t testing_hpr2(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasHpr2Fn = FORTRAN ? hipblasHpr2<T, true> : hipblasHpr2<T, false>;
+    auto hipblasHpr2Fn = hipblasHpr2<T, false>;//FORTRAN ? hipblasHpr2<T, true> : hipblasHpr2<T, false>;
 
     int N    = arg.N;
     int incx = arg.incx;

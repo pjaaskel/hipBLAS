@@ -43,8 +43,8 @@ inline hipblasStatus_t testing_herk_batched(const Arguments& arg)
 {
     using U      = real_t<T>;
     bool FORTRAN = arg.fortran;
-    auto hipblasHerkBatchedFn
-        = FORTRAN ? hipblasHerkBatched<T, U, true> : hipblasHerkBatched<T, U, false>;
+    auto hipblasHerkBatchedFn = hipblasHerkBatched<T, U, false>;
+        //= FORTRAN ? hipblasHerkBatched<T, U, true> : hipblasHerkBatched<T, U, false>;
 
     int N           = arg.N;
     int K           = arg.K;

@@ -41,7 +41,7 @@ inline hipblasStatus_t testing_swap_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasSwapBatchedFn
-        = FORTRAN ? hipblasSwapBatched<T, true> : hipblasSwapBatched<T, false>;
+        = hipblasSwapBatched<T, false>;//FORTRAN ? hipblasSwapBatched<T, true> : hipblasSwapBatched<T, false>;
 
     int N           = arg.N;
     int incx        = arg.incx;

@@ -37,7 +37,8 @@ if( NOT DEFINED CMAKE_CONFIGURATION_TYPES AND NOT DEFINED CMAKE_BUILD_TYPE )
 endif()
 
 # This project may compile dependencies for clients
-project( hipblas-clients LANGUAGES CXX Fortran )
+#project( hipblas-clients LANGUAGES CXX Fortran )
+project( hipblas-clients LANGUAGES CXX )
 
 # We use C++14 features, this will add compile option: -std=c++14
 set( CMAKE_CXX_STANDARD 17 )
@@ -46,14 +47,14 @@ list( APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
 
 include( build-options )
 
-if( NOT WIN32 )
-    set(hipblas_f90_source_clients
-      include/hipblas_fortran.f90
-    )
+#if( NOT WIN32 )
+#    set(hipblas_f90_source_clients
+#      include/hipblas_fortran.f90
+#    )
 
-    set(hipblas_f90_source_clients_solver
-  include/hipblas_fortran_solver.f90)
-endif()
+#    set(hipblas_f90_source_clients_solver
+#  include/hipblas_fortran_solver.f90)
+#endif()
 
 if( BUILD_CLIENTS_TESTS OR BUILD_CLIENTS_BENCHMARKS OR BUILD_CLIENTS_SAMPLES )
 #  if( NOT WIN32 )
@@ -76,7 +77,7 @@ endif( )
 if( BUILD_CLIENTS_BENCHMARKS OR BUILD_CLIENTS_TESTS)
   if( NOT WIN32 )
     # Linking lapack library requires fortran flags
-    find_package( cblas REQUIRED CONFIG )
+    #find_package( cblas REQUIRED CONFIG )
     if (LINK_BLIS)
       set( BLIS_INCLUDE_DIR ${BUILD_DIR}/deps/blis/include/blis )
       set( BLIS_CPP ../common/blis_interface.cpp )

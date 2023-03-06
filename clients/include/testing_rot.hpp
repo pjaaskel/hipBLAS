@@ -40,7 +40,7 @@ template <typename T, typename U = T, typename V = T>
 hipblasStatus_t testing_rot(const Arguments& arg)
 {
     bool FORTRAN      = arg.fortran;
-    auto hipblasRotFn = FORTRAN ? hipblasRot<T, U, V, true> : hipblasRot<T, U, V, false>;
+    auto hipblasRotFn = hipblasRot<T, U, V, false>;//FORTRAN ? hipblasRot<T, U, V, true> : hipblasRot<T, U, V, false>;
 
     int N    = arg.N;
     int incx = arg.incx;

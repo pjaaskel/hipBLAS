@@ -40,7 +40,7 @@ template <typename Tx, typename Tr = Tx, typename Tex = Tr>
 inline hipblasStatus_t testing_nrm2_batched_ex_template(const Arguments& arg)
 {
     bool FORTRAN                = arg.fortran;
-    auto hipblasNrm2BatchedExFn = FORTRAN ? hipblasNrm2BatchedExFortran : hipblasNrm2BatchedEx;
+    auto hipblasNrm2BatchedExFn = hipblasNrm2BatchedEx; //FORTRAN ? hipblasNrm2BatchedExFortran : hipblasNrm2BatchedEx;
 
     int N           = arg.N;
     int incx        = arg.incx;

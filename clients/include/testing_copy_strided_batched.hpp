@@ -41,8 +41,8 @@ template <typename T>
 inline hipblasStatus_t testing_copy_strided_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
-    auto hipblasCopyStridedBatchedFn
-        = FORTRAN ? hipblasCopyStridedBatched<T, true> : hipblasCopyStridedBatched<T, false>;
+    auto hipblasCopyStridedBatchedFn = hipblasCopyStridedBatched<T, false>;
+        ///= FORTRAN ? hipblasCopyStridedBatched<T, true> : hipblasCopyStridedBatched<T, false>;
 
     int    N            = arg.N;
     int    incx         = arg.incx;

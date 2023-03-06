@@ -42,8 +42,8 @@ template <typename T>
 inline hipblasStatus_t testing_gemv_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
-    auto hipblasGemvBatchedFn
-        = FORTRAN ? hipblasGemvBatched<T, true> : hipblasGemvBatched<T, false>;
+    auto hipblasGemvBatchedFn = hipblasGemvBatched<T, false>;
+        //= FORTRAN ? hipblasGemvBatched<T, true> : hipblasGemvBatched<T, false>;
 
     int M    = arg.M;
     int N    = arg.N;

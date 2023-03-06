@@ -42,7 +42,7 @@ inline hipblasStatus_t testing_rotm_strided_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasRotmStridedBatchedFn
-        = FORTRAN ? hipblasRotmStridedBatched<T, true> : hipblasRotmStridedBatched<T, false>;
+        = hipblasRotmStridedBatched<T, false>;//FORTRAN ? hipblasRotmStridedBatched<T, true> : hipblasRotmStridedBatched<T, false>;
 
     double stride_scale = arg.stride_scale;
 

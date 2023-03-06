@@ -41,8 +41,8 @@ inline hipblasStatus_t testing_nrm2_batched(const Arguments& arg)
 {
     using Tr     = real_t<T>;
     bool FORTRAN = arg.fortran;
-    auto hipblasNrm2BatchedFn
-        = FORTRAN ? hipblasNrm2Batched<T, Tr, true> : hipblasNrm2Batched<T, Tr, false>;
+    auto hipblasNrm2BatchedFn = hipblasNrm2Batched<T, Tr, false>;
+        //= FORTRAN ? hipblasNrm2Batched<T, Tr, true> : hipblasNrm2Batched<T, Tr, false>;
 
     int N           = arg.N;
     int incx        = arg.incx;

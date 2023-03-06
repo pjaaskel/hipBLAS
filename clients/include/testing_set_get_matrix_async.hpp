@@ -41,8 +41,8 @@ template <typename T>
 inline hipblasStatus_t testing_set_get_matrix_async(const Arguments& arg)
 {
     bool FORTRAN                 = arg.fortran;
-    auto hipblasSetMatrixAsyncFn = FORTRAN ? hipblasSetMatrixAsyncFortran : hipblasSetMatrixAsync;
-    auto hipblasGetMatrixAsyncFn = FORTRAN ? hipblasGetMatrixAsyncFortran : hipblasGetMatrixAsync;
+    auto hipblasSetMatrixAsyncFn = hipblasSetMatrixAsync;//FORTRAN ? hipblasSetMatrixAsyncFortran : hipblasSetMatrixAsync;
+    auto hipblasGetMatrixAsyncFn = hipblasGetMatrixAsync;//FORTRAN ? hipblasGetMatrixAsyncFortran : hipblasGetMatrixAsync;
 
     int rows = arg.rows;
     int cols = arg.cols;

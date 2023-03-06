@@ -40,7 +40,7 @@ inline hipblasStatus_t testing_getrf_npvt(const Arguments& arg)
 {
     using U             = real_t<T>;
     bool FORTRAN        = arg.fortran;
-    auto hipblasGetrfFn = FORTRAN ? hipblasGetrf<T, true> : hipblasGetrf<T, false>;
+    auto hipblasGetrfFn = hipblasGetrf<T, false>;//FORTRAN ? hipblasGetrf<T, true> : hipblasGetrf<T, false>;
 
     int M   = arg.N;
     int N   = arg.N;

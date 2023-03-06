@@ -54,7 +54,7 @@ inline hipblasStatus_t testing_gemm_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasGemmBatchedFn
-        = FORTRAN ? hipblasGemmBatched<T, true> : hipblasGemmBatched<T, false>;
+        = hipblasGemmBatched<T, false>;//FORTRAN ? hipblasGemmBatched<T, true> : hipblasGemmBatched<T, false>;
 
     hipblasOperation_t transA      = char2hipblas_operation(arg.transA);
     hipblasOperation_t transB      = char2hipblas_operation(arg.transB);

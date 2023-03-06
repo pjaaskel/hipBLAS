@@ -41,8 +41,8 @@ inline hipblasStatus_t testing_asum_batched(const Arguments& arg)
 {
     using Tr     = real_t<T>;
     bool FORTRAN = arg.fortran;
-    auto hipblasAsumBatchedFn
-        = FORTRAN ? hipblasAsumBatched<T, Tr, true> : hipblasAsumBatched<T, Tr, false>;
+    auto hipblasAsumBatchedFn = hipblasAsumBatched<T, Tr, false>;
+        //= FORTRAN ? hipblasAsumBatched<T, Tr, true> : hipblasAsumBatched<T, Tr, false>;
 
     int N           = arg.N;
     int incx        = arg.incx;

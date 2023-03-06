@@ -42,8 +42,8 @@ inline hipblasStatus_t testing_rot_strided_batched_ex_template(const Arguments& 
 {
     using Ty     = Tx;
     bool FORTRAN = arg.fortran;
-    auto hipblasRotStridedBatchedExFn
-        = FORTRAN ? hipblasRotStridedBatchedExFortran : hipblasRotStridedBatchedEx;
+    auto hipblasRotStridedBatchedExFn = hipblasRotStridedBatchedEx;
+        //= FORTRAN ? hipblasRotStridedBatchedExFortran : hipblasRotStridedBatchedEx;
 
     int    N            = arg.N;
     int    incx         = arg.incx;

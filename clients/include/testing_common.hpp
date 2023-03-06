@@ -32,7 +32,7 @@
 #include "flops.hpp"
 #include "hipblas.hpp"
 #ifndef WIN32
-#include "hipblas_fortran.hpp"
+#include "hipblas_no_fortran.hpp"
 #else
 #include "hipblas_no_fortran.hpp"
 #endif

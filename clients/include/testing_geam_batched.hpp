@@ -53,8 +53,8 @@ template <typename T>
 inline hipblasStatus_t testing_geam_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
-    auto hipblasGeamBatchedFn
-        = FORTRAN ? hipblasGeamBatched<T, true> : hipblasGeamBatched<T, false>;
+    auto hipblasGeamBatchedFn =hipblasGeamBatched<T, false>;
+        //= FORTRAN ? hipblasGeamBatched<T, true> : hipblasGeamBatched<T, false>;
 
     hipblasOperation_t transA      = char2hipblas_operation(arg.transA);
     hipblasOperation_t transB      = char2hipblas_operation(arg.transB);

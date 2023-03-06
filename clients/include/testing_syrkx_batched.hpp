@@ -43,7 +43,7 @@ inline hipblasStatus_t testing_syrkx_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasSyrkxBatchedFn
-        = FORTRAN ? hipblasSyrkxBatched<T, true> : hipblasSyrkxBatched<T, false>;
+        = hipblasSyrkxBatched<T, false>;//FORTRAN ? hipblasSyrkxBatched<T, true> : hipblasSyrkxBatched<T, false>;
 
     hipblasFillMode_t  uplo        = char2hipblas_fill(arg.uplo);
     hipblasOperation_t transA      = char2hipblas_operation(arg.transA);

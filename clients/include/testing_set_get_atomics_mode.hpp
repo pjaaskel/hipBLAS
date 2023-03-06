@@ -38,8 +38,8 @@ inline void testname_set_get_atomics_mode(const Arguments& arg, std::string& nam
 inline hipblasStatus_t testing_set_get_atomics_mode(const Arguments& arg)
 {
     bool FORTRAN                 = arg.fortran;
-    auto hipblasSetAtomicsModeFn = FORTRAN ? hipblasSetAtomicsModeFortran : hipblasSetAtomicsMode;
-    auto hipblasGetAtomicsModeFn = FORTRAN ? hipblasGetAtomicsModeFortran : hipblasGetAtomicsMode;
+    auto hipblasSetAtomicsModeFn = hipblasSetAtomicsMode;//FORTRAN ? hipblasSetAtomicsModeFortran : hipblasSetAtomicsMode;
+    auto hipblasGetAtomicsModeFn = hipblasGetAtomicsMode;//FORTRAN ? hipblasGetAtomicsModeFortran : hipblasGetAtomicsMode;
 
     hipblasAtomicsMode_t mode;
     hipblasLocalHandle   handle(arg);

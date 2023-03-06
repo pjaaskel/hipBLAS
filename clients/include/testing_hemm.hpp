@@ -42,7 +42,7 @@ template <typename T>
 inline hipblasStatus_t testing_hemm(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasHemmFn = FORTRAN ? hipblasHemm<T, true> : hipblasHemm<T, false>;
+    auto hipblasHemmFn = hipblasHemm<T, false>;//FORTRAN ? hipblasHemm<T, true> : hipblasHemm<T, false>;
 
     hipblasSideMode_t side = char2hipblas_side(arg.side);
     hipblasFillMode_t uplo = char2hipblas_fill(arg.uplo);

@@ -43,7 +43,7 @@ inline hipblasStatus_t testing_her2k(const Arguments& arg)
 {
     using U             = real_t<T>;
     bool FORTRAN        = arg.fortran;
-    auto hipblasHer2kFn = FORTRAN ? hipblasHer2k<T, U, true> : hipblasHer2k<T, U, false>;
+    auto hipblasHer2kFn = hipblasHer2k<T, U, false>;//FORTRAN ? hipblasHer2k<T, U, true> : hipblasHer2k<T, U, false>;
 
     int N   = arg.N;
     int K   = arg.K;

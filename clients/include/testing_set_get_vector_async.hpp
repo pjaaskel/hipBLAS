@@ -41,8 +41,8 @@ template <typename T>
 inline hipblasStatus_t testing_set_get_vector_async(const Arguments& arg)
 {
     bool FORTRAN                 = arg.fortran;
-    auto hipblasSetVectorAsyncFn = FORTRAN ? hipblasSetVectorAsyncFortran : hipblasSetVectorAsync;
-    auto hipblasGetVectorAsyncFn = FORTRAN ? hipblasGetVectorAsyncFortran : hipblasGetVectorAsync;
+    auto hipblasSetVectorAsyncFn = hipblasSetVectorAsync;//FORTRAN ? hipblasSetVectorAsyncFortran : hipblasSetVectorAsync;
+    auto hipblasGetVectorAsyncFn =hipblasGetVectorAsync;// FORTRAN ? hipblasGetVectorAsyncFortran : hipblasGetVectorAsync;
 
     int M    = arg.M;
     int incx = arg.incx;

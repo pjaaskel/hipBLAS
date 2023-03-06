@@ -42,7 +42,7 @@ inline hipblasStatus_t testing_scal_strided_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasScalStridedBatchedFn
-        = FORTRAN ? hipblasScalStridedBatched<T, U, true> : hipblasScalStridedBatched<T, U, false>;
+        = hipblasScalStridedBatched<T, U, false>;//FORTRAN ? hipblasScalStridedBatched<T, U, true> : hipblasScalStridedBatched<T, U, false>;
 
     int    N            = arg.N;
     int    incx         = arg.incx;

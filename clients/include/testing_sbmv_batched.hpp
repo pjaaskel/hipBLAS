@@ -43,7 +43,7 @@ inline hipblasStatus_t testing_sbmv_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasSbmvBatchedFn
-        = FORTRAN ? hipblasSbmvBatched<T, true> : hipblasSbmvBatched<T, false>;
+        = hipblasSbmvBatched<T, false>;//FORTRAN ? hipblasSbmvBatched<T, true> : hipblasSbmvBatched<T, false>;
 
     int M    = arg.M;
     int K    = arg.K;

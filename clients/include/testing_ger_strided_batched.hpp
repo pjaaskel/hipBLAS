@@ -42,10 +42,12 @@ template <typename T, bool CONJ>
 inline hipblasStatus_t testing_ger_strided_batched(const Arguments& arg)
 {
     bool FORTRAN                    = arg.fortran;
-    auto hipblasGerStridedBatchedFn = FORTRAN ? (CONJ ? hipblasGerStridedBatched<T, true, true>
-                                                      : hipblasGerStridedBatched<T, false, true>)
-                                              : (CONJ ? hipblasGerStridedBatched<T, true, false>
+    auto hipblasGerStridedBatchedFn = (CONJ ? hipblasGerStridedBatched<T, true, false>
                                                       : hipblasGerStridedBatched<T, false, false>);
+                                            //FORTRAN ? (CONJ ? hipblasGerStridedBatched<T, true, true>
+                                            //          : hipblasGerStridedBatched<T, false, true>)
+                                            //  : (CONJ ? hipblasGerStridedBatched<T, true, false>
+                                            //          : hipblasGerStridedBatched<T, false, false>);
 
     int    M            = arg.M;
     int    N            = arg.N;

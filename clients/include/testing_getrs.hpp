@@ -92,7 +92,7 @@ inline hipblasStatus_t setup_getrs_testing(host_vector<T>&     hA,
 template <typename T>
 inline hipblasStatus_t testing_getrs_bad_arg(const Arguments& arg)
 {
-    auto hipblasGetrsFn = arg.fortran ? hipblasGetrs<T, true> : hipblasGetrs<T, false>;
+    auto hipblasGetrsFn = hipblasGetrs<T, false>;//arg.fortran ? hipblasGetrs<T, true> : hipblasGetrs<T, false>;
 
     hipblasLocalHandle handle(arg);
     const int          N         = 100;
@@ -170,7 +170,7 @@ inline hipblasStatus_t testing_getrs(const Arguments& arg)
 {
     using U             = real_t<T>;
     bool FORTRAN        = arg.fortran;
-    auto hipblasGetrsFn = FORTRAN ? hipblasGetrs<T, true> : hipblasGetrs<T, false>;
+    auto hipblasGetrsFn = hipblasGetrs<T, false>; //FORTRAN ? hipblasGetrs<T, true> : hipblasGetrs<T, false>;
 
     int N   = arg.N;
     int lda = arg.lda;

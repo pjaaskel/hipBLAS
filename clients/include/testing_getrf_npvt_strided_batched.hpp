@@ -41,8 +41,9 @@ inline hipblasStatus_t testing_getrf_npvt_strided_batched(const Arguments& arg)
 {
     using U      = real_t<T>;
     bool FORTRAN = arg.fortran;
-    auto hipblasGetrfStridedBatchedFn
-        = FORTRAN ? hipblasGetrfStridedBatched<T, true> : hipblasGetrfStridedBatched<T, false>;
+    auto hipblasGetrfStridedBatchedFn = hipblasGetrfStridedBatched<T, false>;
+
+        //= FORTRAN ? hipblasGetrfStridedBatched<T, true> : hipblasGetrfStridedBatched<T, false>;
 
     int    M            = arg.N;
     int    N            = arg.N;

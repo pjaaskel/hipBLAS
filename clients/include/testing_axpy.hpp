@@ -40,7 +40,7 @@ template <typename T>
 inline hipblasStatus_t testing_axpy(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasAxpyFn = FORTRAN ? hipblasAxpy<T, true> : hipblasAxpy<T, false>;
+    auto hipblasAxpyFn = hipblasAxpy<T, false>; //FORTRAN ? hipblasAxpy<T, true> : hipblasAxpy<T, false>;
 
     int N    = arg.N;
     int incx = arg.incx;

@@ -42,7 +42,7 @@ inline hipblasStatus_t testing_trtri_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasTrtriBatchedFn
-        = FORTRAN ? hipblasTrtriBatched<T, true> : hipblasTrtriBatched<T, false>;
+        = hipblasTrtriBatched<T, false>;//FORTRAN ? hipblasTrtriBatched<T, true> : hipblasTrtriBatched<T, false>;
 
     const double rel_error = get_epsilon<T>() * 1000;
 

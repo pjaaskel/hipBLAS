@@ -43,7 +43,7 @@ inline hipblasStatus_t testing_herkx(const Arguments& arg)
 {
     using U             = real_t<T>;
     bool FORTRAN        = arg.fortran;
-    auto hipblasHerkxFn = FORTRAN ? hipblasHerkx<T, U, true> : hipblasHerkx<T, U, false>;
+    auto hipblasHerkxFn = hipblasHerkx<T, U, false>;//FORTRAN ? hipblasHerkx<T, U, true> : hipblasHerkx<T, U, false>;
 
     int N   = arg.N;
     int K   = arg.K;

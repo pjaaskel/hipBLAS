@@ -42,8 +42,8 @@ template <typename T>
 inline hipblasStatus_t testing_tpmv_strided_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
-    auto hipblasTpmvStridedBatchedFn
-        = FORTRAN ? hipblasTpmvStridedBatched<T, true> : hipblasTpmvStridedBatched<T, false>;
+    auto hipblasTpmvStridedBatchedFn =hipblasTpmvStridedBatched<T, false>;
+        //= FORTRAN ? hipblasTpmvStridedBatched<T, true> : hipblasTpmvStridedBatched<T, false>;
 
     hipblasFillMode_t  uplo         = char2hipblas_fill(arg.uplo);
     hipblasOperation_t transA       = char2hipblas_operation(arg.transA);

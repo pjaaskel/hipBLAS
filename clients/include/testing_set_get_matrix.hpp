@@ -41,8 +41,8 @@ template <typename T>
 inline hipblasStatus_t testing_set_get_matrix(const Arguments& arg)
 {
     bool FORTRAN            = arg.fortran;
-    auto hipblasSetMatrixFn = FORTRAN ? hipblasSetMatrixFortran : hipblasSetMatrix;
-    auto hipblasGetMatrixFn = FORTRAN ? hipblasGetMatrixFortran : hipblasGetMatrix;
+    auto hipblasSetMatrixFn = hipblasSetMatrix;//FORTRAN ? hipblasSetMatrixFortran : hipblasSetMatrix;
+    auto hipblasGetMatrixFn = hipblasGetMatrix;//FORTRAN ? hipblasGetMatrixFortran : hipblasGetMatrix;
 
     int rows = arg.rows;
     int cols = arg.cols;

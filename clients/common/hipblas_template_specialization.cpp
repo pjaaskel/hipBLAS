@@ -26,7 +26,7 @@
 #include "hipblas.hpp"
 
 #ifndef WIN32
-#include "hipblas_fortran.hpp"
+#include "hipblas_no_fortran.hpp"
 #else
 #include "hipblas_no_fortran.hpp"
 #endif
@@ -53,7 +53,8 @@ hipblasStatus_t hipblasAxpy<hipblasHalf>(hipblasHandle_t    handle,
                                          hipblasHalf*       y,
                                          int                incy)
 {
-    return hipblasHaxpy(handle, n, alpha, x, incx, y, incy);
+//    return hipblasHaxpy(handle, n, alpha, x, incx, y, incy);
+return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -706,7 +707,8 @@ hipblasStatus_t hipblasDot<hipblasHalf>(hipblasHandle_t    handle,
                                         int                incy,
                                         hipblasHalf*       result)
 {
-    return hipblasHdot(handle, n, x, incx, y, incy, result);
+    //return hipblasHdot(handle, n, x, incx, y, incy, result);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -718,7 +720,8 @@ hipblasStatus_t hipblasDot<hipblasBfloat16>(hipblasHandle_t        handle,
                                             int                    incy,
                                             hipblasBfloat16*       result)
 {
-    return hipblasBfdot(handle, n, x, incx, y, incy, result);
+    //return hipblasBfdot(handle, n, x, incx, y, incy, result);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5217,7 +5220,8 @@ hipblasStatus_t hipblasTrtri<float>(hipblasHandle_t   handle,
                                     float*            invA,
                                     int               ldinvA)
 {
-    return hipblasStrtri(handle, uplo, diag, n, A, lda, invA, ldinvA);
+    //return hipblasStrtri(handle, uplo, diag, n, A, lda, invA, ldinvA);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5230,7 +5234,8 @@ hipblasStatus_t hipblasTrtri<double>(hipblasHandle_t   handle,
                                      double*           invA,
                                      int               ldinvA)
 {
-    return hipblasDtrtri(handle, uplo, diag, n, A, lda, invA, ldinvA);
+    //return hipblasDtrtri(handle, uplo, diag, n, A, lda, invA, ldinvA);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5243,7 +5248,8 @@ hipblasStatus_t hipblasTrtri<hipblasComplex>(hipblasHandle_t   handle,
                                              hipblasComplex*   invA,
                                              int               ldinvA)
 {
-    return hipblasCtrtri(handle, uplo, diag, n, A, lda, invA, ldinvA);
+    //return hipblasCtrtri(handle, uplo, diag, n, A, lda, invA, ldinvA);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5256,7 +5262,8 @@ hipblasStatus_t hipblasTrtri<hipblasDoubleComplex>(hipblasHandle_t       handle,
                                                    hipblasDoubleComplex* invA,
                                                    int                   ldinvA)
 {
-    return hipblasZtrtri(handle, uplo, diag, n, A, lda, invA, ldinvA);
+    //return hipblasZtrtri(handle, uplo, diag, n, A, lda, invA, ldinvA);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 // trtri_batched
@@ -5271,7 +5278,8 @@ hipblasStatus_t hipblasTrtriBatched<float>(hipblasHandle_t   handle,
                                            int               ldinvA,
                                            int               batch_count)
 {
-    return hipblasStrtriBatched(handle, uplo, diag, n, A, lda, invA, ldinvA, batch_count);
+    //return hipblasStrtriBatched(handle, uplo, diag, n, A, lda, invA, ldinvA, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5285,7 +5293,8 @@ hipblasStatus_t hipblasTrtriBatched<double>(hipblasHandle_t   handle,
                                             int               ldinvA,
                                             int               batch_count)
 {
-    return hipblasDtrtriBatched(handle, uplo, diag, n, A, lda, invA, ldinvA, batch_count);
+    //return hipblasDtrtriBatched(handle, uplo, diag, n, A, lda, invA, ldinvA, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5299,7 +5308,8 @@ hipblasStatus_t hipblasTrtriBatched<hipblasComplex>(hipblasHandle_t   handle,
                                                     int               ldinvA,
                                                     int               batch_count)
 {
-    return hipblasCtrtriBatched(handle, uplo, diag, n, A, lda, invA, ldinvA, batch_count);
+    //return hipblasCtrtriBatched(handle, uplo, diag, n, A, lda, invA, ldinvA, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5313,7 +5323,8 @@ hipblasStatus_t hipblasTrtriBatched<hipblasDoubleComplex>(hipblasHandle_t       
                                                           int                   ldinvA,
                                                           int                   batch_count)
 {
-    return hipblasZtrtriBatched(handle, uplo, diag, n, A, lda, invA, ldinvA, batch_count);
+    //return hipblasZtrtriBatched(handle, uplo, diag, n, A, lda, invA, ldinvA, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 // trtri_strided_batched
@@ -5330,8 +5341,9 @@ hipblasStatus_t hipblasTrtriStridedBatched<float>(hipblasHandle_t   handle,
                                                   hipblasStride     stride_invA,
                                                   int               batch_count)
 {
-    return hipblasStrtriStridedBatched(
-        handle, uplo, diag, n, A, lda, stride_A, invA, ldinvA, stride_invA, batch_count);
+    //return hipblasStrtriStridedBatched(
+    //    handle, uplo, diag, n, A, lda, stride_A, invA, ldinvA, stride_invA, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5347,8 +5359,9 @@ hipblasStatus_t hipblasTrtriStridedBatched<double>(hipblasHandle_t   handle,
                                                    hipblasStride     stride_invA,
                                                    int               batch_count)
 {
-    return hipblasDtrtriStridedBatched(
-        handle, uplo, diag, n, A, lda, stride_A, invA, ldinvA, stride_invA, batch_count);
+    //return hipblasDtrtriStridedBatched(
+    //    handle, uplo, diag, n, A, lda, stride_A, invA, ldinvA, stride_invA, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5364,8 +5377,9 @@ hipblasStatus_t hipblasTrtriStridedBatched<hipblasComplex>(hipblasHandle_t   han
                                                            hipblasStride     stride_invA,
                                                            int               batch_count)
 {
-    return hipblasCtrtriStridedBatched(
-        handle, uplo, diag, n, A, lda, stride_A, invA, ldinvA, stride_invA, batch_count);
+    //return hipblasCtrtriStridedBatched(
+    //    handle, uplo, diag, n, A, lda, stride_A, invA, ldinvA, stride_invA, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5381,8 +5395,9 @@ hipblasStatus_t hipblasTrtriStridedBatched<hipblasDoubleComplex>(hipblasHandle_t
                                                                  hipblasStride         stride_invA,
                                                                  int                   batch_count)
 {
-    return hipblasZtrtriStridedBatched(
-        handle, uplo, diag, n, A, lda, stride_A, invA, ldinvA, stride_invA, batch_count);
+    //return hipblasZtrtriStridedBatched(
+    //    handle, uplo, diag, n, A, lda, stride_A, invA, ldinvA, stride_invA, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 // dgmm
@@ -5398,7 +5413,8 @@ hipblasStatus_t hipblasDgmm(hipblasHandle_t   handle,
                             float*            C,
                             int               ldc)
 {
-    return hipblasSdgmm(handle, side, m, n, A, lda, x, incx, C, ldc);
+    //return hipblasSdgmm(handle, side, m, n, A, lda, x, incx, C, ldc);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5413,7 +5429,8 @@ hipblasStatus_t hipblasDgmm(hipblasHandle_t   handle,
                             double*           C,
                             int               ldc)
 {
-    return hipblasDdgmm(handle, side, m, n, A, lda, x, incx, C, ldc);
+    //return hipblasDdgmm(handle, side, m, n, A, lda, x, incx, C, ldc);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5428,7 +5445,8 @@ hipblasStatus_t hipblasDgmm(hipblasHandle_t       handle,
                             hipblasComplex*       C,
                             int                   ldc)
 {
-    return hipblasCdgmm(handle, side, m, n, A, lda, x, incx, C, ldc);
+    //return hipblasCdgmm(handle, side, m, n, A, lda, x, incx, C, ldc);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5443,7 +5461,8 @@ hipblasStatus_t hipblasDgmm(hipblasHandle_t             handle,
                             hipblasDoubleComplex*       C,
                             int                         ldc)
 {
-    return hipblasZdgmm(handle, side, m, n, A, lda, x, incx, C, ldc);
+    //return hipblasZdgmm(handle, side, m, n, A, lda, x, incx, C, ldc);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 // dgmm_batched
@@ -5460,7 +5479,8 @@ hipblasStatus_t hipblasDgmmBatched(hipblasHandle_t    handle,
                                    int                ldc,
                                    int                batch_count)
 {
-    return hipblasSdgmmBatched(handle, side, m, n, A, lda, x, incx, C, ldc, batch_count);
+    //return hipblasSdgmmBatched(handle, side, m, n, A, lda, x, incx, C, ldc, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5476,7 +5496,8 @@ hipblasStatus_t hipblasDgmmBatched(hipblasHandle_t     handle,
                                    int                 ldc,
                                    int                 batch_count)
 {
-    return hipblasDdgmmBatched(handle, side, m, n, A, lda, x, incx, C, ldc, batch_count);
+    //return hipblasDdgmmBatched(handle, side, m, n, A, lda, x, incx, C, ldc, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5492,7 +5513,8 @@ hipblasStatus_t hipblasDgmmBatched(hipblasHandle_t             handle,
                                    int                         ldc,
                                    int                         batch_count)
 {
-    return hipblasCdgmmBatched(handle, side, m, n, A, lda, x, incx, C, ldc, batch_count);
+    //return hipblasCdgmmBatched(handle, side, m, n, A, lda, x, incx, C, ldc, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -5508,7 +5530,8 @@ hipblasStatus_t hipblasDgmmBatched(hipblasHandle_t                   handle,
                                    int                               ldc,
                                    int                               batch_count)
 {
-    return hipblasZdgmmBatched(handle, side, m, n, A, lda, x, incx, C, ldc, batch_count);
+    //return hipblasZdgmmBatched(handle, side, m, n, A, lda, x, incx, C, ldc, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 // dgmm_strided_batched
@@ -5528,8 +5551,9 @@ hipblasStatus_t hipblasDgmmStridedBatched(hipblasHandle_t   handle,
                                           hipblasStride     stride_C,
                                           int               batch_count)
 {
-    return hipblasSdgmmStridedBatched(
-        handle, side, m, n, A, lda, stride_A, x, incx, stride_x, C, ldc, stride_C, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasSdgmmStridedBatched(
+    //    handle, side, m, n, A, lda, stride_A, x, incx, stride_x, C, ldc, stride_C, batch_count);
 }
 
 template <>
@@ -5548,8 +5572,9 @@ hipblasStatus_t hipblasDgmmStridedBatched(hipblasHandle_t   handle,
                                           hipblasStride     stride_C,
                                           int               batch_count)
 {
-    return hipblasDdgmmStridedBatched(
-        handle, side, m, n, A, lda, stride_A, x, incx, stride_x, C, ldc, stride_C, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasDdgmmStridedBatched(
+    //    handle, side, m, n, A, lda, stride_A, x, incx, stride_x, C, ldc, stride_C, batch_count);
 }
 
 template <>
@@ -5568,8 +5593,9 @@ hipblasStatus_t hipblasDgmmStridedBatched(hipblasHandle_t       handle,
                                           hipblasStride         stride_C,
                                           int                   batch_count)
 {
-    return hipblasCdgmmStridedBatched(
-        handle, side, m, n, A, lda, stride_A, x, incx, stride_x, C, ldc, stride_C, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasCdgmmStridedBatched(
+    //    handle, side, m, n, A, lda, stride_A, x, incx, stride_x, C, ldc, stride_C, batch_count);
 }
 
 template <>
@@ -5588,8 +5614,9 @@ hipblasStatus_t hipblasDgmmStridedBatched(hipblasHandle_t             handle,
                                           hipblasStride               stride_C,
                                           int                         batch_count)
 {
-    return hipblasZdgmmStridedBatched(
-        handle, side, m, n, A, lda, stride_A, x, incx, stride_x, C, ldc, stride_C, batch_count);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasZdgmmStridedBatched(
+    //    handle, side, m, n, A, lda, stride_A, x, incx, stride_x, C, ldc, stride_C, batch_count);
 }
 
 // gemm
@@ -7264,7 +7291,8 @@ hipblasStatus_t hipblasSyrkx(hipblasHandle_t    handle,
                              float*             C,
                              int                ldc)
 {
-    return hipblasSsyrkx(handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasSsyrkx(handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
 }
 
 template <>
@@ -7282,7 +7310,8 @@ hipblasStatus_t hipblasSyrkx(hipblasHandle_t    handle,
                              double*            C,
                              int                ldc)
 {
-    return hipblasDsyrkx(handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasDsyrkx(handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
 }
 
 template <>
@@ -7300,7 +7329,8 @@ hipblasStatus_t hipblasSyrkx(hipblasHandle_t       handle,
                              hipblasComplex*       C,
                              int                   ldc)
 {
-    return hipblasCsyrkx(handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasCsyrkx(handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
 }
 
 template <>
@@ -7318,7 +7348,8 @@ hipblasStatus_t hipblasSyrkx(hipblasHandle_t             handle,
                              hipblasDoubleComplex*       C,
                              int                         ldc)
 {
-    return hipblasZsyrkx(handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasZsyrkx(handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
 }
 
 // syrkx_batched
@@ -7338,8 +7369,9 @@ hipblasStatus_t hipblasSyrkxBatched(hipblasHandle_t    handle,
                                     int                ldc,
                                     int                batchCount)
 {
-    return hipblasSsyrkxBatched(
-        handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc, batchCount);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasSsyrkxBatched(
+    //    handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc, batchCount);
 }
 
 template <>
@@ -7358,8 +7390,9 @@ hipblasStatus_t hipblasSyrkxBatched(hipblasHandle_t     handle,
                                     int                 ldc,
                                     int                 batchCount)
 {
-    return hipblasDsyrkxBatched(
-        handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc, batchCount);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasDsyrkxBatched(
+    //    handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc, batchCount);
 }
 
 template <>
@@ -7378,8 +7411,9 @@ hipblasStatus_t hipblasSyrkxBatched(hipblasHandle_t             handle,
                                     int                         ldc,
                                     int                         batchCount)
 {
-    return hipblasCsyrkxBatched(
-        handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc, batchCount);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasCsyrkxBatched(
+    //    handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc, batchCount);
 }
 
 template <>
@@ -7398,8 +7432,9 @@ hipblasStatus_t hipblasSyrkxBatched(hipblasHandle_t                   handle,
                                     int                               ldc,
                                     int                               batchCount)
 {
-    return hipblasZsyrkxBatched(
-        handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc, batchCount);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasZsyrkxBatched(
+    //    handle, uplo, transA, n, k, alpha, A, lda, B, ldb, beta, C, ldc, batchCount);
 }
 
 // syrkx_strided_batched
@@ -7422,7 +7457,8 @@ hipblasStatus_t hipblasSyrkxStridedBatched(hipblasHandle_t    handle,
                                            hipblasStride      strideC,
                                            int                batchCount)
 {
-    return hipblasSsyrkxStridedBatched(handle,
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    /*return hipblasSsyrkxStridedBatched(handle,
                                        uplo,
                                        transA,
                                        n,
@@ -7438,7 +7474,7 @@ hipblasStatus_t hipblasSyrkxStridedBatched(hipblasHandle_t    handle,
                                        C,
                                        ldc,
                                        strideC,
-                                       batchCount);
+                                       batchCount);*/
 }
 
 template <>
@@ -7460,7 +7496,8 @@ hipblasStatus_t hipblasSyrkxStridedBatched(hipblasHandle_t    handle,
                                            hipblasStride      strideC,
                                            int                batchCount)
 {
-    return hipblasDsyrkxStridedBatched(handle,
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    /*return hipblasDsyrkxStridedBatched(handle,
                                        uplo,
                                        transA,
                                        n,
@@ -7476,7 +7513,7 @@ hipblasStatus_t hipblasSyrkxStridedBatched(hipblasHandle_t    handle,
                                        C,
                                        ldc,
                                        strideC,
-                                       batchCount);
+                                       batchCount);*/
 }
 
 template <>
@@ -7498,7 +7535,8 @@ hipblasStatus_t hipblasSyrkxStridedBatched(hipblasHandle_t       handle,
                                            hipblasStride         strideC,
                                            int                   batchCount)
 {
-    return hipblasCsyrkxStridedBatched(handle,
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    /*return hipblasCsyrkxStridedBatched(handle,
                                        uplo,
                                        transA,
                                        n,
@@ -7514,7 +7552,7 @@ hipblasStatus_t hipblasSyrkxStridedBatched(hipblasHandle_t       handle,
                                        C,
                                        ldc,
                                        strideC,
-                                       batchCount);
+                                       batchCount);*/
 }
 
 template <>
@@ -7536,7 +7574,8 @@ hipblasStatus_t hipblasSyrkxStridedBatched(hipblasHandle_t             handle,
                                            hipblasStride               strideC,
                                            int                         batchCount)
 {
-    return hipblasZsyrkxStridedBatched(handle,
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    /*return hipblasZsyrkxStridedBatched(handle,
                                        uplo,
                                        transA,
                                        n,
@@ -7552,7 +7591,7 @@ hipblasStatus_t hipblasSyrkxStridedBatched(hipblasHandle_t             handle,
                                        C,
                                        ldc,
                                        strideC,
-                                       batchCount);
+                                       batchCount);*/
 }
 
 // hemm
@@ -9247,7 +9286,8 @@ hipblasStatus_t hipblasGeam<float>(hipblasHandle_t    handle,
                                    float*             C,
                                    int                ldc)
 {
-    return hipblasSgeam(handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasSgeam(handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc);
 }
 
 template <>
@@ -9265,7 +9305,8 @@ hipblasStatus_t hipblasGeam<double>(hipblasHandle_t    handle,
                                     double*            C,
                                     int                ldc)
 {
-    return hipblasDgeam(handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasDgeam(handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc);
 }
 
 template <>
@@ -9283,7 +9324,8 @@ hipblasStatus_t hipblasGeam(hipblasHandle_t       handle,
                             hipblasComplex*       C,
                             int                   ldc)
 {
-    return hipblasCgeam(handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasCgeam(handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc);
 }
 
 template <>
@@ -9301,7 +9343,8 @@ hipblasStatus_t hipblasGeam(hipblasHandle_t             handle,
                             hipblasDoubleComplex*       C,
                             int                         ldc)
 {
-    return hipblasZgeam(handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasZgeam(handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc);
 }
 
 // geam_batched
@@ -9321,8 +9364,9 @@ hipblasStatus_t hipblasGeamBatched(hipblasHandle_t    handle,
                                    int                ldc,
                                    int                batchCount)
 {
-    return hipblasSgeamBatched(
-        handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc, batchCount);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasSgeamBatched(
+    //    handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc, batchCount);
 }
 
 template <>
@@ -9341,8 +9385,9 @@ hipblasStatus_t hipblasGeamBatched(hipblasHandle_t     handle,
                                    int                 ldc,
                                    int                 batchCount)
 {
-    return hipblasDgeamBatched(
-        handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc, batchCount);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasDgeamBatched(
+    //    handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc, batchCount);
 }
 
 template <>
@@ -9361,8 +9406,9 @@ hipblasStatus_t hipblasGeamBatched(hipblasHandle_t             handle,
                                    int                         ldc,
                                    int                         batchCount)
 {
-    return hipblasCgeamBatched(
-        handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc, batchCount);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasCgeamBatched(
+    //    handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc, batchCount);
 }
 
 template <>
@@ -9381,8 +9427,9 @@ hipblasStatus_t hipblasGeamBatched(hipblasHandle_t                   handle,
                                    int                               ldc,
                                    int                               batchCount)
 {
-    return hipblasZgeamBatched(
-        handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc, batchCount);
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    //return hipblasZgeamBatched(
+    //    handle, transA, transB, m, n, alpha, A, lda, beta, B, ldb, C, ldc, batchCount);
 }
 
 // geam_strided_batched
@@ -9405,7 +9452,8 @@ hipblasStatus_t hipblasGeamStridedBatched(hipblasHandle_t    handle,
                                           hipblasStride      strideC,
                                           int                batchCount)
 {
-    return hipblasSgeamStridedBatched(handle,
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    /*return hipblasSgeamStridedBatched(handle,
                                       transA,
                                       transB,
                                       m,
@@ -9421,7 +9469,7 @@ hipblasStatus_t hipblasGeamStridedBatched(hipblasHandle_t    handle,
                                       C,
                                       ldc,
                                       strideC,
-                                      batchCount);
+                                      batchCount);*/
 }
 
 template <>
@@ -9443,7 +9491,8 @@ hipblasStatus_t hipblasGeamStridedBatched(hipblasHandle_t    handle,
                                           hipblasStride      strideC,
                                           int                batchCount)
 {
-    return hipblasDgeamStridedBatched(handle,
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    /*return hipblasDgeamStridedBatched(handle,
                                       transA,
                                       transB,
                                       m,
@@ -9459,7 +9508,7 @@ hipblasStatus_t hipblasGeamStridedBatched(hipblasHandle_t    handle,
                                       C,
                                       ldc,
                                       strideC,
-                                      batchCount);
+                                      batchCount);*/
 }
 
 template <>
@@ -9481,7 +9530,7 @@ hipblasStatus_t hipblasGeamStridedBatched(hipblasHandle_t       handle,
                                           hipblasStride         strideC,
                                           int                   batchCount)
 {
-    return hipblasCgeamStridedBatched(handle,
+    /*return hipblasCgeamStridedBatched(handle,
                                       transA,
                                       transB,
                                       m,
@@ -9497,7 +9546,8 @@ hipblasStatus_t hipblasGeamStridedBatched(hipblasHandle_t       handle,
                                       C,
                                       ldc,
                                       strideC,
-                                      batchCount);
+                                      batchCount);*/
+    return HIPBLAS_STATUS_NOT_SUPPORTED;
 }
 
 template <>
@@ -9519,7 +9569,7 @@ hipblasStatus_t hipblasGeamStridedBatched(hipblasHandle_t             handle,
                                           hipblasStride               strideC,
                                           int                         batchCount)
 {
-    return hipblasZgeamStridedBatched(handle,
+    /*return hipblasZgeamStridedBatched(handle,
                                       transA,
                                       transB,
                                       m,
@@ -9535,7 +9585,8 @@ hipblasStatus_t hipblasGeamStridedBatched(hipblasHandle_t             handle,
                                       C,
                                       ldc,
                                       strideC,
-                                      batchCount);
+                                      batchCount);*/
+       return HIPBLAS_STATUS_NOT_SUPPORTED;                               
 }
 
 #ifdef __HIP_PLATFORM_SOLVER__
@@ -10334,6 +10385,7 @@ hipblasStatus_t hipblasGelsStridedBatched<hipblasDoubleComplex>(hipblasHandle_t 
 /////////////
 // FORTRAN //
 /////////////
+#if 0 // disable fortran
 // axpy
 template <>
 hipblasStatus_t hipblasAxpy<hipblasHalf, true>(hipblasHandle_t    handle,
@@ -20734,5 +20786,5 @@ hipblasStatus_t hipblasGelsStridedBatched<hipblasDoubleComplex, true>(hipblasHan
     return hipblasZgelsStridedBatchedFortran(
         handle, trans, m, n, nrhs, A, lda, strideA, B, ldb, strideB, info, deviceInfo, batchCount);
 }
-
+#endif // fortran disable
 #endif

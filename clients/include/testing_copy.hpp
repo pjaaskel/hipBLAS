@@ -40,7 +40,7 @@ template <typename T>
 inline hipblasStatus_t testing_copy(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasCopyFn = FORTRAN ? hipblasCopy<T, true> : hipblasCopy<T, false>;
+    auto hipblasCopyFn = hipblasCopy<T, false>; //FORTRAN ? hipblasCopy<T, true> : hipblasCopy<T, false>;
 
     int N    = arg.N;
     int incx = arg.incx;

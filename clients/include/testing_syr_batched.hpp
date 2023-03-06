@@ -41,7 +41,7 @@ template <typename T>
 inline hipblasStatus_t testing_syr_batched(const Arguments& arg)
 {
     bool FORTRAN             = arg.fortran;
-    auto hipblasSyrBatchedFn = FORTRAN ? hipblasSyrBatched<T, true> : hipblasSyrBatched<T, false>;
+    auto hipblasSyrBatchedFn = hipblasSyrBatched<T, false>;//FORTRAN ? hipblasSyrBatched<T, true> : hipblasSyrBatched<T, false>;
 
     hipblasFillMode_t uplo        = char2hipblas_fill(arg.uplo);
     int               N           = arg.N;

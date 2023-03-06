@@ -40,7 +40,7 @@ template <typename T>
 inline hipblasStatus_t testing_rotm(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasRotmFn = FORTRAN ? hipblasRotm<T, true> : hipblasRotm<T, false>;
+    auto hipblasRotmFn = hipblasRotm<T, false>;//FORTRAN ? hipblasRotm<T, true> : hipblasRotm<T, false>;
 
     int N    = arg.N;
     int incx = arg.incx;

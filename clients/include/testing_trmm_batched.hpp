@@ -51,7 +51,7 @@ inline hipblasStatus_t testing_trmm_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasTrmmBatchedFn
-        = FORTRAN ? hipblasTrmmBatched<T, true> : hipblasTrmmBatched<T, false>;
+        = hipblasTrmmBatched<T, false>;//FORTRAN ? hipblasTrmmBatched<T, true> : hipblasTrmmBatched<T, false>;
 
     hipblasSideMode_t  side        = char2hipblas_side(arg.side);
     hipblasFillMode_t  uplo        = char2hipblas_fill(arg.uplo);

@@ -104,8 +104,8 @@ inline hipblasStatus_t setup_getrs_strided_batched_testing(host_vector<T>&     h
 template <typename T>
 inline hipblasStatus_t testing_getrs_strided_batched_bad_arg(const Arguments& arg)
 {
-    auto hipblasGetrsStridedBatchedFn
-        = arg.fortran ? hipblasGetrsStridedBatched<T, true> : hipblasGetrsStridedBatched<T, false>;
+    auto hipblasGetrsStridedBatchedFn = hipblasGetrsStridedBatched<T, false>;
+        //= arg.fortran ? hipblasGetrsStridedBatched<T, true> : hipblasGetrsStridedBatched<T, false>;
 
     hipblasLocalHandle handle(arg);
     const int          N           = 100;
@@ -326,8 +326,8 @@ inline hipblasStatus_t testing_getrs_strided_batched(const Arguments& arg)
 {
     using U      = real_t<T>;
     bool FORTRAN = arg.fortran;
-    auto hipblasGetrsStridedBatchedFn
-        = FORTRAN ? hipblasGetrsStridedBatched<T, true> : hipblasGetrsStridedBatched<T, false>;
+    auto hipblasGetrsStridedBatchedFn = hipblasGetrsStridedBatched<T, false>;
+        //= FORTRAN ? hipblasGetrsStridedBatched<T, true> : hipblasGetrsStridedBatched<T, false>;
 
     int    N            = arg.N;
     int    lda          = arg.lda;

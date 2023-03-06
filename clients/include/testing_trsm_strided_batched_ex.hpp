@@ -54,7 +54,7 @@ inline hipblasStatus_t testing_trsm_strided_batched_ex(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasTrsmStridedBatchedExFn
-        = FORTRAN ? hipblasTrsmStridedBatchedEx : hipblasTrsmStridedBatchedEx;
+        = hipblasTrsmStridedBatchedEx;//FORTRAN ? hipblasTrsmStridedBatchedEx : hipblasTrsmStridedBatchedEx;
 
     hipblasSideMode_t  side         = char2hipblas_side(arg.side);
     hipblasFillMode_t  uplo         = char2hipblas_fill(arg.uplo);

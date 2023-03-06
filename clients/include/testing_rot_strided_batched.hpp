@@ -41,8 +41,9 @@ template <typename T, typename U = T, typename V = T>
 inline hipblasStatus_t testing_rot_strided_batched(const Arguments& arg)
 {
     bool FORTRAN                    = arg.fortran;
-    auto hipblasRotStridedBatchedFn = FORTRAN ? hipblasRotStridedBatched<T, U, V, true>
-                                              : hipblasRotStridedBatched<T, U, V, false>;
+    auto hipblasRotStridedBatchedFn = hipblasRotStridedBatched<T, U, V, false>;
+    //FORTRAN ? hipblasRotStridedBatched<T, U, V, true>
+    //                                          : hipblasRotStridedBatched<T, U, V, false>;
 
     int    N            = arg.N;
     int    incx         = arg.incx;

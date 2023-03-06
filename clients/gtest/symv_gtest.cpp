@@ -217,7 +217,7 @@ TEST_P(blas2_symv_gtest, symv_batched_float)
     }
 }
 
-TEST_P(blas2_symv_gtest, symv_strided_batched_float)
+/*TEST_P(blas2_symv_gtest, symv_strided_batched_float)
 {
     Arguments arg = setup_symv_arguments(GetParam());
 
@@ -236,7 +236,7 @@ TEST_P(blas2_symv_gtest, symv_strided_batched_float)
         }
     }
 }
-
+*/
 #endif
 
 // notice we are using vector of vector

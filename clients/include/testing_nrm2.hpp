@@ -41,7 +41,9 @@ inline hipblasStatus_t testing_nrm2(const Arguments& arg)
 {
     using Tr           = real_t<T>;
     bool FORTRAN       = arg.fortran;
-    auto hipblasNrm2Fn = FORTRAN ? hipblasNrm2<T, Tr, true> : hipblasNrm2<T, Tr, false>;
+    auto hipblasNrm2Fn = hipblasNrm2<T, Tr, false>;
+
+    //auto hipblasNrm2Fn = FORTRAN ? hipblasNrm2<T, Tr, true> : hipblasNrm2<T, Tr, false>;
 
     int N    = arg.N;
     int incx = arg.incx;

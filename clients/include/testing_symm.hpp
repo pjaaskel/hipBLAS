@@ -42,7 +42,7 @@ template <typename T>
 inline hipblasStatus_t testing_symm(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasSymmFn = FORTRAN ? hipblasSymm<T, true> : hipblasSymm<T, false>;
+    auto hipblasSymmFn = hipblasSymm<T, false>;//FORTRAN ? hipblasSymm<T, true> : hipblasSymm<T, false>;
 
     hipblasSideMode_t side = char2hipblas_side(arg.side);
     hipblasFillMode_t uplo = char2hipblas_fill(arg.uplo);

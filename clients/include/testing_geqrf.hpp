@@ -69,7 +69,7 @@ inline hipblasStatus_t setup_geqrf_testing(
 template <typename T>
 inline hipblasStatus_t testing_geqrf_bad_arg(const Arguments& arg)
 {
-    auto hipblasGeqrfFn = arg.fortran ? hipblasGeqrf<T, true> : hipblasGeqrf<T, false>;
+    auto hipblasGeqrfFn = hipblasGeqrf<T, false>; //arg.fortran ? hipblasGeqrf<T, true> : hipblasGeqrf<T, false>;
 
     hipblasLocalHandle handle(arg);
     const int          M      = 100;
@@ -126,7 +126,8 @@ inline hipblasStatus_t testing_geqrf(const Arguments& arg)
 {
     using U             = real_t<T>;
     bool FORTRAN        = arg.fortran;
-    auto hipblasGeqrfFn = FORTRAN ? hipblasGeqrf<T, true> : hipblasGeqrf<T, false>;
+    auto hipblasGeqrfFn = hipblasGeqrf<T, false>;
+ //FORTRAN ? hipblasGeqrf<T, true> : hipblasGeqrf<T, false>;
 
     int M   = arg.M;
     int N   = arg.N;

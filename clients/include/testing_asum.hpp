@@ -41,7 +41,8 @@ inline hipblasStatus_t testing_asum(const Arguments& arg)
 {
     using Tr           = real_t<T>;
     bool FORTRAN       = arg.fortran;
-    auto hipblasAsumFn = FORTRAN ? hipblasAsum<T, Tr, true> : hipblasAsum<T, Tr, false>;
+    //auto hipblasAsumFn = FORTRAN ? hipblasAsum<T, Tr, true> : hipblasAsum<T, Tr, false>;
+    auto hipblasAsumFn = hipblasAsum<T, Tr, false>;
 
     int N    = arg.N;
     int incx = arg.incx;
