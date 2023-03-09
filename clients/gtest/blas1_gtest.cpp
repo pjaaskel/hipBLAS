@@ -21,6 +21,8 @@
  *
  * ************************************************************************ */
 
+#define __HIP_PLATFORM_ONEAPI__ 1
+
 #include "testing_asum.hpp"
 #include "testing_asum_batched.hpp"
 #include "testing_asum_strided_batched.hpp"
@@ -68,7 +70,7 @@ using ::testing::TestWithParam;
 using ::testing::Values;
 using ::testing::ValuesIn;
 
-#define __HIP_PLATFORM_ONEAPI__ 1
+
 // only GCC/VS 2010 comes with std::tr1::tuple, but it is unnecessary,  std::tuple is good enough;
 typedef std::tuple<int, vector<double>, vector<int>, double, int, bool> blas1_tuple;
 

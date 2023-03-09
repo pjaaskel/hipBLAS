@@ -38,7 +38,7 @@ set(hipblas_test_source
   hipblas_gtest_main.cpp
   auxiliary_gtest.cpp
   blas1_gtest.cpp
-  #set_get_pointer_mode_gtest.cpp
+  set_get_pointer_mode_gtest.cpp
   #set_get_vector_gtest.cpp
   #set_get_matrix_gtest.cpp
   #set_get_atomics_mode_gtest.cpp

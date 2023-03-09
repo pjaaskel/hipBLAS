@@ -122,7 +122,7 @@ hipblasStatus_t syclGetPointerMode(syclblasHandle_t handle, int * mode) {
 }
 
 hipblasStatus_t syclSetPointerMode(syclblasHandle_t handle, int mode) {
-    if (handle == nullptr || mode != host_mode || mode != device_mode) {
+    if (handle == nullptr || (mode != host_mode && mode != device_mode)) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     handle->ptr_mode = (pointerMode)mode;
