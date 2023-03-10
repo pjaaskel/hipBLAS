@@ -4088,7 +4088,7 @@ hipblasStatus_t hipblasSpmvStridedBatched(hipblasHandle_t   handle,
 
 // spr
 template <>
-hipblasStatus_t hipblasSpr<float, true>(hipblasHandle_t   handle,
+hipblasStatus_t hipblasSpr<float>(hipblasHandle_t   handle,
                                         hipblasFillMode_t uplo,
                                         int               n,
                                         const float*      alpha,
@@ -4100,7 +4100,7 @@ hipblasStatus_t hipblasSpr<float, true>(hipblasHandle_t   handle,
 }
 
 template <>
-hipblasStatus_t hipblasSpr<double, true>(hipblasHandle_t   handle,
+hipblasStatus_t hipblasSpr<double>(hipblasHandle_t   handle,
                                          hipblasFillMode_t uplo,
                                          int               n,
                                          const double*     alpha,
@@ -4112,7 +4112,7 @@ hipblasStatus_t hipblasSpr<double, true>(hipblasHandle_t   handle,
 }
 
 template <>
-hipblasStatus_t hipblasSpr<hipblasComplex, true>(hipblasHandle_t       handle,
+hipblasStatus_t hipblasSpr<hipblasComplex>(hipblasHandle_t       handle,
                                                  hipblasFillMode_t     uplo,
                                                  int                   n,
                                                  const hipblasComplex* alpha,
@@ -4124,7 +4124,7 @@ hipblasStatus_t hipblasSpr<hipblasComplex, true>(hipblasHandle_t       handle,
 }
 
 template <>
-hipblasStatus_t hipblasSpr<hipblasDoubleComplex, true>(hipblasHandle_t             handle,
+hipblasStatus_t hipblasSpr<hipblasDoubleComplex>(hipblasHandle_t             handle,
                                                        hipblasFillMode_t           uplo,
                                                        int                         n,
                                                        const hipblasDoubleComplex* alpha,
@@ -4355,7 +4355,7 @@ hipblasStatus_t hipblasSpr2StridedBatched(hipblasHandle_t   handle,
 
 // symv
 template <>
-hipblasStatus_t hipblasSymv<float, true>(hipblasHandle_t   handle,
+hipblasStatus_t hipblasSymv<float>(hipblasHandle_t   handle,
                                          hipblasFillMode_t uplo,
                                          int               n,
                                          const float*      alpha,
@@ -4371,7 +4371,7 @@ hipblasStatus_t hipblasSymv<float, true>(hipblasHandle_t   handle,
 }
 
 template <>
-hipblasStatus_t hipblasSymv<double, true>(hipblasHandle_t   handle,
+hipblasStatus_t hipblasSymv<double>(hipblasHandle_t   handle,
                                           hipblasFillMode_t uplo,
                                           int               n,
                                           const double*     alpha,
@@ -4387,7 +4387,7 @@ hipblasStatus_t hipblasSymv<double, true>(hipblasHandle_t   handle,
 }
 
 template <>
-hipblasStatus_t hipblasSymv<hipblasComplex, true>(hipblasHandle_t       handle,
+hipblasStatus_t hipblasSymv<hipblasComplex>(hipblasHandle_t       handle,
                                                   hipblasFillMode_t     uplo,
                                                   int                   n,
                                                   const hipblasComplex* alpha,
@@ -4403,7 +4403,7 @@ hipblasStatus_t hipblasSymv<hipblasComplex, true>(hipblasHandle_t       handle,
 }
 
 template <>
-hipblasStatus_t hipblasSymv<hipblasDoubleComplex, true>(hipblasHandle_t             handle,
+hipblasStatus_t hipblasSymv<hipblasDoubleComplex>(hipblasHandle_t             handle,
                                                         hipblasFillMode_t           uplo,
                                                         int                         n,
                                                         const hipblasDoubleComplex* alpha,

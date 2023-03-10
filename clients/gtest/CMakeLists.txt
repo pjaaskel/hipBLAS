@@ -28,6 +28,7 @@ find_package( Threads REQUIRED )
 #    enable_language( Fortran )
 #endif()
 
+add_compile_definitions(__HIP_PLATFORM_ONEAPI__)
 if( NOT TARGET hipblas )
   find_package( hipblas REQUIRED CONFIG PATHS /opt/rocm/hipblas )
 endif( )
@@ -37,8 +38,44 @@ find_package( GTest REQUIRED )
 set(hipblas_test_source
   hipblas_gtest_main.cpp
   auxiliary_gtest.cpp
-  blas1_gtest.cpp
   set_get_pointer_mode_gtest.cpp
+  blas1_gtest.cpp
+  gbmv_gtest.cpp
+  gemv_gtest.cpp
+  ger_gtest.cpp
+  hbmv_gtest.cpp
+  hemv_gtest.cpp
+  her_gtest.cpp
+  her2_gtest.cpp
+  hpmv_gtest.cpp
+  hpr_gtest.cpp
+  hpr2_gtest.cpp
+  sbmv_gtest.cpp
+  spmv_gtest.cpp
+  spr_gtest.cpp
+  spr2_gtest.cpp
+  symv_gtest.cpp
+  syr_gtest.cpp
+  syr2_gtest.cpp
+  tbmv_gtest.cpp
+  tbsv_gtest.cpp
+  tpmv_gtest.cpp
+  tpsv_gtest.cpp
+  trmv_gtest.cpp
+  trsv_gtest.cpp
+  dgmm_gtest.cpp
+  gemm_gtest.cpp
+  hemm_gtest.cpp
+  geam_gtest.cpp
+  herk_gtest.cpp
+  her2k_gtest.cpp
+  symm_gtest.cpp
+  syrk_gtest.cpp
+  syr2k_gtest.cpp
+  syrkx_gtest.cpp
+  trsm_gtest.cpp
+  trmm_gtest.cpp
+  trtri_gtest.cpp
   #set_get_vector_gtest.cpp
   #set_get_matrix_gtest.cpp
   #set_get_atomics_mode_gtest.cpp

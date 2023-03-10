@@ -3970,7 +3970,7 @@ hipblasStatus_t hipblasSgbmv(hipblasHandle_t handle, hipblasOperation_t trans,
                               const float* beta, float* y, int incy)
 try{
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        m <= 0 || n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4001,7 +4001,7 @@ hipblasStatus_t hipblasDgbmv(hipblasHandle_t handle, hipblasOperation_t trans,
                               const double* beta, double* y, int incy)
 try{
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        m <= 0 || n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4031,7 +4031,7 @@ hipblasStatus_t hipblasCgbmv(hipblasHandle_t handle, hipblasOperation_t trans,
                               const hipblasComplex* beta, hipblasComplex* y, int incy)
 try{
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        m <= 0 || n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4063,7 +4063,7 @@ hipblasStatus_t hipblasZgbmv(hipblasHandle_t handle, hipblasOperation_t trans,
                               const hipblasDoubleComplex* beta, hipblasDoubleComplex* y, int incy)
 try{
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        m <= 0 || n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4301,7 +4301,7 @@ hipblasStatus_t hipblasSgemv(hipblasHandle_t handle, hipblasOperation_t trans, i
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        m <= 0 || n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4331,7 +4331,7 @@ hipblasStatus_t hipblasDgemv(hipblasHandle_t handle, hipblasOperation_t trans, i
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        m <= 0 || n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4361,7 +4361,7 @@ hipblasStatus_t hipblasCgemv(hipblasHandle_t handle, hipblasOperation_t trans,
                               const hipblasComplex* beta, hipblasComplex* y, int incy)
 try{
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        m <= 0 || n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4393,7 +4393,7 @@ hipblasStatus_t hipblasZgemv(hipblasHandle_t handle, hipblasOperation_t trans,
                               const hipblasDoubleComplex* beta, hipblasDoubleComplex* y, int incy)
 try{
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        m <= 0 || n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4615,7 +4615,7 @@ hipblasStatus_t hipblasSger(hipblasHandle_t handle, int m, int n, const float* a
 try
 {
     if (handle == nullptr || alpha == nullptr || x == nullptr || y == nullptr || AP == nullptr ||
-        m <= 0 || n <= 0 || incx <= 0 || incy <= 0 || lda <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }    
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4641,7 +4641,7 @@ hipblasStatus_t hipblasDger(hipblasHandle_t handle, int m, int n, const double* 
 try
 {
     if (handle == nullptr || alpha == nullptr || x == nullptr || y == nullptr || AP == nullptr ||
-        m <= 0 || n <= 0 || incx <= 0 || incy <= 0 || lda <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }    
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4667,7 +4667,7 @@ hipblasStatus_t hipblasCgerc(hipblasHandle_t handle, int m, int n, const hipblas
 try
 {
     if (handle == nullptr || alpha == nullptr || x == nullptr || y == nullptr || AP == nullptr ||
-        m <= 0 || n <= 0 || incx <= 0 || incy <= 0 || lda <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }    
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4694,7 +4694,7 @@ hipblasStatus_t hipblasCgeru(hipblasHandle_t handle, int m, int n, const hipblas
 try
 {
     if (handle == nullptr || alpha == nullptr || x == nullptr || y == nullptr || AP == nullptr ||
-        m <= 0 || n <= 0 || incx <= 0 || incy <= 0 || lda <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }    
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4721,7 +4721,7 @@ hipblasStatus_t hipblasZgerc(hipblasHandle_t handle, int m, int n, const hipblas
 try
 {
     if (handle == nullptr || alpha == nullptr || x == nullptr || y == nullptr || AP == nullptr ||
-        m <= 0 || n <= 0 || incx <= 0 || incy <= 0 || lda <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }    
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -4748,7 +4748,7 @@ hipblasStatus_t hipblasZgeru(hipblasHandle_t handle, int m, int n, const hipblas
 try
 {
     if (handle == nullptr || alpha == nullptr || x == nullptr || y == nullptr || AP == nullptr ||
-        m <= 0 || n <= 0 || incx <= 0 || incy <= 0 || lda <= 0) {
+        m <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }    
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -5037,7 +5037,7 @@ hipblasStatus_t hipblasChbmv(hipblasHandle_t handle, hipblasFillMode_t uplo,
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        k <= 0 || n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        k <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -5069,7 +5069,7 @@ hipblasStatus_t hipblasZhbmv(hipblasHandle_t handle, hipblasFillMode_t uplo,
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        k <= 0 || n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        k <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -5196,7 +5196,7 @@ hipblasStatus_t hipblasChemv(hipblasHandle_t handle, hipblasFillMode_t uplo, int
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -5227,7 +5227,7 @@ hipblasStatus_t hipblasZhemv(hipblasHandle_t handle, hipblasFillMode_t uplo, int
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -5349,7 +5349,7 @@ hipblasStatus_t hipblasCher(hipblasHandle_t handle, hipblasFillMode_t uplo, int 
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr ||
-        n <= 0 || lda <= 0 || incx <= 0 ) {
+        n <= 0 || lda <= 0 ) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -5360,6 +5360,12 @@ try
         hipMemcpy(&h_alpha, alpha, sizeof(float), hipMemcpyDefault);
     } else {
         h_alpha = *((float*)alpha);
+    }
+    // workaround:
+    // {AP := AP + alpha*x*x**H} -> for alpha=0 AP's value should not change
+    // but incase of oneMKL it changes to zero. Once bug is fixed workaround should be removed
+    if (h_alpha == 0) {
+        return HIPBLAS_STATUS_SUCCESS;
     }
     onemklCher(sycl_queue, convert(uplo), n, h_alpha, (const float _Complex*)x, incx, (float _Complex*)AP, lda);
     return HIPBLAS_STATUS_SUCCESS;
@@ -5375,7 +5381,7 @@ hipblasStatus_t hipblasZher(hipblasHandle_t handle, hipblasFillMode_t uplo, int 
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr ||
-        n <= 0 || lda <= 0 || incx <= 0 ) {
+        n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -5386,6 +5392,12 @@ try
         hipMemcpy(&h_alpha, alpha, sizeof(double), hipMemcpyDefault);
     } else {
         h_alpha = *((double*)alpha);
+    }
+    // workaround:
+    // {AP := AP + alpha*x*x**H} -> for alpha=0 AP's value should not change
+    // but incase of oneMKL it changes to zero. Once bug is fixed workaround should be removed
+    if (h_alpha == 0) {
+        return HIPBLAS_STATUS_SUCCESS;
     }
     onemklZher(sycl_queue, convert(uplo), n, h_alpha, (const double _Complex*)x, incx, (double _Complex*)AP, lda);
     return HIPBLAS_STATUS_SUCCESS;
@@ -5479,7 +5491,7 @@ hipblasStatus_t hipblasCher2(hipblasHandle_t handle, hipblasFillMode_t uplo, int
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || y == nullptr ||
-        n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -5491,6 +5503,14 @@ try
     } else {
         h_alpha = *((float _Complex*)alpha);
     }
+
+    // workaround:
+    // {AP := AP + alpha*x*y**H + conj(alpha)*y*x**H} -> for alpha=0 AP's value should not change
+    // but incase of oneMKL it changes to zero. Once bug is fixed workaround should be removed
+    if (h_alpha == 0) {
+        return HIPBLAS_STATUS_SUCCESS;
+    }
+
     onemklCher2(sycl_queue, convert(uplo), n, h_alpha, (const float _Complex*)x, incx,
                 (const float _Complex*)y, incy, (float _Complex*)AP, lda);
     return HIPBLAS_STATUS_SUCCESS;
@@ -5517,6 +5537,12 @@ try
         hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
     } else {
         h_alpha = *((double _Complex*)alpha);
+    }
+    // workaround:
+    // {AP := AP + alpha*x*y**H + conj(alpha)*y*x**H} -> for alpha=0 AP's value should not change
+    // but incase of oneMKL it changes to zero. Once bug is fixed workaround should be removed
+    if (h_alpha == 0) {
+        return HIPBLAS_STATUS_SUCCESS;
     }
     onemklZher2(sycl_queue, convert(uplo), n, h_alpha, (const double _Complex*)x, incx,
                 (const double _Complex*)y, incy, (double _Complex*)AP, lda);
@@ -5622,7 +5648,7 @@ hipblasStatus_t hipblasChpmv(hipblasHandle_t handle, hipblasFillMode_t uplo, int
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        n <= 0 || incx <= 0 || incy <= 0) {
+        n <= 0 ) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -5653,7 +5679,7 @@ hipblasStatus_t hipblasZhpmv(hipblasHandle_t handle, hipblasFillMode_t uplo, int
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        n <= 0 || incx <= 0 || incy <= 0) {
+        n <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -5774,9 +5800,10 @@ hipblasStatus_t hipblasChpr(hipblasHandle_t       handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr ||
-        n <= 0 || incx <= 0) {
+        n <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
+
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
     auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
@@ -5786,6 +5813,12 @@ try
         hipMemcpy(&h_alpha, alpha, sizeof(float), hipMemcpyDefault);
     } else {
         h_alpha = *((float*)alpha);
+    }
+    // workaround:
+    // {AP := AP + alpha*x*x**H} -> for alpha=0 AP's value should not change
+    // but incase of oneMKL it changes to zero. Once bug is fixed workaround should be removed
+    if (h_alpha == 0) {
+        return HIPBLAS_STATUS_SUCCESS;
     }
     onemklChpr(sycl_queue, convert(uplo), n, h_alpha, (const float _Complex*)x, incx, (float _Complex*)AP);
 	return HIPBLAS_STATUS_SUCCESS;
@@ -5805,9 +5838,10 @@ hipblasStatus_t hipblasZhpr(hipblasHandle_t             handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr ||
-        n <= 0 || incx <= 0) {
+        n <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
+
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
     auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
@@ -5817,6 +5851,12 @@ try
         hipMemcpy(&h_alpha, alpha, sizeof(double), hipMemcpyDefault);
     } else {
         h_alpha = *((double*)alpha);
+    }
+    // workaround:
+    // {AP := AP + alpha*x*x**H} -> for alpha=0 AP's value should not change
+    // but incase of oneMKL it changes to zero. Once bug is fixed workaround should be removed
+    if (h_alpha == 0) {
+        return HIPBLAS_STATUS_SUCCESS;
     }
     onemklZhpr(sycl_queue, convert(uplo), n, h_alpha, (const double _Complex*)x, incx, (double _Complex*)AP);
 	return HIPBLAS_STATUS_SUCCESS;
@@ -5913,7 +5953,7 @@ hipblasStatus_t hipblasChpr2(hipblasHandle_t       handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || y == nullptr ||
-        n <= 0 || incx <= 0 || incy <= 0) {
+        n <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -5925,6 +5965,12 @@ try
         hipMemcpy(&h_alpha, alpha, sizeof(float _Complex), hipMemcpyDefault);
     } else {
         h_alpha = *((float _Complex*)alpha);
+    }
+    // workaround:
+    // {AP := AP + alpha*x*y**H + conj(alpha)*y*x**H} -> for alpha=0 AP's value should not change
+    // but incase of oneMKL it changes to zero. Once bug is fixed workaround should be removed
+    if (h_alpha == 0) {
+        return HIPBLAS_STATUS_SUCCESS;
     }
     onemklChpr2(sycl_queue, convert(uplo), n, h_alpha, (const float _Complex*)x, incx,
                             (const float _Complex*)y, incy, (float _Complex*)AP);
@@ -5947,7 +5993,7 @@ hipblasStatus_t hipblasZhpr2(hipblasHandle_t             handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || y == nullptr ||
-        n <= 0 || incx <= 0 || incy <= 0) {
+        n <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -5959,6 +6005,12 @@ try
         hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
     } else {
         h_alpha = *((double _Complex*)alpha);
+    }
+    // workaround:
+    // {AP := AP + alpha*x*y**H + conj(alpha)*y*x**H} -> for alpha=0 AP's value should not change
+    // but incase of oneMKL it changes to zero. Once bug is fixed workaround should be removed
+    if (h_alpha == 0) {
+        return HIPBLAS_STATUS_SUCCESS;
     }
     onemklZhpr2(sycl_queue, convert(uplo), n, h_alpha, (const double _Complex*)x, incx,
                             (const double _Complex*)y, incy, (double _Complex*)AP);
@@ -6069,7 +6121,7 @@ hipblasStatus_t hipblasSsbmv(hipblasHandle_t   handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || A == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        k <= 0 || n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        k <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
@@ -6108,7 +6160,7 @@ hipblasStatus_t hipblasDsbmv(hipblasHandle_t   handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || A == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        k <= 0 || n <= 0 || lda <= 0 || incx <= 0 || incy <= 0) {
+        k <= 0 || n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
@@ -6242,7 +6294,7 @@ hipblasStatus_t hipblasSspmv(hipblasHandle_t   handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        n <= 0 || incx <= 0 || incy <= 0) {
+        n <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
@@ -6279,7 +6331,7 @@ hipblasStatus_t hipblasDspmv(hipblasHandle_t   handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || beta == nullptr || y == nullptr ||
-        n <= 0 || incx <= 0 || incy <= 0) {
+        n <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
@@ -6402,7 +6454,7 @@ hipblasStatus_t hipblasSspr(hipblasHandle_t   handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr ||
-        n <= 0 || incx <= 0) {
+        n <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
@@ -6433,7 +6485,7 @@ hipblasStatus_t hipblasDspr(hipblasHandle_t   handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr ||
-        n <= 0 || incx <= 0) {
+        n <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
@@ -6645,7 +6697,7 @@ hipblasStatus_t hipblasSspr2(hipblasHandle_t   handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || y == nullptr ||
-        n <= 0 || incx <= 0 || incy <= 0) {
+        n <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
@@ -6678,7 +6730,7 @@ hipblasStatus_t hipblasDspr2(hipblasHandle_t   handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || AP == nullptr || x == nullptr || y == nullptr ||
-        n <= 0 || incx <= 0 || incy <= 0) {
+        n <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
@@ -6798,7 +6850,7 @@ hipblasStatus_t hipblasSsymv(hipblasHandle_t   handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || A == nullptr || x == nullptr || y == nullptr || beta == nullptr ||
-        n <= 0 || incx <= 0 || incy <= 0 || lda <= 0) {
+        n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
@@ -6835,7 +6887,7 @@ hipblasStatus_t hipblasDsymv(hipblasHandle_t   handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || A == nullptr || x == nullptr || y == nullptr || beta == nullptr ||
-        n <= 0 || incx <= 0 || incy <= 0 || lda <= 0) {
+        n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
@@ -7348,7 +7400,7 @@ hipblasStatus_t hipblasSsyr2(hipblasHandle_t   handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || A == nullptr || x == nullptr || y == nullptr ||
-        n <= 0 || incx <= 0 || incy <= 0 || lda <= 0) {
+        n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
@@ -7382,7 +7434,7 @@ hipblasStatus_t hipblasDsyr2(hipblasHandle_t   handle,
 try
 {
     if (handle == nullptr || alpha == nullptr || A == nullptr || x == nullptr || y == nullptr ||
-        n <= 0 || incx <= 0 || incy <= 0 || lda <= 0) {
+        n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
@@ -7629,7 +7681,7 @@ hipblasStatus_t hipblasStbmv(hipblasHandle_t    handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        m <= 0 || k <= 0 || incx <= 0 || lda <= 0) {
+        m <= 0 || k <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
 
@@ -7655,7 +7707,7 @@ hipblasStatus_t hipblasDtbmv(hipblasHandle_t    handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        m <= 0 || k <= 0 || incx <= 0 || lda <= 0) {
+        m <= 0 || k <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -7680,7 +7732,7 @@ hipblasStatus_t hipblasCtbmv(hipblasHandle_t       handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        m <= 0 || k <= 0 || incx <= 0 || lda <= 0) {
+        m <= 0 || k <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -7706,7 +7758,7 @@ hipblasStatus_t hipblasZtbmv(hipblasHandle_t             handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        m <= 0 || k <= 0 || incx <= 0 || lda <= 0) {
+        m <= 0 || k <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -7903,7 +7955,7 @@ hipblasStatus_t hipblasStbsv(hipblasHandle_t    handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        n <= 0 || k <= 0 || incx <= 0 || lda <= 0) {
+        n <= 0 || k <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
 
@@ -7929,7 +7981,7 @@ hipblasStatus_t hipblasDtbsv(hipblasHandle_t    handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        n <= 0 || k <= 0 || incx <= 0 || lda <= 0) {
+        n <= 0 || k <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -7954,7 +8006,7 @@ hipblasStatus_t hipblasCtbsv(hipblasHandle_t       handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        n <= 0 || k <= 0 || incx <= 0 || lda <= 0) {
+        n <= 0 || k <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -7979,7 +8031,7 @@ hipblasStatus_t hipblasZtbsv(hipblasHandle_t             handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        n <= 0 || k <= 0 || incx <= 0 || lda <= 0) {
+        n <= 0 || k <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8173,7 +8225,7 @@ hipblasStatus_t hipblasStpmv(hipblasHandle_t    handle,
 try
 {
     if (handle == nullptr || AP == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0) {
+        m <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8195,6 +8247,10 @@ hipblasStatus_t hipblasDtpmv(hipblasHandle_t    handle,
                              int                incx)
 try
 {
+    if (handle == nullptr || AP == nullptr || x == nullptr ||
+        m <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
     onemklDtpmv(sycl_queue, convert(uplo), convert(transA), convert(diag), m, AP, x, incx);
     return HIPBLAS_STATUS_SUCCESS;
@@ -8215,7 +8271,7 @@ hipblasStatus_t hipblasCtpmv(hipblasHandle_t       handle,
 try
 {
     if (handle == nullptr || AP == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0) {
+        m <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8239,7 +8295,7 @@ hipblasStatus_t hipblasZtpmv(hipblasHandle_t             handle,
 try
 {
     if (handle == nullptr || AP == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0) {
+        m <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8418,7 +8474,7 @@ hipblasStatus_t hipblasStpsv(hipblasHandle_t    handle,
 try
 {
     if (handle == nullptr || AP == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0) {
+        m <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8441,7 +8497,7 @@ hipblasStatus_t hipblasDtpsv(hipblasHandle_t    handle,
 try
 {
     if (handle == nullptr || AP == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0) {
+        m <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8464,7 +8520,7 @@ hipblasStatus_t hipblasCtpsv(hipblasHandle_t       handle,
 try
 {
     if (handle == nullptr || AP == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0) {
+        m <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8488,7 +8544,7 @@ hipblasStatus_t hipblasZtpsv(hipblasHandle_t             handle,
 try
 {
     if (handle == nullptr || AP == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0) {
+        m <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8668,7 +8724,7 @@ hipblasStatus_t hipblasStrmv(hipblasHandle_t    handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0 || lda <= 0) {
+        m <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8692,7 +8748,7 @@ hipblasStatus_t hipblasDtrmv(hipblasHandle_t    handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0 || lda <= 0) {
+        m <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8716,7 +8772,7 @@ hipblasStatus_t hipblasCtrmv(hipblasHandle_t       handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0 || lda <= 0) {
+        m <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8741,7 +8797,7 @@ hipblasStatus_t hipblasZtrmv(hipblasHandle_t             handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0 || lda <= 0) {
+        m <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8929,7 +8985,7 @@ hipblasStatus_t hipblasStrsv(hipblasHandle_t    handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0 || lda <= 0) {
+        m <= 0 ||lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8953,7 +9009,7 @@ hipblasStatus_t hipblasDtrsv(hipblasHandle_t    handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0 || lda <= 0) {
+        m <= 0 ||lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -8977,7 +9033,7 @@ hipblasStatus_t hipblasCtrsv(hipblasHandle_t       handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0 || lda <= 0) {
+        m <= 0 ||lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
@@ -9002,7 +9058,7 @@ hipblasStatus_t hipblasZtrsv(hipblasHandle_t             handle,
 try
 {
     if (handle == nullptr || A == nullptr || x == nullptr ||
-        m <= 0 || incx <= 0 || lda <= 0) {
+        m <= 0 ||lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);

@@ -183,7 +183,7 @@ TEST_P(hbmv_gtest, hbmv_gtest_float_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 TEST_P(hbmv_gtest, hbmv_gtest_batched_float_complex)
 {

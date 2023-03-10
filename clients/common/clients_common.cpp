@@ -279,7 +279,7 @@ void get_test_name(const Arguments& arg, std::string& name)
     static const name_to_f_testname_map fmap = {
         // L1
         {"asum", testname_asum},
-        /*{"asum_batched", testname_asum_batched},
+        {"asum_batched", testname_asum_batched},
         {"asum_strided_batched", testname_asum_strided_batched},
         {"axpy", testname_axpy},
         {"axpy_batched", testname_axpy_batched},
@@ -458,7 +458,7 @@ void get_test_name(const Arguments& arg, std::string& name)
         {"trsm_strided_batched_ex", testname_trsm_strided_batched_ex},
         {"trtri", testname_trtri},
         {"trtri_batched", testname_trtri_batched},
-        {"trtri_strided_batched", testname_trtri_strided_batched},*/
+        {"trtri_strided_batched", testname_trtri_strided_batched},
 
 #ifdef __HIP_PLATFORM_SOLVER__
         {"geqrf", testname_geqrf},
@@ -755,7 +755,7 @@ struct perf_blas<
         static const func_map map = {
             // L1
             {"asum", testing_asum<T>},
-        /*    {"asum_batched", testing_asum_batched<T>},
+            {"asum_batched", testing_asum_batched<T>},
             {"asum_strided_batched", testing_asum_strided_batched<T>},
             {"axpy", testing_axpy<T>},
             {"axpy_batched", testing_axpy_batched<T>},
@@ -822,12 +822,12 @@ struct perf_blas<
             {"hpr2", testing_hpr2<T>},
             {"hpr2_batched", testing_hpr2_batched<T>},
             {"hpr2_strided_batched", testing_hpr2_strided_batched<T>},
-            {"spr", testing_spr<T>},
-            {"spr_batched", testing_spr_batched<T>},
-            {"spr_strided_batched", testing_spr_strided_batched<T>},
-            {"symv", testing_symv<T>},
-            {"symv_batched", testing_symv_batched<T>},
-            {"symv_strided_batched", testing_symv_strided_batched<T>},
+            //{"spr", testing_spr<T>},
+            //{"spr_batched", testing_spr_batched<T>},
+            //{"spr_strided_batched", testing_spr_strided_batched<T>},
+            //{"symv", testing_symv<T>},
+            //{"symv_batched", testing_symv_batched<T>},
+            //{"symv_strided_batched", testing_symv_strided_batched<T>},
             {"syr", testing_syr<T>},
             {"syr_batched", testing_syr_batched<T>},
             {"syr_strided_batched", testing_syr_strided_batched<T>},
@@ -898,7 +898,7 @@ struct perf_blas<
             {"trsm_strided_batched_ex", testing_trsm_strided_batched_ex<T>},
             {"trmm", testing_trmm<T>},
             {"trmm_batched", testing_trmm_batched<T>},
-            {"trmm_strided_batched", testing_trmm_strided_batched<T>},*/
+            {"trmm_strided_batched", testing_trmm_strided_batched<T>},
 
 #ifdef __HIP_PLATFORM_SOLVER__
             {"geqrf", testing_geqrf<T>},

@@ -181,7 +181,7 @@ TEST_P(hpmv_gtest, hpmv_gtest_float_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 TEST_P(hpmv_gtest, hpmv_batched_gtest_float_complex)
 {
