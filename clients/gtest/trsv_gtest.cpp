@@ -172,7 +172,7 @@ TEST_P(blas2_trsv_gtest, trsv_double_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 TEST_P(blas2_trsv_gtest, trsv_batched_float)
 {

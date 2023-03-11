@@ -41,8 +41,9 @@ template <typename T, bool CONJ>
 inline hipblasStatus_t testing_ger(const Arguments& arg)
 {
     bool FORTRAN      = arg.fortran;
-    auto hipblasGerFn = FORTRAN ? (CONJ ? hipblasGer<T, true, true> : hipblasGer<T, false, true>)
-                                : (CONJ ? hipblasGer<T, true, false> : hipblasGer<T, false, false>);
+    auto hipblasGerFn = (CONJ ? hipblasGer<T, true, false> : hipblasGer<T, false, false>);
+                        //FORTRAN ? (CONJ ? hipblasGer<T, true, true> : hipblasGer<T, false, true>)
+                        //        : (CONJ ? hipblasGer<T, true, false> : hipblasGer<T, false, false>);
 
     int M    = arg.M;
     int N    = arg.N;

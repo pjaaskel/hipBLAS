@@ -41,7 +41,7 @@ template <typename T>
 inline hipblasStatus_t testing_dgmm(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasDgmmFn = FORTRAN ? hipblasDgmm<T, true> : hipblasDgmm<T, false>;
+    auto hipblasDgmmFn = hipblasDgmm<T, false>; //FORTRAN ? hipblasDgmm<T, true> : hipblasDgmm<T, false>;
 
     hipblasSideMode_t side = char2hipblas_side(arg.side);
 

@@ -40,7 +40,7 @@ template <typename T>
 inline hipblasStatus_t testing_rotmg(const Arguments& arg)
 {
     bool FORTRAN        = arg.fortran;
-    auto hipblasRotmgFn = FORTRAN ? hipblasRotmg<T, true> : hipblasRotmg<T, false>;
+    auto hipblasRotmgFn = hipblasRotmg<T, false>;//FORTRAN ? hipblasRotmg<T, true> : hipblasRotmg<T, false>;
 
     double gpu_time_used, hipblas_error_host, hipblas_error_device;
 

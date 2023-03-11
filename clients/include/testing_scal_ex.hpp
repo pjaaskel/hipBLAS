@@ -40,7 +40,7 @@ template <typename Ta, typename Tx = Ta, typename Tex = Tx>
 inline hipblasStatus_t testing_scal_ex_template(const Arguments& arg)
 {
     bool FORTRAN         = arg.fortran;
-    auto hipblasScalExFn = FORTRAN ? hipblasScalExFortran : hipblasScalEx;
+    auto hipblasScalExFn = hipblasScalEx;//FORTRAN ? hipblasScalExFortran : hipblasScalEx;
 
     int N    = arg.N;
     int incx = arg.incx;

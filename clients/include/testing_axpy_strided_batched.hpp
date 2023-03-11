@@ -41,8 +41,8 @@ template <typename T>
 inline hipblasStatus_t testing_axpy_strided_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
-    auto hipblasAxpyStridedBatchedFn
-        = FORTRAN ? hipblasAxpyStridedBatched<T, true> : hipblasAxpyStridedBatched<T, false>;
+    auto hipblasAxpyStridedBatchedFn = hipblasAxpyStridedBatched<T, false>;
+        //= FORTRAN ? hipblasAxpyStridedBatched<T, true> : hipblasAxpyStridedBatched<T, false>;
 
     int    N            = arg.N;
     int    incx         = arg.incx;

@@ -45,8 +45,9 @@ template <typename Tx, typename Ty = Tx, typename Tr = Ty, typename Tex = Tr, bo
 inline hipblasStatus_t testing_dot_ex_template(const Arguments& arg)
 {
     bool FORTRAN        = arg.fortran;
-    auto hipblasDotExFn = FORTRAN ? (CONJ ? hipblasDotcExFortran : hipblasDotExFortran)
-                                  : (CONJ ? hipblasDotcEx : hipblasDotEx);
+    auto hipblasDotExFn = (CONJ ? hipblasDotcEx : hipblasDotEx);
+    //FORTRAN ? (CONJ ? hipblasDotcExFortran : hipblasDotExFortran)
+    //                              : (CONJ ? hipblasDotcEx : hipblasDotEx);
 
     int N    = arg.N;
     int incx = arg.incx;

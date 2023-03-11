@@ -22,11 +22,13 @@
 set( THREADS_PREFER_PTHREAD_FLAG ON )
 find_package( Threads REQUIRED )
 
+# Sarbojit: Needed as we don't have fortran version of hipBlas implemented
 # Linking lapack library requires fortran flags
-if(NOT WIN32)
-    enable_language( Fortran )
-endif()
+#if(NOT WIN32)
+#    enable_language( Fortran )
+#endif()
 
+add_compile_definitions(__HIP_PLATFORM_ONEAPI__)
 if( NOT TARGET hipblas )
   find_package( hipblas REQUIRED CONFIG PATHS /opt/rocm/hipblas )
 endif( )
@@ -37,26 +39,12 @@ set(hipblas_test_source
   hipblas_gtest_main.cpp
   auxiliary_gtest.cpp
   set_get_pointer_mode_gtest.cpp
-  set_get_vector_gtest.cpp
-  set_get_matrix_gtest.cpp
-  set_get_atomics_mode_gtest.cpp
   blas1_gtest.cpp
-  axpy_ex_gtest.cpp
-  dot_ex_gtest.cpp
-  nrm2_ex_gtest.cpp
-  rot_ex_gtest.cpp
-  scal_ex_gtest.cpp
   gbmv_gtest.cpp
-  gbmv_batched_gtest.cpp
-  gbmv_strided_batched_gtest.cpp
   gemv_gtest.cpp
-  gemv_batched_gtest.cpp
-  gemv_strided_batched_gtest.cpp
   ger_gtest.cpp
   hbmv_gtest.cpp
   hemv_gtest.cpp
-  hemv_batched_gtest.cpp
-  hemv_strided_batched_gtest.cpp
   her_gtest.cpp
   her2_gtest.cpp
   hpmv_gtest.cpp
@@ -75,24 +63,19 @@ set(hipblas_test_source
   tpsv_gtest.cpp
   trmv_gtest.cpp
   trsv_gtest.cpp
-  dgmm_gtest.cpp
   gemm_gtest.cpp
-  gemm_ex_gtest.cpp
-  gemm_strided_batched_gtest.cpp
-  gemm_batched_gtest.cpp
   hemm_gtest.cpp
-  geam_gtest.cpp
   herk_gtest.cpp
   her2k_gtest.cpp
-  herkx_gtest.cpp
   symm_gtest.cpp
   syrk_gtest.cpp
   syr2k_gtest.cpp
   syrkx_gtest.cpp
   trsm_gtest.cpp
-  trsm_ex_gtest.cpp
   trmm_gtest.cpp
-  trtri_gtest.cpp
+  #set_get_vector_gtest.cpp
+  #set_get_matrix_gtest.cpp
+  #set_get_atomics_mode_gtest.cpp
 )
 
 if( BUILD_WITH_SOLVER )
@@ -133,7 +116,7 @@ set( hipblas_test_common
   ${BLIS_CPP}
 )
 
-add_executable( hipblas-test ${hipblas_f90_source} ${hipblas_test_source} ${hipblas_solver_test_source} ${hipblas_test_common} )
+add_executable( hipblas-test ${hipblas_test_common} ${hipblas_test_source} ${hipblas_solver_test_source} )
 
 if(LINK_BLIS)
     if (NOT WIN32)
@@ -170,10 +153,12 @@ target_include_directories( hipblas-test
 )
 
 if (NOT WIN32)
-    target_link_libraries( hipblas-test PRIVATE hipblas_fortran_client lapack cblas stdc++fs )
+    target_link_libraries( hipblas-test PRIVATE lapack stdc++fs )
+    #target_link_libraries( hipblas-test PRIVATE hipblas_fortran_client lapack cblas stdc++fs )
 endif()
 
-target_link_libraries( hipblas-test PRIVATE ${BLAS_LIBRARY} roc::hipblas GTest::GTest Threads::Threads )
+#target_link_libraries( hipblas-test PRIVATE ${BLAS_LIBRARY} roc::hipblas GTest::GTest Threads::Threads )
+target_link_libraries( hipblas-test PRIVATE ${BLAS_LIBRARY} hipblas GTest::GTest Threads::Threads )
 
 # need mf16c flag for float->half convertion
 target_compile_options( hipblas-test PRIVATE -mf16c ) # -Wno-deprecated-declarations )

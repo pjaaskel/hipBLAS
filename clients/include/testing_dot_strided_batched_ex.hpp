@@ -46,9 +46,9 @@ template <typename Tx, typename Ty = Tx, typename Tr = Ty, typename Tex = Tr, bo
 inline hipblasStatus_t testing_dot_strided_batched_ex_template(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
-    auto hipblasDotStridedBatchedExFn
-        = FORTRAN ? (CONJ ? hipblasDotcStridedBatchedExFortran : hipblasDotStridedBatchedExFortran)
-                  : (CONJ ? hipblasDotcStridedBatchedEx : hipblasDotStridedBatchedEx);
+    auto hipblasDotStridedBatchedExFn = (CONJ ? hipblasDotcStridedBatchedEx : hipblasDotStridedBatchedEx);
+        //= FORTRAN ? (CONJ ? hipblasDotcStridedBatchedExFortran : hipblasDotStridedBatchedExFortran)
+        //          : (CONJ ? hipblasDotcStridedBatchedEx : hipblasDotStridedBatchedEx);
 
     int    N            = arg.N;
     int    incx         = arg.incx;

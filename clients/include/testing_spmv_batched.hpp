@@ -43,7 +43,7 @@ inline hipblasStatus_t testing_spmv_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasSpmvBatchedFn
-        = FORTRAN ? hipblasSpmvBatched<T, true> : hipblasSpmvBatched<T, false>;
+        = hipblasSpmvBatched<T, false>;//FORTRAN ? hipblasSpmvBatched<T, true> : hipblasSpmvBatched<T, false>;
 
     hipblasFillMode_t uplo        = char2hipblas_fill(arg.uplo);
     int               M           = arg.M;

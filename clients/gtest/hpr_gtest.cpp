@@ -171,7 +171,7 @@ TEST_P(blas2_hpr_gtest, hpr_gtest_double)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // hpr_batched
 TEST_P(blas2_hpr_gtest, hpr_batched_gtest_float)

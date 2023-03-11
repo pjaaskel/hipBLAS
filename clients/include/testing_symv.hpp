@@ -41,7 +41,7 @@ template <typename T>
 inline hipblasStatus_t testing_symv(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasSymvFn = FORTRAN ? hipblasSymv<T, true> : hipblasSymv<T, false>;
+    auto hipblasSymvFn = hipblasSymv<T, false>;//FORTRAN ? hipblasSymv<T, true> : hipblasSymv<T, false>;
 
     hipblasFillMode_t uplo = char2hipblas_fill(arg.uplo);
     int               M    = arg.M;

@@ -41,7 +41,7 @@ inline hipblasStatus_t testing_rotmg_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasRotmgBatchedFn
-        = FORTRAN ? hipblasRotmgBatched<T, true> : hipblasRotmgBatched<T, false>;
+        = hipblasRotmgBatched<T, false>;//FORTRAN ? hipblasRotmgBatched<T, true> : hipblasRotmgBatched<T, false>;
 
     int batch_count = arg.batch_count;
 

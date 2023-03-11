@@ -50,8 +50,8 @@ template <typename T>
 inline hipblasStatus_t testing_gemv_strided_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
-    auto hipblasGemvStridedBatchedFn
-        = FORTRAN ? hipblasGemvStridedBatched<T, true> : hipblasGemvStridedBatched<T, false>;
+    auto hipblasGemvStridedBatchedFn = hipblasGemvStridedBatched<T, false>;
+        //= FORTRAN ? hipblasGemvStridedBatched<T, true> : hipblasGemvStridedBatched<T, false>;
 
     int    M            = arg.M;
     int    N            = arg.N;

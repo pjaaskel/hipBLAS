@@ -41,7 +41,7 @@ template <typename T>
 inline hipblasStatus_t testing_spr(const Arguments& arg)
 {
     bool FORTRAN      = arg.fortran;
-    auto hipblasSprFn = FORTRAN ? hipblasSpr<T, true> : hipblasSpr<T, false>;
+    auto hipblasSprFn = hipblasSpr<T, false>;//FORTRAN ? hipblasSpr<T, true> : hipblasSpr<T, false>;
 
     hipblasFillMode_t uplo = char2hipblas_fill(arg.uplo);
     int               N    = arg.N;

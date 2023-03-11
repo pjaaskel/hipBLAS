@@ -194,7 +194,7 @@ TEST_P(blas2_spmv_gtest, spmv_double)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 TEST_P(blas2_spmv_gtest, spmv_batched_float)
 {

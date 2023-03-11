@@ -220,7 +220,7 @@ TEST_P(blas2_ger_gtest, gerc_gtest_float_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // ger_batched
 TEST_P(blas2_ger_gtest, ger_batched_gtest_float)

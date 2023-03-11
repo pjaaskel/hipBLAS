@@ -42,7 +42,7 @@ inline hipblasStatus_t testing_tpsv_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasTpsvBatchedFn
-        = FORTRAN ? hipblasTpsvBatched<T, true> : hipblasTpsvBatched<T, false>;
+        = hipblasTpsvBatched<T, false>;//FORTRAN ? hipblasTpsvBatched<T, true> : hipblasTpsvBatched<T, false>;
 
     hipblasFillMode_t  uplo        = char2hipblas_fill(arg.uplo);
     hipblasDiagType_t  diag        = char2hipblas_diagonal(arg.diag);

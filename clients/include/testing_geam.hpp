@@ -45,7 +45,7 @@ template <typename T>
 inline hipblasStatus_t testing_geam(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasGeamFn = FORTRAN ? hipblasGeam<T, true> : hipblasGeam<T, false>;
+    auto hipblasGeamFn = hipblasGeam<T, false>; //FORTRAN ? hipblasGeam<T, true> : hipblasGeam<T, false>;
 
     hipblasOperation_t transA = char2hipblas_operation(arg.transA);
     hipblasOperation_t transB = char2hipblas_operation(arg.transB);

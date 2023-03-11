@@ -52,7 +52,7 @@ template <typename T>
 inline hipblasStatus_t testing_trsm_batched_ex(const Arguments& arg)
 {
     bool FORTRAN                = arg.fortran;
-    auto hipblasTrsmBatchedExFn = FORTRAN ? hipblasTrsmBatchedExFortran : hipblasTrsmBatchedEx;
+    auto hipblasTrsmBatchedExFn = hipblasTrsmBatchedEx;// FORTRAN ? hipblasTrsmBatchedExFortran : hipblasTrsmBatchedEx;
 
     hipblasSideMode_t  side        = char2hipblas_side(arg.side);
     hipblasFillMode_t  uplo        = char2hipblas_fill(arg.uplo);

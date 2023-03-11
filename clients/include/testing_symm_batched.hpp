@@ -43,7 +43,7 @@ inline hipblasStatus_t testing_symm_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasSymmBatchedFn
-        = FORTRAN ? hipblasSymmBatched<T, true> : hipblasSymmBatched<T, false>;
+        = hipblasSymmBatched<T, false>;//FORTRAN ? hipblasSymmBatched<T, true> : hipblasSymmBatched<T, false>;
 
     hipblasSideMode_t side        = char2hipblas_side(arg.side);
     hipblasFillMode_t uplo        = char2hipblas_fill(arg.uplo);

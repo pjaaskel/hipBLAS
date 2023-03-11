@@ -43,8 +43,8 @@ inline hipblasStatus_t testing_her_strided_batched(const Arguments& arg)
 {
     using U      = real_t<T>;
     bool FORTRAN = arg.fortran;
-    auto hipblasHerStridedBatchedFn
-        = FORTRAN ? hipblasHerStridedBatched<T, U, true> : hipblasHerStridedBatched<T, U, false>;
+    auto hipblasHerStridedBatchedFn = hipblasHerStridedBatched<T, U, false>;
+        //= FORTRAN ? hipblasHerStridedBatched<T, U, true> : hipblasHerStridedBatched<T, U, false>;
 
     hipblasFillMode_t uplo         = char2hipblas_fill(arg.uplo);
     int               N            = arg.N;

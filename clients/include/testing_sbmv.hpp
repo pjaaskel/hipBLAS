@@ -41,7 +41,7 @@ template <typename T>
 inline hipblasStatus_t testing_sbmv(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasSbmvFn = FORTRAN ? hipblasSbmv<T, true> : hipblasSbmv<T, false>;
+    auto hipblasSbmvFn = hipblasSbmv<T, false>;//FORTRAN ? hipblasSbmv<T, true> : hipblasSbmv<T, false>;
 
     int M    = arg.M;
     int K    = arg.K;

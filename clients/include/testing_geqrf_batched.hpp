@@ -73,8 +73,8 @@ inline hipblasStatus_t setup_geqrf_batched_testing(host_batch_vector<T>&   hA,
 template <typename T>
 inline hipblasStatus_t testing_geqrf_batched_bad_arg(const Arguments& arg)
 {
-    auto hipblasGeqrfBatchedFn
-        = arg.fortran ? hipblasGeqrfBatched<T, true> : hipblasGeqrfBatched<T, false>;
+    auto hipblasGeqrfBatchedFn = hipblasGeqrfBatched<T, false>;
+        //= arg.fortran ? hipblasGeqrfBatched<T, true> : hipblasGeqrfBatched<T, false>;
 
     hipblasLocalHandle handle(arg);
     const int          M           = 100;
@@ -154,8 +154,8 @@ inline hipblasStatus_t testing_geqrf_batched(const Arguments& arg)
 {
     using U      = real_t<T>;
     bool FORTRAN = arg.fortran;
-    auto hipblasGeqrfBatchedFn
-        = FORTRAN ? hipblasGeqrfBatched<T, true> : hipblasGeqrfBatched<T, false>;
+    auto hipblasGeqrfBatchedFn = hipblasGeqrfBatched<T, false>;
+        //= FORTRAN ? hipblasGeqrfBatched<T, true> : hipblasGeqrfBatched<T, false>;
 
     int M           = arg.M;
     int N           = arg.N;

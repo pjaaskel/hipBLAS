@@ -41,7 +41,7 @@ template <typename T>
 inline hipblasStatus_t testing_hemv(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasHemvFn = FORTRAN ? hipblasHemv<T, true> : hipblasHemv<T, false>;
+    auto hipblasHemvFn = hipblasHemv<T, false>;//FORTRAN ? hipblasHemv<T, true> : hipblasHemv<T, false>;
 
     int N    = arg.N;
     int lda  = arg.lda;

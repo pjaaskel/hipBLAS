@@ -40,8 +40,8 @@ inline hipblasStatus_t testing_getri_npvt_batched(const Arguments& arg)
 {
     using U      = real_t<T>;
     bool FORTRAN = arg.fortran;
-    auto hipblasGetriBatchedFn
-        = FORTRAN ? hipblasGetriBatched<T, true> : hipblasGetriBatched<T, false>;
+    auto hipblasGetriBatchedFn = hipblasGetriBatched<T, false>;
+        //= FORTRAN ? hipblasGetriBatched<T, true> : hipblasGetriBatched<T, false>;
 
     int M           = arg.N;
     int N           = arg.N;

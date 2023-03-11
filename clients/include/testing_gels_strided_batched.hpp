@@ -40,8 +40,8 @@ inline void testname_gels_strided_batched(const Arguments& arg, std::string& nam
 template <typename T>
 inline hipblasStatus_t testing_gels_strided_batched_bad_arg(const Arguments& arg)
 {
-    auto hipblasGelsStridedBatchedFn
-        = arg.fortran ? hipblasGelsStridedBatched<T, true> : hipblasGelsStridedBatched<T, false>;
+    auto hipblasGelsStridedBatchedFn = hipblasGelsStridedBatched<T, false>;
+        //= arg.fortran ? hipblasGelsStridedBatched<T, true> : hipblasGelsStridedBatched<T, false>;
 
     hipblasLocalHandle       handle(arg);
     const int                M          = 100;
@@ -309,8 +309,8 @@ inline hipblasStatus_t testing_gels_strided_batched(const Arguments& arg)
 {
     using U      = real_t<T>;
     bool FORTRAN = arg.fortran;
-    auto hipblasGelsStridedBatchedFn
-        = FORTRAN ? hipblasGelsStridedBatched<T, true> : hipblasGelsStridedBatched<T, false>;
+    auto hipblasGelsStridedBatchedFn = hipblasGelsStridedBatched<T, false>;
+        //= FORTRAN ? hipblasGelsStridedBatched<T, true> : hipblasGelsStridedBatched<T, false>;
 
     char   transc      = arg.transA;
     int    N           = arg.N;

@@ -238,6 +238,8 @@ TEST_P(trsm_gtest, trsm_gtest_double_complex)
     }
 }
 
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
+
 TEST_P(trsm_gtest, trsm_batched_gtest_float)
 {
     // GetParam return a tuple. Tee setup routine unpack the tuple
@@ -291,8 +293,6 @@ TEST_P(trsm_gtest, trsm_batched_gtest_double_complex)
         }
     }
 }
-
-#ifndef __HIP_PLATFORM_NVCC__
 
 TEST_P(trsm_gtest, trsm_strided_batched_gtest_float)
 {

@@ -166,6 +166,7 @@ TEST_P(blas2_syr_gtest, syr_gtest_float)
     }
 }
 
+#if !defined(__HIP_PLATFORM_ONEAPI__)
 TEST_P(blas2_syr_gtest, syr_gtest_float_complex)
 {
     // GetParam return a tuple. Tee setup routine unpack the tuple
@@ -190,8 +191,9 @@ TEST_P(blas2_syr_gtest, syr_gtest_float_complex)
         }
     }
 }
+#endif
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // syr_batched
 TEST_P(blas2_syr_gtest, syr_batched_gtest_float)

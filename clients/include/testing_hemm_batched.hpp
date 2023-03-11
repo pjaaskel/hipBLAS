@@ -42,8 +42,8 @@ template <typename T>
 inline hipblasStatus_t testing_hemm_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
-    auto hipblasHemmBatchedFn
-        = FORTRAN ? hipblasHemmBatched<T, true> : hipblasHemmBatched<T, false>;
+    auto hipblasHemmBatchedFn = hipblasHemmBatched<T, false>;
+        //= FORTRAN ? hipblasHemmBatched<T, true> : hipblasHemmBatched<T, false>;
 
     hipblasSideMode_t side        = char2hipblas_side(arg.side);
     hipblasFillMode_t uplo        = char2hipblas_fill(arg.uplo);

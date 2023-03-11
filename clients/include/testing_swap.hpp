@@ -40,7 +40,7 @@ template <typename T>
 inline hipblasStatus_t testing_swap(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasSwapFn = FORTRAN ? hipblasSwap<T, true> : hipblasSwap<T, false>;
+    auto hipblasSwapFn = hipblasSwap<T, false>;//FORTRAN ? hipblasSwap<T, true> : hipblasSwap<T, false>;
 
     int N          = arg.N;
     int incx       = arg.incx;

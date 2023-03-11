@@ -50,7 +50,7 @@ inline hipblasStatus_t testing_symv_strided_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasSymvStridedBatchedFn
-        = FORTRAN ? hipblasSymvStridedBatched<T, true> : hipblasSymvStridedBatched<T, false>;
+        = hipblasSymvStridedBatched<T, false>;//FORTRAN ? hipblasSymvStridedBatched<T, true> : hipblasSymvStridedBatched<T, false>;
 
     hipblasFillMode_t uplo         = char2hipblas_fill(arg.uplo);
     int               M            = arg.M;

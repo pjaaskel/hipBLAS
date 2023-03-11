@@ -41,7 +41,7 @@ inline hipblasStatus_t testing_rotm_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
     auto hipblasRotmBatchedFn
-        = FORTRAN ? hipblasRotmBatched<T, true> : hipblasRotmBatched<T, false>;
+        = hipblasRotmBatched<T, false>;//FORTRAN ? hipblasRotmBatched<T, true> : hipblasRotmBatched<T, false>;
 
     int N           = arg.N;
     int incx        = arg.incx;

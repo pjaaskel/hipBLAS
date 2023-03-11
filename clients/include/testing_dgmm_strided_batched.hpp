@@ -42,8 +42,8 @@ template <typename T>
 inline hipblasStatus_t testing_dgmm_strided_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
-    auto hipblasDgmmStridedBatchedFn
-        = FORTRAN ? hipblasDgmmStridedBatched<T, true> : hipblasDgmmStridedBatched<T, false>;
+    auto hipblasDgmmStridedBatchedFn = hipblasDgmmStridedBatched<T, false>;
+        //= FORTRAN ? hipblasDgmmStridedBatched<T, true> : hipblasDgmmStridedBatched<T, false>;
 
     hipblasSideMode_t side = char2hipblas_side(arg.side);
 

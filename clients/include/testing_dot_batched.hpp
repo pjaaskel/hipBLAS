@@ -45,9 +45,9 @@ template <typename T, bool CONJ = false>
 inline hipblasStatus_t testing_dot_batched(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
-    auto hipblasDotBatchedFn
-        = FORTRAN ? (CONJ ? hipblasDotcBatched<T, true> : hipblasDotBatched<T, true>)
-                  : (CONJ ? hipblasDotcBatched<T, false> : hipblasDotBatched<T, false>);
+    auto hipblasDotBatchedFn = (CONJ ? hipblasDotcBatched<T, false> : hipblasDotBatched<T, false>);
+        //= FORTRAN ? (CONJ ? hipblasDotcBatched<T, true> : hipblasDotBatched<T, true>)
+        //          : (CONJ ? hipblasDotcBatched<T, false> : hipblasDotBatched<T, false>);
 
     int N           = arg.N;
     int incx        = arg.incx;

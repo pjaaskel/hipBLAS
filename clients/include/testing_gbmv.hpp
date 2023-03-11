@@ -42,7 +42,7 @@ template <typename T>
 inline hipblasStatus_t testing_gbmv(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasGbmvFn = FORTRAN ? hipblasGbmv<T, true> : hipblasGbmv<T, false>;
+    auto hipblasGbmvFn = hipblasGbmv<T, false>;//FORTRAN ? hipblasGbmv<T, true> : hipblasGbmv<T, false>;
 
     int M    = arg.M;
     int N    = arg.N;

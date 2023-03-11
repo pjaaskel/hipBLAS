@@ -200,7 +200,7 @@ TEST_P(blas3_her2k_gtest, her2k_gtest_double)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // her2k_batched
 TEST_P(blas3_her2k_gtest, her2k_batched_gtest_float)

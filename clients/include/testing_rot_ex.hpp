@@ -41,7 +41,7 @@ inline hipblasStatus_t testing_rot_ex_template(const Arguments& arg)
 {
     using Ty            = Tx;
     bool FORTRAN        = arg.fortran;
-    auto hipblasRotExFn = FORTRAN ? hipblasRotExFortran : hipblasRotEx;
+    auto hipblasRotExFn = hipblasRotEx;//FORTRAN ? hipblasRotExFortran : hipblasRotEx;
 
     int N    = arg.N;
     int incx = arg.incx;

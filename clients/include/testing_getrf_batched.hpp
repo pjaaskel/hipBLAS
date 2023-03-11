@@ -40,8 +40,8 @@ inline hipblasStatus_t testing_getrf_batched(const Arguments& arg)
 {
     using U      = real_t<T>;
     bool FORTRAN = arg.fortran;
-    auto hipblasGetrfBatchedFn
-        = FORTRAN ? hipblasGetrfBatched<T, true> : hipblasGetrfBatched<T, false>;
+    auto hipblasGetrfBatchedFn = hipblasGetrfBatched<T, false>;
+        //= FORTRAN ? hipblasGetrfBatched<T, true> : hipblasGetrfBatched<T, false>;
 
     int M           = arg.N;
     int N           = arg.N;

@@ -52,7 +52,7 @@ inline hipblasStatus_t testing_her2k_batched(const Arguments& arg)
     using U      = real_t<T>;
     bool FORTRAN = arg.fortran;
     auto hipblasHer2kBatchedFn
-        = FORTRAN ? hipblasHer2kBatched<T, U, true> : hipblasHer2kBatched<T, U, false>;
+        = hipblasHer2kBatched<T, U, false>; //FORTRAN ? hipblasHer2kBatched<T, U, true> : hipblasHer2kBatched<T, U, false>;
 
     int N           = arg.N;
     int K           = arg.K;

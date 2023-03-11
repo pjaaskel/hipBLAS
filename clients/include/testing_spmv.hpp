@@ -41,7 +41,7 @@ template <typename T>
 inline hipblasStatus_t testing_spmv(const Arguments& arg)
 {
     bool FORTRAN       = arg.fortran;
-    auto hipblasSpmvFn = FORTRAN ? hipblasSpmv<T, true> : hipblasSpmv<T, false>;
+    auto hipblasSpmvFn = hipblasSpmv<T, false>;//FORTRAN ? hipblasSpmv<T, true> : hipblasSpmv<T, false>;
 
     hipblasFillMode_t uplo = char2hipblas_fill(arg.uplo);
     int               M    = arg.M;

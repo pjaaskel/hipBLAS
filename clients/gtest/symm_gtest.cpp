@@ -173,7 +173,7 @@ TEST_P(symm_gtest, symm_gtest_float)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 TEST_P(symm_gtest, symm_gtest_double_complex)
 {

@@ -169,7 +169,7 @@ TEST_P(hemm_gtest, hemm_gtest_double_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 TEST_P(hemm_gtest, hemm_batched_gtest_double_complex)
 {

@@ -41,8 +41,8 @@ template <typename Ta, typename Tx = Ta, typename Ty = Tx>
 inline hipblasStatus_t testing_axpy_strided_batched_ex_template(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
-    auto hipblasAxpyStridedBatchedExFn
-        = FORTRAN ? hipblasAxpyStridedBatchedExFortran : hipblasAxpyStridedBatchedEx;
+    auto hipblasAxpyStridedBatchedExFn = hipblasAxpyStridedBatchedEx;
+        //= FORTRAN ? hipblasAxpyStridedBatchedExFortran : hipblasAxpyStridedBatchedEx;
     hipblasStatus_t status = HIPBLAS_STATUS_SUCCESS;
 
     int    N            = arg.N;

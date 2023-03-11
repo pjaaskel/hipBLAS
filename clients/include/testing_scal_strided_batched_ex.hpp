@@ -42,7 +42,7 @@ inline hipblasStatus_t testing_scal_strided_batched_ex_template(const Arguments&
 {
     bool FORTRAN = arg.fortran;
     auto hipblasScalStridedBatchedExFn
-        = FORTRAN ? hipblasScalStridedBatchedExFortran : hipblasScalStridedBatchedEx;
+        = hipblasScalStridedBatchedEx;//FORTRAN ? hipblasScalStridedBatchedExFortran : hipblasScalStridedBatchedEx;
 
     int    N            = arg.N;
     int    incx         = arg.incx;

@@ -41,8 +41,8 @@ template <typename T>
 inline hipblasStatus_t testing_set_get_vector(const Arguments& arg)
 {
     bool FORTRAN            = arg.fortran;
-    auto hipblasSetVectorFn = FORTRAN ? hipblasSetVectorFortran : hipblasSetVector;
-    auto hipblasGetVectorFn = FORTRAN ? hipblasGetVectorFortran : hipblasGetVector;
+    auto hipblasSetVectorFn = hipblasSetVector;//FORTRAN ? hipblasSetVectorFortran : hipblasSetVector;
+    auto hipblasGetVectorFn = hipblasGetVector;//FORTRAN ? hipblasGetVectorFortran : hipblasGetVector;
 
     int M    = arg.M;
     int incx = arg.incx;

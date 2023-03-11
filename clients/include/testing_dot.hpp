@@ -45,8 +45,9 @@ template <typename T, bool CONJ = false>
 inline hipblasStatus_t testing_dot(const Arguments& arg)
 {
     bool FORTRAN      = arg.fortran;
-    auto hipblasDotFn = FORTRAN ? (CONJ ? hipblasDotc<T, true> : hipblasDot<T, true>)
-                                : (CONJ ? hipblasDotc<T, false> : hipblasDot<T, false>);
+    auto hipblasDotFn = (CONJ ? hipblasDotc<T, false> : hipblasDot<T, false>);
+    //FORTRAN ? (CONJ ? hipblasDotc<T, true> : hipblasDot<T, true>)
+    //                            : (CONJ ? hipblasDotc<T, false> : hipblasDot<T, false>);
 
     int N    = arg.N;
     int incx = arg.incx;

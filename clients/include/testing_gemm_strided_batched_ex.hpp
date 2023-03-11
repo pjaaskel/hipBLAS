@@ -55,8 +55,8 @@ template <typename Ta, typename Tb = Ta, typename Tc = Tb, typename Tex = Tc>
 inline hipblasStatus_t testing_gemm_strided_batched_ex_template(const Arguments& arg)
 {
     bool FORTRAN = arg.fortran;
-    auto hipblasGemmStridedBatchedExFn
-        = FORTRAN ? hipblasGemmStridedBatchedExFortran : hipblasGemmStridedBatchedExFortran;
+    auto hipblasGemmStridedBatchedExFn = hipblasGemmStridedBatchedEx;
+        //= FORTRAN ? hipblasGemmStridedBatchedExFortran : hipblasGemmStridedBatchedEx;
 
     hipblasGemmAlgo_t algo           = HIPBLAS_GEMM_DEFAULT;
     uint32_t          solution_index = 0;

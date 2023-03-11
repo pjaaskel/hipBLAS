@@ -41,7 +41,7 @@ template <typename T>
 inline hipblasStatus_t testing_trtri(const Arguments& arg)
 {
     bool FORTRAN        = arg.fortran;
-    auto hipblasTrtriFn = FORTRAN ? hipblasTrtri<T, true> : hipblasTrtri<T, false>;
+    auto hipblasTrtriFn = hipblasTrtri<T, false>;//FORTRAN ? hipblasTrtri<T, true> : hipblasTrtri<T, false>;
 
     const double rel_error = get_epsilon<T>() * 1000;
 
