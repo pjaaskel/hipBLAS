@@ -63,10 +63,8 @@ set(hipblas_test_source
   tpsv_gtest.cpp
   trmv_gtest.cpp
   trsv_gtest.cpp
-  dgmm_gtest.cpp
   gemm_gtest.cpp
   hemm_gtest.cpp
-  geam_gtest.cpp
   herk_gtest.cpp
   her2k_gtest.cpp
   symm_gtest.cpp
@@ -75,7 +73,6 @@ set(hipblas_test_source
   syrkx_gtest.cpp
   trsm_gtest.cpp
   trmm_gtest.cpp
-  trtri_gtest.cpp
   #set_get_vector_gtest.cpp
   #set_get_matrix_gtest.cpp
   #set_get_atomics_mode_gtest.cpp

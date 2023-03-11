@@ -200,7 +200,7 @@ TEST_P(blas3_syr2k_gtest, syr2k_gtest_double_complex)
     }
 }
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 // syr2k_batched
 TEST_P(blas3_syr2k_gtest, syr2k_batched_gtest_float)

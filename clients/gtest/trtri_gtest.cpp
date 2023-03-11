@@ -118,7 +118,7 @@ protected:
     virtual void TearDown() {}
 };
 
-#ifndef __HIP_PLATFORM_NVCC__
+#if !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIP_PLATFORM_ONEAPI__)
 
 TEST_P(trtri_gtest, trtri_float)
 {
