@@ -148,49 +148,76 @@ hipblasStatus_t syclblas_destroy(syclblasHandle_t handle)
 }
 
 hipblasStatus_t syclblas_set_stream(syclblasHandle_t     handle,
-                                  unsigned long const* lzHandles,
+                                  unsigned long const* nativeHandles,
                                   int                  nHandles,
-                                  hipStream_t          stream)
+                                  hipStream_t          stream,
+                                  const char* hipBlasBackendName)
 {
+    assert(nHandles == 4);
     if(handle != nullptr)
     {
         handle->hip_stream = stream;
-        // Obtain the handles to the LZ constructs.
-        assert(nHandles == 4);
-        auto hDriver  = (ze_driver_handle_t)lzHandles[0];
-        auto hDevice  = (ze_device_handle_t)lzHandles[1];
-        auto hContext = (ze_context_handle_t)lzHandles[2];
-        auto hQueue   = (ze_command_queue_handle_t)lzHandles[3];
+        std::string hipBackend(hipBlasBackendName);
+        if (hipBackend == "opencl") {
+            hipblas_backend = opencl;
+            // handle openCl case here
+            cl_platform_id hPlatformId = (cl_platform_id)nativeHandles[0];
+            cl_device_id hDeviceId = (cl_device_id)nativeHandles[1];
+            cl_context hContext = (cl_context)nativeHandles[2];
+            cl_command_queue hQueue = (cl_command_queue)nativeHandles[3];
 
-        // Build SYCL platform/device/queue from the LZ handles.
-        syclPlatformCreate(&handle->platform, hDriver);
-        syclDeviceCreate(&handle->device, handle->platform, hDevice);
+            // platform
+            auto sycl_platform = sycl::opencl::make_platform((pi_native_handle)hPlatformId);
+            handle->platform = new syclPlatform_st({sycl_platform});
+            // device
+            auto sycl_device = sycl::opencl::make_device((pi_native_handle)hDeviceId);
+            handle->device = new syclDevice_st({sycl_device});
 
-        // FIX ME: only 1 device is returned from CHIP-SPV's lzHandles
-        syclContextCreate(
-            &handle->context, &handle->device, 1 /*ndevices*/, hContext, 1 /*keep_ownership*/);
-        syclQueueCreate(&handle->queue, handle->context, handle->device, hQueue, 1 /* keep ownership */);
+            // context
+            auto sycl_context = sycl::opencl::make_context((pi_native_handle)hContext);
+            handle->context = new syclContext_st({sycl_context});
 
-        auto asyncExceptionHandler = [](sycl::exception_list exceptions) {
-            // Report all asynchronous exceptions that occurred.
-            for(std::exception_ptr const& e : exceptions)
-            {
-                try
+            // queue
+            auto sycl_queue = sycl::opencl::make_queue(sycl_context, (pi_native_handle)hQueue);
+            handle->queue = new syclQueue_st({sycl_queue});
+        } else {
+            hipblas_backend = level0;
+            // Obtain the handles to the LZ constructs.
+            auto hDriver  = (ze_driver_handle_t)nativeHandles[0];
+            auto hDevice  = (ze_device_handle_t)nativeHandles[1];
+            auto hContext = (ze_context_handle_t)nativeHandles[2];
+            auto hQueue   = (ze_command_queue_handle_t)nativeHandles[3];
+
+            // Build SYCL platform/device/queue from the LZ handles.
+            syclPlatformCreate(&handle->platform, hDriver);
+            syclDeviceCreate(&handle->device, handle->platform, hDevice);
+
+            // FIX ME: only 1 device is returned from CHIP-SPV's lzHandles
+            syclContextCreate(
+                &handle->context, &handle->device, 1 /*ndevices*/, hContext, 1 /*keep_ownership*/);
+            syclQueueCreate(&handle->queue, handle->context, handle->device, hQueue, 1 /* keep ownership */);
+
+            auto asyncExceptionHandler = [](sycl::exception_list exceptions) {
+                // Report all asynchronous exceptions that occurred.
+                for(std::exception_ptr const& e : exceptions)
+                {
+                    try
+                    {
+                        std::rethrow_exception(e);
+                    }
+                    catch(std::exception& e)
+                    {
+                        std::cerr << "Async exception: " << e.what() << std::endl;
+                    }
+                }
+
+                // Rethrow the first asynchronous exception.
+                for(std::exception_ptr const& e : exceptions)
                 {
                     std::rethrow_exception(e);
                 }
-                catch(std::exception& e)
-                {
-                    std::cerr << "Async exception: " << e.what() << std::endl;
-                }
-            }
-
-            // Rethrow the first asynchronous exception.
-            for(std::exception_ptr const& e : exceptions)
-            {
-                std::rethrow_exception(e);
-            }
-        };
+            };
+        }
     }
 
     return (handle != nullptr) ? HIPBLAS_STATUS_SUCCESS : HIPBLAS_STATUS_HANDLE_IS_NULLPTR;

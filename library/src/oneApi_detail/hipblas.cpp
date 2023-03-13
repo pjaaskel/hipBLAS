@@ -18,8 +18,11 @@ static hipblasStatus_t updateSyclHandlesToCrrStream(hipStream_t stream, syclblas
     unsigned long lzHandles[4];
     int           nHandles = 4;
     hipGetBackendNativeHandles((uintptr_t)stream, lzHandles, &nHandles);
+
+    auto backendName = hipGetBackendName();
+
     //Fix-Me : Should Sycl know hipStream_t??
-    syclblas_set_stream(handle, lzHandles, nHandles, stream);
+    syclblas_set_stream(handle, lzHandles, nHandles, stream, backendName);
     return HIPBLAS_STATUS_SUCCESS;
 }
 
@@ -467,6 +470,7 @@ try
     } else {
         *result = return_val;
     }
+
     hip_status = hipFree(&dev_results);
     return HIPBLAS_STATUS_SUCCESS;
 }

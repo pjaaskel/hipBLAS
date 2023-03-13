@@ -13,6 +13,13 @@ typedef struct syclContext_st *syclContext_t;
 typedef struct syclQueue_st *syclQueue_t;
 typedef struct syclEvent_st *syclEvent_t;
 
+// Indicate backend used for HIP and SYCL
+typedef enum hipBlasBackend{
+    level0, // default
+    opencl
+};
+extern hipBlasBackend hipblas_backend;
+
 typedef enum {
     ONEMKL_TRANSPOSE_NONTRANS,
     ONEMKL_TRANSPOSE_TRANS,
