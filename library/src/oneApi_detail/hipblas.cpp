@@ -1297,6 +1297,40 @@ catch(...)
 
 // Level-1 : axpy (supported datatypes : float, double, complex float, complex double)
 // Generic axpy which can handle batched/stride/non-batched
+hipblasStatus_t hipblasHaxpy(hipblasHandle_t    handle,
+                             int                n,
+                             const hipblasHalf* alpha,
+                             const hipblasHalf* x,
+                             int                incx,
+                             hipblasHalf*       y,
+                             int                incy)
+try
+{
+    // error checks
+    if (handle == nullptr || x == nullptr || y == nullptr ||alpha == nullptr ||
+        n <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    // 'alpha' can be device or host memory hence need to be copied before access
+    uint16_t host_alpha_ptr = 0;
+
+    if (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE) {
+        auto hipStatus = hipMemcpy(&host_alpha_ptr, alpha, sizeof(uint16_t), hipMemcpyDefault);
+    } else {
+        host_alpha_ptr = *alpha;
+    }
+
+    onemklHaxpy(sycl_queue, n, host_alpha_ptr, (const short*)x, incx, (short*)y, incy);
+    syclblas_queue_wait(sycl_queue);
+
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
 hipblasStatus_t hipblasSaxpy(hipblasHandle_t handle, int n, const float* alpha,
                              const float* x, int incx, float* y, int incy)
 try
@@ -1529,7 +1563,25 @@ hipblasStatus_t hipblasSaxpyStridedBatched(hipblasHandle_t handle,
                                            int             batchCount)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    // error checks
+    if (handle == nullptr || x == nullptr || y == nullptr ||alpha == nullptr ||
+        n <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    // 'alpha' can be device or host memory hence need to be copied before access
+    float host_alpha_ptr = 0;
+
+    if (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE) {
+        auto hipStatus = hipMemcpy(&host_alpha_ptr, alpha, sizeof(float), hipMemcpyDefault);
+    } else {
+        host_alpha_ptr = *alpha;
+    }
+
+    onemklSaxpy_strided(sycl_queue, n, host_alpha_ptr, x, incx, stridex, y, incy, stridey, batchCount);
+    syclblas_queue_wait(sycl_queue);
+
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -1548,7 +1600,25 @@ hipblasStatus_t hipblasDaxpyStridedBatched(hipblasHandle_t handle,
                                            int             batchCount)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    // error checks
+    if (handle == nullptr || x == nullptr || y == nullptr ||alpha == nullptr ||
+        n <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    // 'alpha' can be device or host memory hence need to be copied before access
+    double host_alpha_ptr = 0;
+    if (queryCurrentPtrMode(handle)  == HIPBLAS_POINTER_MODE_DEVICE) {
+        auto hipStatus = hipMemcpy(&host_alpha_ptr, alpha, sizeof(double), hipMemcpyDefault);
+    } else {
+        host_alpha_ptr = *alpha;
+    }
+
+    onemklDaxpy_strided(sycl_queue, n, host_alpha_ptr, x, incx, stridex, y, incy, stridey, batchCount);
+
+    syclblas_queue_wait(sycl_queue);
+
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -1567,7 +1637,24 @@ hipblasStatus_t hipblasCaxpyStridedBatched(hipblasHandle_t       handle,
                                            int                   batchCount)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    // error checks
+    if (handle == nullptr || x == nullptr || y == nullptr ||alpha == nullptr ||
+        n <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    // 'alpha' can be device or host memory hence need to be copied before access
+    float _Complex host_alpha_ptr = 0;
+    if (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE) {
+        auto hipStatus = hipMemcpy(&host_alpha_ptr, alpha, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        host_alpha_ptr = *((const float _Complex*)alpha);
+    }
+    onemklCaxpy_strided(sycl_queue, n, host_alpha_ptr, (const float _Complex*)x, incx, stridex, (float _Complex*)y, incy, stridey, batchCount);
+
+    syclblas_queue_wait(sycl_queue);
+
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -1586,7 +1673,26 @@ hipblasStatus_t hipblasZaxpyStridedBatched(hipblasHandle_t             handle,
                                            int                         batchCount)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    // error checks
+    if (handle == nullptr || x == nullptr || y == nullptr ||alpha == nullptr ||
+        n <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    // 'alpha' can be device or host memory hence need to be copied before access
+    double _Complex host_alpha_ptr = 0;
+    if (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE) {
+        auto hipStatus = hipMemcpy(&host_alpha_ptr, alpha, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        host_alpha_ptr = *((const double _Complex*)alpha);
+    }
+
+    onemklZaxpy_strided(sycl_queue, n, host_alpha_ptr, (const double _Complex*)x, incx, stridex,
+                        (double _Complex*)y, incy, stridey, batchCount);
+
+    syclblas_queue_wait(sycl_queue);
+
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -1810,6 +1916,38 @@ catch(...)
 
 // Level-1 : dot (supported datatypes : float, double, complex float, complex double)
 // Generic dot which can handle batched/stride/non-batched
+hipblasStatus_t hipblasHdot(hipblasHandle_t handle, int n, const hipblasHalf* x, int incx,
+                            const hipblasHalf* y, int incy, hipblasHalf* result)
+try
+{
+    // error checks
+    if (handle == nullptr || x == nullptr || y == nullptr ||result == nullptr ||
+        incx <= 0 || incy <= 0 || n <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    hipError_t hip_status;
+    bool is_result_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    short* dev_result;
+    dev_result = (short *)result;
+    if (!is_result_dev_ptr) {
+        hip_status = hipMalloc(&dev_result, sizeof(short));
+    }
+    onemklHdot(sycl_queue, n, (const short*)x, incx, (const short *)y, incy, dev_result);
+    syclblas_queue_wait(sycl_queue);
+
+    if (!is_result_dev_ptr) {
+        hip_status = hipMemcpy(result, dev_result, sizeof(uint16_t), hipMemcpyDefault);
+        hip_status = hipFree(dev_result);
+    }
+
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
 hipblasStatus_t hipblasSdot(hipblasHandle_t handle, int n, const float* x, int incx, const float* y, int incy, float* result)
 try
 {
@@ -11525,7 +11663,22 @@ hipblasStatus_t hipblasStrsmStridedBatched(hipblasHandle_t    handle,
                                            int                batch_count)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || B == nullptr ||
+        m <= 0 || n <= 0 || lda <= 0 || ldb <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    float h_alpha;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float*)alpha);
+    }
+    onemklStrsm_strided(sycl_queue, convert(side), convert(uplo), convert(transA), convert(diag), m, n, h_alpha, A, lda, strideA, B, ldb, strideB, batch_count);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -11549,7 +11702,23 @@ hipblasStatus_t hipblasDtrsmStridedBatched(hipblasHandle_t    handle,
                                            int                batch_count)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || B == nullptr ||
+        m <= 0 || n <= 0 || lda <= 0 || ldb <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    double h_alpha;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double*)alpha);
+    }
+    onemklDtrsm_strided(sycl_queue, convert(side), convert(uplo), convert(transA), convert(diag),
+                                    m, n, h_alpha, A, lda, strideA, B, ldb, strideB, batch_count);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -11573,7 +11742,23 @@ hipblasStatus_t hipblasCtrsmStridedBatched(hipblasHandle_t       handle,
                                            int                   batch_count)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || B == nullptr ||
+        m <= 0 || n <= 0 || lda <= 0 || ldb <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    float _Complex h_alpha;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float _Complex*)alpha);
+    }
+    onemklCtrsm_strided(sycl_queue, convert(side), convert(uplo), convert(transA), convert(diag), m, n,
+                h_alpha, (const float _Complex*)A, lda, strideA, (float _Complex*)B, ldb, strideB, batch_count);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -11597,7 +11782,23 @@ hipblasStatus_t hipblasZtrsmStridedBatched(hipblasHandle_t             handle,
                                            int                         batch_count)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || B == nullptr ||
+        m <= 0 || n <= 0 || lda <= 0 || ldb <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    double _Complex h_alpha;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double _Complex*)alpha);
+    }
+    onemklZtrsm_strided(sycl_queue, convert(side), convert(uplo), convert(transA), convert(diag), m, n,
+                h_alpha, (const double _Complex*)A, lda, strideA, (double _Complex*)B, ldb, strideB, batch_count);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -11621,8 +11822,26 @@ hipblasStatus_t hipblasHgemm(hipblasHandle_t    handle,
                              int                ldc)
 try
 {
-    // How to handle half??
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || B == nullptr || C == nullptr || beta == nullptr ||
+        m <= 0 || n <= 0 || k <= 0 || lda <= 0 || ldb <= 0 || ldc <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    uint16_t h_alpha, h_beta;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float), hipMemcpyDefault);
+        hipMemcpy(&h_beta, beta, sizeof(float), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float*)alpha);
+        h_beta = *((float*)beta);
+    }
+
+    onemklHgemm(sycl_queue, convert(transa), convert(transb), m, n, k,
+                h_alpha, (const short*)A, lda, (const short*)B, ldb, h_beta, (short *)C, ldc);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -11968,7 +12187,26 @@ hipblasStatus_t hipblasSgemmStridedBatched(hipblasHandle_t    handle,
                                            int                batchCount)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || B == nullptr || C == nullptr || beta == nullptr ||
+        m <= 0 || n <= 0 || k <= 0 || lda <= 0 || ldb <= 0 || ldc <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    float h_alpha, h_beta;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float), hipMemcpyDefault);
+        hipMemcpy(&h_beta, beta, sizeof(float), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float*)alpha);
+        h_beta = *((float*)beta);
+    }
+
+    onemklSgemm_strided(sycl_queue, convert(transa), convert(transb), m, n, k,
+                h_alpha, A, lda, bsa, B, ldb, bsb, h_beta, C, ldc, bsc, batchCount);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -11995,7 +12233,26 @@ hipblasStatus_t hipblasDgemmStridedBatched(hipblasHandle_t    handle,
                                            int                batchCount)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || B == nullptr || C == nullptr || beta == nullptr ||
+        m <= 0 || n <= 0 || k <= 0 || lda <= 0 || ldb <= 0 || ldc <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    double h_alpha, h_beta;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double), hipMemcpyDefault);
+        hipMemcpy(&h_beta, beta, sizeof(double), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double*)alpha);
+        h_beta = *((double*)beta);
+    }
+
+    onemklDgemm_strided(sycl_queue, convert(transa), convert(transb), m, n, k,
+                h_alpha, A, lda, bsa, B, ldb, bsb, h_beta, C, ldc, bsc, batchCount);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -12022,7 +12279,27 @@ hipblasStatus_t hipblasCgemmStridedBatched(hipblasHandle_t       handle,
                                            int                   batchCount)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || B == nullptr || C == nullptr || beta == nullptr ||
+        m <= 0 || n <= 0 || k <= 0 || lda <= 0 || ldb <= 0 || ldc <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    float _Complex h_alpha, h_beta;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float _Complex), hipMemcpyDefault);
+        hipMemcpy(&h_beta, beta, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float _Complex*)alpha);
+        h_beta = *((float _Complex*)beta);
+    }
+
+    onemklCgemm_strided(sycl_queue, convert(transa), convert(transb), m, n, k,
+                h_alpha, (const float _Complex*)A, lda, bsa, (const float _Complex*)B, ldb, bsb,
+                h_beta, (float _Complex*)C, ldc, bsc, batchCount);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -12049,7 +12326,27 @@ hipblasStatus_t hipblasZgemmStridedBatched(hipblasHandle_t             handle,
                                            int                         batchCount)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || B == nullptr || C == nullptr || beta == nullptr ||
+        m <= 0 || n <= 0 || k <= 0 || lda <= 0 || ldb <= 0 || ldc <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    double _Complex h_alpha, h_beta;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
+        hipMemcpy(&h_beta, beta, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double _Complex*)alpha);
+        h_beta = *((double _Complex*)beta);
+    }
+
+    onemklZgemm_strided(sycl_queue, convert(transa), convert(transb), m, n, k,
+                h_alpha, (const double _Complex*)A, lda, bsa, (const double _Complex*)B, ldb, bsb,
+                h_beta, (double _Complex*)C, ldc, bsc, batchCount);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
