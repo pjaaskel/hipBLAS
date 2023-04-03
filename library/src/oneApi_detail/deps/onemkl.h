@@ -306,16 +306,30 @@ void onemklSsymv(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float alp
 void onemklDsymv(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
                  double alpha, const double *a, int64_t lda, const double *x,
                  int64_t incx, double beta, double *y, int64_t incy);
+void onemklCsymv(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float _Complex alpha,
+                 const float _Complex *a, int64_t lda, const float _Complex *x, int64_t incx,
+                 float _Complex beta, float _Complex *y, int64_t incy);
+void onemklZsymv(syclQueue_t device_queue, onemklUplo uplo, int64_t n,
+                 double _Complex alpha, const double _Complex *a, int64_t lda, const double _Complex *x,
+                 int64_t incx, double _Complex beta, double _Complex *y, int64_t incy);
 
 void onemklSsyr(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float alpha,
                            const float *x, int64_t incx, float *a, int64_t lda);
 void onemklDsyr(syclQueue_t device_queue, onemklUplo uplo, int64_t n, double alpha,
                            const double *x, int64_t incx, double *a, int64_t lda);
+void onemklCsyr(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float _Complex alpha,
+                           const float _Complex *x, int64_t incx, float _Complex *a, int64_t lda);
+void onemklZsyr(syclQueue_t device_queue, onemklUplo uplo, int64_t n, double _Complex alpha,
+                           const double _Complex *x, int64_t incx, double _Complex *a, int64_t lda);
 
 void onemklSsyr2(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float alpha,
                            const float *x, int64_t incx, const float *y, int64_t incy, float *a, int64_t lda);
 void onemklDsyr2(syclQueue_t device_queue, onemklUplo uplo, int64_t n, double alpha,
                            const double *x, int64_t incx, const double *y, int64_t incy, double *a, int64_t lda);
+void onemklCsyr2(syclQueue_t device_queue, onemklUplo uplo, int64_t n, float _Complex alpha,
+                           const float _Complex *x, int64_t incx, const float _Complex *y, int64_t incy, float _Complex *a, int64_t lda);
+void onemklZsyr2(syclQueue_t device_queue, onemklUplo uplo, int64_t n, double _Complex alpha,
+                           const double _Complex *x, int64_t incx, const double _Complex *y, int64_t incy, double _Complex *a, int64_t lda);
 
 void onemklStbmv(syclQueue_t device_queue, onemklUplo uplo,
                 onemklTranspose trans, onemklDiag diag, int64_t n,

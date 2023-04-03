@@ -6995,10 +6995,11 @@ try
         n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
-    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
     auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
 
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
     float h_alpha, h_beta;
     if (is_dev_ptr) {
         hipMemcpy(&h_alpha, alpha, sizeof(float), hipMemcpyDefault);
@@ -7032,10 +7033,11 @@ try
         n <= 0 || lda <= 0) {
         return HIPBLAS_STATUS_INVALID_VALUE;
     }
-    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+
     auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
     auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
 
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
     double h_alpha, h_beta;
     if (is_dev_ptr) {
         hipMemcpy(&h_alpha, alpha, sizeof(double), hipMemcpyDefault);
@@ -7066,7 +7068,26 @@ hipblasStatus_t hipblasCsymv(hipblasHandle_t       handle,
                              int                   incy)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || x == nullptr || y == nullptr || beta == nullptr ||
+        n <= 0 || lda <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    float _Complex h_alpha, h_beta;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float _Complex), hipMemcpyDefault);
+        hipMemcpy(&h_beta, beta, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float _Complex*)alpha);
+        h_beta = *((float _Complex*)beta);
+    }
+    // call needs to add
+    onemklCsymv(sycl_queue, convert(uplo), n, h_alpha, (const float _Complex*)A, lda,
+                (const float _Complex*)x, incx, h_beta,
+                (float _Complex*)y, incy);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -7086,7 +7107,25 @@ hipblasStatus_t hipblasZsymv(hipblasHandle_t             handle,
                              int                         incy)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || x == nullptr || y == nullptr || beta == nullptr ||
+        n <= 0 || lda <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    double _Complex h_alpha, h_beta;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
+        hipMemcpy(&h_beta, beta, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double _Complex*)alpha);
+        h_beta = *((double _Complex*)beta);
+    }
+    onemklZsymv(sycl_queue, convert(uplo), n, h_alpha, (const double _Complex*)A, lda,
+                (const double _Complex*)x, incx, h_beta,
+                (double _Complex*)y, incy);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -7350,7 +7389,23 @@ hipblasStatus_t hipblasCsyr(hipblasHandle_t       handle,
                             int                   lda)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || x == nullptr ||
+        n <= 0 || incx <= 0 || lda <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    float _Complex h_alpha;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float _Complex*)alpha);
+    }
+    onemklCsyr(sycl_queue, convert(uplo), n, h_alpha, (const float _Complex*)x, incx, (float _Complex*)A, lda);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -7367,7 +7422,23 @@ hipblasStatus_t hipblasZsyr(hipblasHandle_t             handle,
                             int                         lda)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || x == nullptr ||
+        n <= 0 || incx <= 0 || lda <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    double _Complex h_alpha;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double _Complex*)alpha);
+    }
+    onemklZsyr(sycl_queue, convert(uplo), n, h_alpha, (const double _Complex*)x, incx, (double _Complex*)A, lda);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -7609,7 +7680,23 @@ hipblasStatus_t hipblasCsyr2(hipblasHandle_t       handle,
                              int                   lda)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || x == nullptr || y == nullptr ||
+        n <= 0 || lda <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    float _Complex h_alpha;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float _Complex*)alpha);
+    }
+    onemklCsyr2(sycl_queue, convert(uplo), n, h_alpha, (const float _Complex*)x, incx,
+                (const float _Complex*)y, incy, (float _Complex*)A, lda);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -7628,7 +7715,23 @@ hipblasStatus_t hipblasZsyr2(hipblasHandle_t             handle,
                              int                         lda)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || x == nullptr || y == nullptr ||
+        n <= 0 || lda <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    double _Complex h_alpha;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double _Complex*)alpha);
+    }
+    onemklZsyr2(sycl_queue, convert(uplo), n, h_alpha, (const double _Complex*)x, incx,
+                (const double _Complex*)y, incy, (double _Complex*)A, lda);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -9972,7 +10075,27 @@ hipblasStatus_t hipblasCsymm(hipblasHandle_t       handle,
                              int                   ldc)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || B == nullptr || C == nullptr || beta == nullptr ||
+        m <= 0 || n <= 0 || lda <= 0 || ldb <= 0 || ldc <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    float _Complex h_alpha, h_beta;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float _Complex), hipMemcpyDefault);
+        hipMemcpy(&h_beta, beta, sizeof(float _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float _Complex*)alpha);
+        h_beta = *((float _Complex*)beta);
+    }
+
+    onemklCsymm(sycl_queue, convert(side), convert(uplo), m, n, h_alpha,
+                (const float _Complex*)A, lda,(const float _Complex*)B, ldb,
+                h_beta, (float _Complex*)C, ldc);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
@@ -9994,7 +10117,27 @@ hipblasStatus_t hipblasZsymm(hipblasHandle_t             handle,
                              int                         ldc)
 try
 {
-    return HIPBLAS_STATUS_NOT_SUPPORTED;
+    if (handle == nullptr || alpha == nullptr || A == nullptr || B == nullptr || C == nullptr || beta == nullptr ||
+        m <= 0 || n <= 0 || lda <= 0 || ldb <= 0 || ldc <= 0) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    double _Complex h_alpha, h_beta;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(double _Complex), hipMemcpyDefault);
+        hipMemcpy(&h_beta, beta, sizeof(double _Complex), hipMemcpyDefault);
+    } else {
+        h_alpha = *((double _Complex*)alpha);
+        h_beta = *((double _Complex*)beta);
+    }
+
+    onemklZsymm(sycl_queue, convert(side), convert(uplo), m, n, h_alpha,
+                (const double _Complex*)A, lda,(const double _Complex*)B, ldb,
+                h_beta, (double _Complex*)C, ldc);
+    return HIPBLAS_STATUS_SUCCESS;
 }
 catch(...)
 {
