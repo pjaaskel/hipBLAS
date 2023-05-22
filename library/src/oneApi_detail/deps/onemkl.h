@@ -20,6 +20,27 @@ typedef enum hipBlasBackend{
 };
 extern hipBlasBackend hipblas_backend;
 
+typedef enum
+{
+    ONEMKL_R_16F,
+    ONEMKL_R_32F,
+    ONEMKL_R_64F,
+    ONEMKL_C_16F,
+    ONEMKL_C_32F,
+    ONEMKL_C_64F,
+    ONEMKL_R_8I,
+    ONEMKL_R_8U,
+    ONEMKL_R_32I,
+    ONEMKL_R_32U,
+    ONEMKL_C_8I,
+    ONEMKL_C_8U,
+    ONEMKL_C_32I,
+    ONEMKL_C_32U,
+    ONEMKL_R_16B,
+    ONEMKL_C_16B,
+    ONEMKL_DATATYPE_INVALID
+} onemklDatatype_t;
+
 typedef enum {
     ONEMKL_TRANSPOSE_NONTRANS,
     ONEMKL_TRANSPOSE_TRANS,
@@ -511,7 +532,7 @@ void onemklCtrsm_strided(syclQueue_t device_queue, onemklSideMode side, onemklUp
 void onemklZtrsm_strided(syclQueue_t device_queue, onemklSideMode side, onemklUplo uplo, onemklTranspose trans, onemklDiag diag, int64_t m,
                 int64_t n, double _Complex alpha, const double _Complex *a, int64_t lda, int64_t stridea, double _Complex *b, int64_t ldb, int64_t strideb, int64_t batch_size);
 
- int onemklHgemm(syclQueue_t device_queue, onemklTranspose transA,
+int onemklHgemm(syclQueue_t device_queue, onemklTranspose transA,
                 onemklTranspose transB, int64_t m, int64_t n, int64_t k,
                 uint16_t alpha, const short *A, int64_t lda, const short *B,
                 int64_t ldb, uint16_t beta, short *C, int64_t ldc);
@@ -554,6 +575,10 @@ int onemklZgemm_strided(syclQueue_t device_queue, onemklTranspose transA,
                 double _Complex alpha, const double _Complex *A, int64_t lda, int64_t stridea,
                 const double _Complex *B, int64_t ldb, int64_t strideb, double _Complex beta,
                 double _Complex *C, int64_t ldc, int64_t stridec, int64_t batch_size);
+int onemklSgemmEx(syclQueue_t device_queue, onemklTranspose transA,
+                onemklTranspose transB, int64_t m, int64_t n, int64_t k,
+                float alpha, const void *A, onemklDatatype_t Atype, int64_t lda, const void *B,
+                onemklDatatype_t Btype, int64_t ldb, float beta, void *C, onemklDatatype_t Ctype, int64_t ldc);
 
 void onemklDestroy();
 #ifdef __cplusplus
