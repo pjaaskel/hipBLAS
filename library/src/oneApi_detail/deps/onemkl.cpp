@@ -1280,6 +1280,45 @@ extern "C" int onemklZgemm_strided(syclQueue_t device_queue, onemklTranspose tra
     __FORCE_MKL_FLUSH__(status);
     return 0;
 }
+extern "C" int onemklSgemmEx(syclQueue_t device_queue, onemklTranspose transA,
+                onemklTranspose transB, int64_t m, int64_t n, int64_t k,
+                float alpha, const void *A, onemklDatatype_t Atype, int64_t lda, const void *B,
+                onemklDatatype_t Btype, int64_t ldb, float beta, void *C, onemklDatatype_t Ctype, int64_t ldc) {
+    sycl::event status;
+    if  (Atype == ONEMKL_R_16F && Btype == ONEMKL_R_16F && Ctype == ONEMKL_R_16F){
+    status = oneapi::mkl::blas::column_major::gemm(device_queue->val, convert(transA),
+                                          convert(transB), m, n, k, alpha, reinterpret_cast<const sycl::half *>(A),
+                                          lda, reinterpret_cast<const sycl::half *>(B), ldb, beta,
+                                          reinterpret_cast<sycl::half *>(C), ldc);
+    } else if (Atype == ONEMKL_R_16F && Btype == ONEMKL_R_16F && Ctype == ONEMKL_R_32F) {
+    status = oneapi::mkl::blas::column_major::gemm(device_queue->val, convert(transA),
+                                          convert(transB), m, n, k, alpha, reinterpret_cast<const sycl::half *>(A),
+                                          lda, reinterpret_cast<const sycl::half *>(B), ldb, beta,
+                                          reinterpret_cast<float *>(C), ldc);
+    } else if(Atype == ONEMKL_R_16B && Btype == ONEMKL_R_16B && Ctype == ONEMKL_R_16B) {
+    status = oneapi::mkl::blas::column_major::gemm(device_queue->val, convert(transA),
+                                          convert(transB), m, n, k, alpha, reinterpret_cast<const oneapi::mkl::bfloat16 *>(A),
+                                          lda, reinterpret_cast<const oneapi::mkl::bfloat16 *>(B), ldb, beta,
+                                          reinterpret_cast<oneapi::mkl::bfloat16 *>(C), ldc);
+    } else if(Atype == ONEMKL_R_16B && Btype == ONEMKL_R_16B && Ctype == ONEMKL_R_32F) {
+    status = oneapi::mkl::blas::column_major::gemm(device_queue->val, convert(transA),
+                                          convert(transB), m, n, k, alpha, reinterpret_cast<const oneapi::mkl::bfloat16 *>(A),
+                                          lda, reinterpret_cast<const oneapi::mkl::bfloat16 *>(B), ldb, beta,
+                                          reinterpret_cast<float *>(C), ldc);
+    } else if(Atype == ONEMKL_R_8I && Btype == ONEMKL_R_8I && Ctype == ONEMKL_R_32F) {
+    status = oneapi::mkl::blas::column_major::gemm(device_queue->val, convert(transA),
+                                          convert(transB), m, n, k, alpha, reinterpret_cast<const int8_t *>(A),
+                                          lda, reinterpret_cast<const int8_t *>(B), ldb, beta,
+                                          reinterpret_cast<float *>(C), ldc);
+    } else if(Atype == ONEMKL_R_32F && Btype == ONEMKL_R_32F && Ctype == ONEMKL_R_32F) {
+    status = oneapi::mkl::blas::column_major::gemm(device_queue->val, convert(transA),
+                                          convert(transB), m, n, k, alpha, reinterpret_cast<const float *>(A),
+                                          lda, reinterpret_cast<const float *>(B), ldb, beta,
+                                          reinterpret_cast<float *>(C), ldc);
+    }
+    __FORCE_MKL_FLUSH__(status);
+    return 0;
+}
 
 extern "C" void onemklCherk(syclQueue_t device_queue, onemklUplo uplo, onemklTranspose trans, int64_t n, int64_t k,
                 float alpha, const float _Complex* a, int64_t lda, float beta, float _Complex* c, int64_t ldc) {
@@ -1507,20 +1546,6 @@ void onemklZtrsm_strided(syclQueue_t device_queue, onemklSideMode side, onemklUp
     __FORCE_MKL_FLUSH__(status);
 }
 
-// other
-
-// oneMKL keeps a cache of SYCL queues and tries to destroy them when unloading the library.
-// that is incompatible with oneAPI.jl destroying queues before that, so expose a function
-// to manually wipe the device cache when we're destroying queues.
-
-namespace oneapi {
-namespace mkl {
-namespace gpu {
-int clean_gpu_caches();
-}
-}
-}
-
 extern "C" void onemklDestroy() {
-    oneapi::mkl::gpu::clean_gpu_caches();
+
 }

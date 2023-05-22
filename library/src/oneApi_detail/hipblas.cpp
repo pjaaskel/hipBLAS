@@ -346,6 +346,56 @@ bool isDevicePointer(const void* ptr) {
     return is_result_dev_ptr;
 }
 
+onemklDatatype_t convert(hipblasDatatype_t t){
+    switch(t){
+        case HIPBLAS_R_16F:
+            return ONEMKL_R_16F;
+        case HIPBLAS_R_32F:
+            return ONEMKL_R_32F;
+        case HIPBLAS_R_64F:
+            return ONEMKL_R_64F;
+        case HIPBLAS_C_16F:
+            return ONEMKL_C_16F;
+        case HIPBLAS_C_32F:
+            return ONEMKL_C_32F;
+        case HIPBLAS_C_64F:
+            return ONEMKL_C_64F;
+        case HIPBLAS_R_8I:
+            return ONEMKL_R_8I;
+        case HIPBLAS_R_8U:
+            return ONEMKL_R_8U;
+        case HIPBLAS_R_32I:
+            return ONEMKL_R_32I;
+        case HIPBLAS_R_32U:
+            return ONEMKL_R_32U;
+        case HIPBLAS_C_8I:
+            return ONEMKL_C_8I;
+        case HIPBLAS_C_8U:
+            return ONEMKL_C_8U;
+        case HIPBLAS_C_32I:
+            return ONEMKL_C_32I;
+        case HIPBLAS_C_32U:
+            return ONEMKL_C_32U;
+        case HIPBLAS_R_16B:
+            return ONEMKL_R_16B;
+        case HIPBLAS_C_16B:
+            return ONEMKL_C_16B;
+        default:
+            return ONEMKL_DATATYPE_INVALID;
+    }
+}
+
+bool isSupported(hipblasDatatype_t A, hipblasDatatype_t B, hipblasDatatype_t C) {
+       // to check if MKL  support the combination
+    if ((A == HIPBLAS_R_16F && B == HIPBLAS_R_16F && ((C == HIPBLAS_R_16F) || (C == HIPBLAS_R_32F))) ||
+        (A == HIPBLAS_R_16B && B == HIPBLAS_R_16B && ((C== HIPBLAS_R_16B)||(C == HIPBLAS_R_32F))) ||
+        (A == HIPBLAS_R_8I && B == HIPBLAS_R_8I && C == HIPBLAS_R_32F) ||
+        (A == HIPBLAS_R_32F && B == HIPBLAS_R_32F && C == HIPBLAS_R_32F)) {
+        return true;
+    }
+  return false;
+}
+
 onemklTranspose convert(hipblasOperation_t val) {
     switch(val) {
         case HIPBLAS_OP_T:
@@ -9481,6 +9531,52 @@ catch(...)
 //------------------------------------------------------------------------------------------------------------
 
 // Level-3 : herk(supported datatypes : float complex and double complex )
+hipblasStatus_t hipblasSgemmEX(hipblasHandle_t    handle,
+                             hipblasOperation_t transa,
+                             hipblasOperation_t transb,
+                             int                m,
+                             int                n,
+                             int                k,
+                             const float*       alpha,
+                             const void*        A,
+                             hipblasDatatype_t  Atype,
+                             int                lda,
+                             const void*        B,
+                             hipblasDatatype_t  Btype,
+                             int                ldb,
+                             const float*       beta,
+                             void*              C,
+                             hipblasDatatype_t  Ctype,
+                             int                ldc)
+try
+{
+    if (handle == nullptr || alpha == nullptr || A == nullptr || B == nullptr || C == nullptr || beta == nullptr ||
+        m <= 0 || n <= 0 || k <= 0 || lda <= 0 || ldb <= 0 || ldc <= 0 ||
+        !isSupported(Atype, Btype, Ctype)) {
+        return HIPBLAS_STATUS_INVALID_VALUE;
+    }
+    // As per spec alpha can be device/host memory. In case of device memory *alpha will crash
+    auto sycl_queue = syclblas_get_sycl_queue((syclblasHandle_t)handle);
+    auto is_dev_ptr = (queryCurrentPtrMode(handle) == HIPBLAS_POINTER_MODE_DEVICE);
+
+    float h_alpha, h_beta;
+    if (is_dev_ptr) {
+        hipMemcpy(&h_alpha, alpha, sizeof(float), hipMemcpyDefault);
+        hipMemcpy(&h_beta, beta, sizeof(float), hipMemcpyDefault);
+    } else {
+        h_alpha = *((float*)alpha);
+        h_beta = *((float*)beta);
+    }
+
+    onemklSgemmEx(sycl_queue, convert(transa), convert(transb), m, n, k,
+                h_alpha, A, convert(Atype), lda, B, convert(Btype), ldb, h_beta, C, convert(Ctype), ldc);
+    return HIPBLAS_STATUS_SUCCESS;
+}
+catch(...)
+{
+    return exception_to_hipblas_status();
+}
+
 hipblasStatus_t hipblasCherk(hipblasHandle_t       handle,
                              hipblasFillMode_t     uplo,
                              hipblasOperation_t    transA,
