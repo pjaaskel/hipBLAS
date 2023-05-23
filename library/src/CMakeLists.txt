@@ -158,17 +158,9 @@ endif( )
 
 if (USE_ONEAPI)
   target_compile_definitions( hipblas PRIVATE __HIP_PLATFORM_SPIRV__ )
-  set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-  target_link_libraries(hipblas
-    sycl_wrapper
-  #  mkl_sycl
-  #  mkl_intel_ilp64
-  #  mkl_sequential
-  #  mkl_core
-  #  sycl
-  #  OpenCL
-  )
-  target_link_options(hipblas PRIVATE -Wl,-rpath,${CMAKE_INSTALL_PREFIX}/lib:${ICPX_CORE_LIBDIR})
+  target_link_libraries( hipblas PUBLIC sycl_wrapper )
+  set_target_properties(hipblas PROPERTIES
+                      INSTALL_RPATH "${INSTALL_RPATH};${CMAKE_INSTALL_PREFIX}/lib")
 endif()
 
 # Internal header includes
@@ -186,6 +178,7 @@ target_include_directories( hipblas
 set_target_properties( hipblas PROPERTIES CXX_EXTENSIONS NO )
 set_target_properties( hipblas PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/staging" )
 set_target_properties( hipblas PROPERTIES DEBUG_POSTFIX "-d" )
+set_target_properties( hipblas PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 if (WIN32)
   add_custom_command( TARGET hipblas POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/staging/$<TARGET_FILE_NAME:hipblas> ${PROJECT_BINARY_DIR}/clients/staging/$<TARGET_FILE_NAME:hipblas> )

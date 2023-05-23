@@ -4,7 +4,7 @@ set(POSITION_INDEPENDENT_CODE ON)
 
 add_library(sycl_wrapper SHARED ./sycl_wrapper.cpp ./onemkl.cpp)
 target_include_directories(sycl_wrapper PUBLIC ${PROJECT_SOURCE_DIR}/level_zero)
-
+set_target_properties(sycl_wrapper PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
 target_link_libraries(sycl_wrapper PUBLIC MKL::MKL MKL::mkl_intel_ilp64 MKL::mkl_sequential MKL::mkl_core)
 target_include_directories(sycl_wrapper
                             PUBLIC  $<BUILD_INTERFACE:~/packages>
