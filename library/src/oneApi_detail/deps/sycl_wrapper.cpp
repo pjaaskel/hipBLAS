@@ -2,7 +2,7 @@
 
 #include "sycl.hpp"
 #include <ext/oneapi/backend/level_zero.hpp>
-#include <include/ze_api.h>
+#include <ze_api.h>
 #include <oneapi/mkl.hpp>
 
 #define __HIP_PLATFORM_SPIRV__
