@@ -1,3 +1,9 @@
 [submodule "level-zero"]
 	path = level-zero
 	url = https://github.com/oneapi-src/level-zero.git
+[submodule "H4I-MKLShim"]
+	path = H4I-MKLShim
+	url = git@github.com:CHIP-SPV/H4I-MKLShim.git
+[submodule "H4I-HipBLAS"]
+	path = H4I-HipBLAS
+	url = git@github.com:CHIP-SPV/H4I-HipBLAS.git
